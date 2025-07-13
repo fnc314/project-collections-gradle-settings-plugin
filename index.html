@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <title>Gradle Settings Plugin - project-collections-gradle-settings-plugin</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" />
+    <script type="module" href="https://esm.run/@material/web" defer></script>
+    <script type="module" defer>
+      import "https://esm.run/@material/web/elevation/elevation";
+      import {styles as typescaleStyles} from "https://esm.run/@material/web/typography/md-typescale-styles.js";
+      document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
+    </script>
+    <style type="text/css">
+      @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
+      :root {
+        --padding-horizontal: 1em;
+        
+        --main-article-padding: 1em;
+        --main-article-margin-vertical: 1em;
+        --main-article-border-radius: 16px;
+        
+        --font: 'Roboto';
+        --md-ref-typeface-brand: var(--font);
+        --md-ref-typeface-plain: var(--font);
+        --md-sys-color-primary: #CC3333;
+        --md-sys-color-secondary: #000000;
+      }
+
+      body {
+        min-height: 100vh;
+        display: grid;
+        grid: 
+          [header] "header" 10%
+          [main] "main" 1fr
+          [footer] "footer" 5%
+          /
+          auto
+        ;
+      }
+      
+      header {
+        grid-area: header;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+      }
+      
+      main {
+        grid-area: main;
+        display: grid;
+        grid:
+          [about] "about" 15%
+          [usage] "usage" 1fr
+          [source] "source" 10%
+          /
+          auto
+        ;
+
+        .main-article {
+          padding: var(--main-article-padding);
+          position: relative;
+          border-radius: var(--main-article-border-radius);
+          --md-elevation-level: 3;
+        }
+
+        .article-about {
+          grid-area: about;
+        }
+
+        .article-usage {
+          grid-area: usage;
+        }
+
+        .article-source {
+          grid-area: source;
+        }
+      }
+
+      footer {
+        grid-area: footer;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1 class="md-typescale-headline-large">
+        The <code>project-collections-gradle-settings-plugin</code>
+        <br />
+        for <a href="https://docs.gradle.org/" target="_blank"><code>Gradle</code></a> <code>settings.gradle.kts</code> files
+      </h1>
+    </header>
+    <main>
+      <article class="main-article article-about">
+        <md-elevation></md-elevation>
+        <h2 class="md-typescale-title-medium">About</h2>
+        <p class="md-typescale-body-large">
+          This plugin is ideal for large <code>Gradle</code> projects with collections of nested subprojects.
+        </p>
+      </article>
+      <article class="main-article article-usage">
+        <md-elevation></md-elevation>
+        <h2 class="md-typescale-title-medium">Usage</h2>
+        <p class="md-typescale-body-large">
+          This <code>plugin</code> is applied to <code>settings.gradle.kts</code> files.
+        </p>
+        <h3 class="md-typescale-title-small">Plugin Dependency</h3>
+        <p class="md-typescale-body-small">
+          The plugin is published to the <a href="https://plugins.gradle.org/plugin/com.fnc314.gradle.plugins.settings.project-collections-gradle-settings-plugin"><code>Gradle</code> Plugin Portal</a>.  <code>Gradle</code> will resolve the plugin automatically.
+        </p>
+        <h3 class="md-typescale-title-small">Plugin Application</h3>
+        <p class="md-typescale-body-small">
+          The plugin is applied to <code>settings.gradle.kts</code> files.
+        </p>
+        <code>
+          // settings.gradle.kts
+          <br />
+          plugins {<br />
+          &nbsp;&nbsp;id("com.fnc314.gradle.plugins.settings.project-collections-gradle-settings-plugin") version("$latetst_version")<br />
+          }<br />
+        </code>
+      </article>
+      <article class="main-article article-source">
+        <md-elevation></md-elevation>
+        <h3 class="md-typescale-title-small">Source Code</h3>
+        <p class="md-typescale-body-small">
+          The source code is available <a href="https://github.com/fnc314/project-collections-gradle-settings-plugin" target="_blank">on <code>GitHub</code></a>.
+        </p>
+      </article>
+    </main>
+    <footer>
+      <p>(c) Copyright 2025 | <a href="https://fnc314.com/" target="_blank">fnc314.com</a></p>
+    </footer>
+  </body>
+</html>
