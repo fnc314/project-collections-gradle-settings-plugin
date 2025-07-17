@@ -8,8 +8,15 @@
 [libraries]
     kotlin = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlin" }
     kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+    dokka-core = { group = "org.jetbrains.dokka", name = "dokka-core", version.ref = "dokka" }
     dokka-plugin-gradle = { group = "org.jetbrains.dokka", name = "dokka-gradle-plugin", version.ref = "dokka" }
     dokka-plugin-versioning = { group = "org.jetbrains.dokka", name = "versioning-plugin", version.ref = "dokka" }
+    dokka-plugin-javadoc = { group = "org.jetbrains.dokka", name = "javadoc-plugin", version.ref = "dokka" }
+
+[bundles]
+    dokka = [
+        "dokka-core", "dokka-plugin-gradle"
+    ]
 
 [plugins]
     project = { id = "com.fnc314.gradle.plugins.settings.project-collections-gradle-settings-plugin", version.ref = "project" }

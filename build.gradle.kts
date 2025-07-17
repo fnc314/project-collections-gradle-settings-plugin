@@ -1,15 +1,19 @@
 @file:[
     Suppress("UnstableApiUsage")
-    OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
+    OptIn(
+        ExperimentalKotlinGradlePluginApi::class,
+        InternalKotlinGradlePluginApi::class,
+    )
 ]
 
+import com.fnc314.gradle.settings.plugin.projectcollectionsgradlesettingsplugin.defaultConfigs
 import com.fnc314.gradle.settings.plugin.projectcollectionsgradlesettingsplugin.dokkaDocsDirectory
+import com.fnc314.gradle.settings.plugin.projectcollectionsgradlesettingsplugin.dokkaKDocsDirectory
 import com.fnc314.gradle.settings.plugin.projectcollectionsgradlesettingsplugin.versionedDokkaDocsDirectory
-import org.gradle.api.publish.internal.component.DefaultAdhocSoftwareComponent
-import org.gradle.kotlin.dsl.support.listFilesOrdered
 import org.jetbrains.dokka.gradle.engine.parameters.KotlinPlatform
 import org.jetbrains.dokka.gradle.engine.parameters.VisibilityModifier
-import org.jetbrains.dokka.gradle.tasks.DokkaGeneratePublicationTask
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import org.jetbrains.kotlin.gradle.InternalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
@@ -21,9 +25,6 @@ plugins {
     // https://docs.gradle.org/current/userguide/signing_plugin.html
     signing
 
-    // Publishing to GitHub Packages
-    `maven-publish`
-
     // Apply the Kotlin JVM plugin to add support for Kotlin.
     alias(libs.plugins.kotlin.jvm)
 
@@ -34,7 +35,13 @@ plugins {
 
 version = libs.versions.project.get()
 
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
 kotlin {
+    explicitApi()
     jvmToolchain(
         libs.versions.jdk.map { it.toInt() }.get()
     )
@@ -42,18 +49,15 @@ kotlin {
         apiVersion = KotlinVersion.KOTLIN_2_2
         languageVersion = KotlinVersion.KOTLIN_2_2
         jvmTarget = JvmTarget.JVM_17
+        verbose = true
         optIn.addAll(
             "kotlin.ExperimentalStdlibApi",
         )
     }
 }
 
-java {
-    withSourcesJar()
-}
-
 gradlePlugin {
-    website = "https://www.fnc314.com/${rootProject.name}"
+    website = "https://fnc314.com/${rootProject.name}"
     vcsUrl = "https://github.com/fnc314/${rootProject.name}"
     // Define the plugin
     val projectCollectionsGradleSettingsPlugin by plugins.creating {
@@ -69,46 +73,34 @@ dokka {
     moduleName = rootProject.name
     moduleVersion = libs.versions.project
     basePublicationsDirectory = dokkaDocsDirectory
-    dokkaEngineVersion = libs.versions.dokka
-    dokkaPublications {
-        configureEach {
-            moduleVersion = libs.versions.project
-            moduleName = rootProject.name
-            suppressInheritedMembers = true
-            suppressObviousFunctions = true
-            includes.from(
-                rootProject.layout.projectDirectory.file("dokka.md"),
-                rootProject.layout.projectDirectory.file("README.md")
-            )
-        }
-        html {
-            outputDirectory = dokkaDocsDirectory
-        }
-        javadoc {
-            outputDirectory = dokkaDocsDirectory.dir("javadoc")
-        }
-    }
-    dokkaSourceSets {
-        configureEach {
-            includes.from(
-                rootProject.layout.projectDirectory.file("dokka.md"),
-                rootProject.layout.projectDirectory.file("README.md")
 
+    dokkaSourceSets {
+        main {
+            sourceRoots = rootProject.layout.projectDirectory.files("src/main/kotlin")
+        }
+        configureEach {
+            includes.from(
+                rootProject.layout.projectDirectory.files(
+                    "README.md", "dokka.md"
+                )
             )
             displayName = name
-            documentedVisibilities = setOf(VisibilityModifier.Public)
-            suppressGeneratedFiles = true
+
+            suppress = false
+            suppressGeneratedFiles = false
             enableJdkDocumentationLink = true
             enableKotlinStdLibDocumentationLink = true
             enableAndroidDocumentationLink = false
             reportUndocumented = true
+
+            documentedVisibilities = setOf(VisibilityModifier.Public)
             analysisPlatform = KotlinPlatform.JVM
             languageVersion = libs.versions.kotlin.map { it.substringBeforeLast(".") }
             apiVersion = libs.versions.kotlin.map { it.substringBeforeLast(".") }
             jdkVersion = libs.versions.jdk.map { it.toInt() }
 
             sourceLink {
-                localDirectory = layout.projectDirectory.dir("src")
+                localDirectory = rootProject.layout.projectDirectory.dir("src")
                 remoteUrl = uri("https://github.com/fnc314/${rootProject.name}/tree/main/src")
                 remoteLineSuffix = "#L"
             }
@@ -116,27 +108,17 @@ dokka {
             perPackageOptions.all {
                 documentedVisibilities = setOf(VisibilityModifier.Public)
                 skipDeprecated = true
-                suppress = false
             }
 
             externalDocumentationLinks.maybeCreate("gradle").apply {
                 url = uri("https://docs.gradle.org/${gradle.gradleVersion}/javadoc")
                 packageListUrl = uri("https://docs.gradle.org/${gradle.gradleVersion}/javadoc/element-list")
             }
-        }
-        main {
-            sourceRoots = rootProject.layout.projectDirectory.files("src/main")
-        }
-        test {
-            sourceRoots = rootProject.layout.projectDirectory.files("src/main", "src/test", "src/functionalTest")
-        }
-        javaMain {
-            sourceRoots = rootProject.layout.projectDirectory.files("src/main/java")
-        }
-        javaTest {
-            sourceRoots = rootProject.layout.projectDirectory.files("src/main/java", "src/test/java", "src/functionalTest/java")
+
+            logger.error("DKK -> ${sourceSetId.get()}")
         }
     }
+
     pluginsConfiguration {
         html {
             homepageLink.value("http://www.fnc314.com/${rootProject.name}/")
@@ -145,7 +127,7 @@ dokka {
                     buildString {
                         append("(C) <a href=\"https://fnc314.com\" target=\"_blank\">fnc314</a>")
                         append(" | ")
-                        append("<a href=\"javadoc\" target=\"_blank\">javadoc</a>")
+                        append("<a href=\"${rootProject.name}\" target=\"_blank\">javadoc</a>")
                     }
                 }
             )
@@ -153,31 +135,43 @@ dokka {
         versioning {
             version = libs.versions.project
             renderVersionsNavigationOnAllPages = true
-            olderVersions = files(
-                versionedDokkaDocsDirectory.asFile.listFilesOrdered { versionedDokka ->
-                    versionedDokka.isDirectory and versionedDokka.name.split(".").run {
-                        (size == 3) and all { it.toIntOrNull() != null }
-                    }
-                }
-            )
+
             olderVersionsDir = versionedDokkaDocsDirectory
+        }
+    }
+
+    dokkaPublications {
+        configureEach {
+            moduleName = rootProject.name
+            moduleVersion = libs.versions.project
+            suppressInheritedMembers = true
+            suppressObviousFunctions = true
+            includes.from(
+                rootProject.layout.projectDirectory.files(
+                    "README.md", "dokka.md"
+                )
+            )
+        }
+        html {
+            outputDirectory = dokkaDocsDirectory
+        }
+        javadoc {
+            outputDirectory = dokkaKDocsDirectory
         }
     }
 }
 
 // See: https://github.com/Kotlin/dokka/blob/v2.0.0/examples/gradle-v2/library-publishing-example/build.gradle.kts
-val dokkaJavadocJar by tasks.registering(Jar::class) {
-    group = "dokka"
-    description = "A Javadoc JAR containing Dokka Javadoc"
-    dependsOn(tasks.withType<DokkaGeneratePublicationTask>())
-    from(tasks.dokkaGeneratePublicationJavadoc.map { it.outputDirectory })
-    archiveClassifier = "javadoc"
-}
+// val dokkaJavadocJar by tasks.registering(Jar::class) {
+//     group = "dokka"
+//     description = "A Javadoc JAR containing Dokka Javadoc"
+//     from(tasks.dokkaGeneratePublicationJavadoc.map { it.outputDirectory })
+//     archiveClassifier = "javadoc"
+// }
 
 val dokkaHtmlJar by tasks.registering(Jar::class) {
     group = "dokka"
     description = "A HTML Documentation JAR containing Dokka HTML"
-    dependsOn(tasks.withType<DokkaGeneratePublicationTask>())
     from(tasks.dokkaGeneratePublicationHtml.map { it.outputDirectory })
     archiveClassifier = "html-doc"
 }
@@ -199,17 +193,18 @@ val dokkaVersion by tasks.registering(Sync::class) {
     dependsOn(tasks.dokkaGenerate)
 }
 
-tasks.dokkaGenerate.configure { finalizedBy(dokkaVersion) }
-components.joinToString("\n") { c ->
-    "Component -> ${c.name}"
-}.also {
-    logger.error(
-        """
-        COMPONENTS $it
-        ${(components["java"] is DefaultAdhocSoftwareComponent)}
-        """.trimIndent()
-    )
+val dokkaOutput by tasks.registering(Zip::class) {
+    group = "dokka"
+    description = "Contains a reference to ${dokkaDocsDirectory.asFile} for publication"
+    dependsOn(tasks.dokkaGenerate)
+    mustRunAfter(tasks.dokkaGenerate)
+    from(dokkaDocsDirectory)
+    destinationDirectory = rootProject.layout.buildDirectory.dir("docs")
+    archiveClassifier = "html-doc"
 }
+
+// tasks.dokkaGenerate.configure { finalizedBy(dokkaVersion) }
+
 publishing {
     repositories {
         maven {
@@ -222,54 +217,10 @@ publishing {
         }
     }
     publications {
-        register<MavenPublication>("jpr") {
-            from(components["java"])
-            artifact(dokkaJavadocJar)
-            artifact(dokkaHtmlJar)
-            pom {
-                name = "Project Collections Gradle Settings Plugin"
-                version = libs.versions.project.get()
-                description = "A Gradle Settings Plugin to streamline `include` calls to arbitrarily nested sub-directories"
-                url = "https://www.fnc314.com/${rootProject.name}"
-                developers {
-                    developer {
-                        id = "fnc314"
-                        name = "Franco N. Colaizzi"
-                        email = "fnc314@fnc314.com"
-                    }
-                }
-                scm {
-                    url = "https://github.com/fnc314/${rootProject.name}"
-                }
-                distributionManagement {
-                    downloadUrl = "https://github.com/fnc314/${rootProject.name}/packages"
-                }
-            }
-        }
         register<MavenPublication>("gpr") {
             from(components["kotlin"])
-            artifact(dokkaJavadocJar)
             artifact(dokkaHtmlJar)
-
-            pom {
-                name = "Project Collections Gradle Settings Plugin"
-                version = libs.versions.project.get()
-                description = "A Gradle Settings Plugin to streamline `include` calls to arbitrarily nested sub-directories"
-                url = "https://www.fnc314.com/${rootProject.name}"
-                developers {
-                    developer {
-                        id = "fnc314"
-                        name = "Franco N. Colaizzi"
-                        email = "fnc314@fnc314.com"
-                    }
-                }
-                scm {
-                    url = "https://github.com/fnc314/${rootProject.name}"
-                }
-                distributionManagement {
-                    downloadUrl = "https://github.com/fnc314/${rootProject.name}/packages"
-                }
-            }
+            defaultConfigs(project = project.rootProject)
         }
     }
 }
@@ -278,13 +229,13 @@ testing {
     suites {
         // Configure the built-in test suite
         val test by getting(JvmTestSuite::class) {
-            // Use Kotlin Test test framework
+            // Use KotlinTest test framework
             useKotlinTest(libs.versions.kotlin.get())
         }
 
         // Create a new test suite
         val functionalTest by registering(JvmTestSuite::class) {
-            // Use Kotlin Test test framework
+            // Use KotlinTest test framework
             useKotlinTest(libs.versions.kotlin.get())
 
             dependencies {

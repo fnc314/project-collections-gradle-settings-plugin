@@ -23,5 +23,4 @@ kotlin {
 dependencies {
     compileOnly(gradleKotlinDsl())
     compileOnly(libs.kotlin.gradle.plugin)
-    compileOnly(libs.dokka.plugin.gradle)
 }

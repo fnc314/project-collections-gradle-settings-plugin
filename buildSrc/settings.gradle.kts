@@ -5,4 +5,9 @@ dependencyResolutionManagement {
         }
     }
 }
+
+plugins {
+    id("org.gradle.toolchains.foojay-resolver-convention")
+}
+
 rootProject.name = "project-collections-gradle-settings-plugin-buildSrc"

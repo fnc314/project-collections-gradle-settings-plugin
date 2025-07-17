@@ -5,13 +5,13 @@ import org.gradle.api.provider.Property
 import java.io.File
 
 /** A Convenience for [ProjectCollectionsGradleSettingsExtension.fileCheck] */
-typealias FileCheck = java.util.function.Function<File, Boolean>?
+public typealias FileCheck = java.util.function.Function<File, Boolean>?
 
 /**
  * Attached to a [org.gradle.api.initialization.Settings] object to configure the
  *   [ProjectCollectionsGradleSettingsPlugin]
  */
-abstract class ProjectCollectionsGradleSettingsExtension {
+public abstract class ProjectCollectionsGradleSettingsExtension {
     /** @hide */
     internal companion object Companion {
         /** The name for the actual extension found in [org.gradle.api.initialization.Settings.getExtensions] */
@@ -34,7 +34,7 @@ abstract class ProjectCollectionsGradleSettingsExtension {
      * }
      * ```
      */
-    abstract val fileCheck: Property<FileCheck>
+    public abstract val fileCheck: Property<FileCheck>
 
     /**
      * Register a collection of 1-level-deep projects
@@ -47,7 +47,7 @@ abstract class ProjectCollectionsGradleSettingsExtension {
      * @param topLevelDir The collection name/top-level directory
      * @see registerProjectCollection
      */
-    fun registerProjectCollection(topLevelDir: String) {
+    public fun registerProjectCollection(topLevelDir: String) {
         registerProjectCollection(topLevelDir = topLevelDir, depth = 1)
     }
 
@@ -62,7 +62,7 @@ abstract class ProjectCollectionsGradleSettingsExtension {
      * @param topLevelDir The collection name/top-level directory
      * @param depth The depth within [topLevelDir] which must be traversed to find a desired project
      */
-    abstract fun registerProjectCollection(topLevelDir: String, depth: Int)
+    public abstract fun registerProjectCollection(topLevelDir: String, depth: Int)
 
     /**
      * A friendly-syntax approach to including collections of projects
@@ -78,7 +78,7 @@ abstract class ProjectCollectionsGradleSettingsExtension {
      * @receiver A [String] interpreted as the top-level directory name
      * @param depth An [Int] indicating how deep into the top-level directory members we are required to traverse
      */
-    abstract infix fun String.toDepthOf(depth: Int)
+    public abstract infix fun String.toDepthOf(depth: Int)
 
     /**
      * Register a collection of nested projects
@@ -92,5 +92,5 @@ abstract class ProjectCollectionsGradleSettingsExtension {
      * @param depth The depth within [topLevelDir] which must be traversed to find a desired project
      * @see registerProjectCollection
      */
-    abstract fun registerNestedProjectCollection(topLevelDir: String, depth: Int)
+    public abstract fun registerNestedProjectCollection(topLevelDir: String, depth: Int)
 }

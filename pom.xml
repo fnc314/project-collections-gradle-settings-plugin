@@ -12,6 +12,14 @@
     <name>project-collections-gradle-settings-plugin</name>
     <url>https://github.com/fnc314/project-collections-gradle-settings-plugin</url>
 
+    <developers>
+        <developer>
+            <name>Franco N. Colaizzi</name>
+            <email>fnc314@fnc314.com</email>
+            <url>https://fnc314.com</url>
+        </developer>
+    </developers>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>17</maven.compiler.release>
