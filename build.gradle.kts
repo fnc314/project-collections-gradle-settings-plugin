@@ -5,9 +5,11 @@
 
 import com.fnc314.gradle.settings.plugin.projectcollectionsgradlesettingsplugin.dokkaDocsDirectory
 import com.fnc314.gradle.settings.plugin.projectcollectionsgradlesettingsplugin.versionedDokkaDocsDirectory
+import org.gradle.api.publish.internal.component.DefaultAdhocSoftwareComponent
 import org.gradle.kotlin.dsl.support.listFilesOrdered
 import org.jetbrains.dokka.gradle.engine.parameters.KotlinPlatform
 import org.jetbrains.dokka.gradle.engine.parameters.VisibilityModifier
+import org.jetbrains.dokka.gradle.tasks.DokkaGeneratePublicationTask
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
@@ -51,11 +53,11 @@ java {
 }
 
 gradlePlugin {
-    website = "https://fnc314.com/project-collection-gradle-settings-plugin"
-    vcsUrl = "https://github.com/fnc314/project-collections-gradle-settings-plugin"
+    website = "https://www.fnc314.com/${rootProject.name}"
+    vcsUrl = "https://github.com/fnc314/${rootProject.name}"
     // Define the plugin
     val projectCollectionsGradleSettingsPlugin by plugins.creating {
-        id = "com.fnc314.gradle.plugins.settings.project-collections-gradle-settings-plugin"
+        id = "com.fnc314.gradle.plugins.settings.${rootProject.name}"
         implementationClass = "com.fnc314.gradle.plugins.settings.projectcollectionsgradlesettingsplugin.ProjectCollectionsGradleSettingsPlugin"
         tags = listOf("gradle settings", "settings plugin", "gradle settings plugin",)
         description = "A plugin for `org.gradle.api.initialization.Settings` to streamline calls to `org.gradle.api.initialization.Settings.include` for arbitrarily nested sub-projects"
@@ -107,7 +109,7 @@ dokka {
 
             sourceLink {
                 localDirectory = layout.projectDirectory.dir("src")
-                remoteUrl = uri("https://github.com/fnc314/project-collections-gradle-settings-plugin/tree/main/src")
+                remoteUrl = uri("https://github.com/fnc314/${rootProject.name}/tree/main/src")
                 remoteLineSuffix = "#L"
             }
 
@@ -137,7 +139,7 @@ dokka {
     }
     pluginsConfiguration {
         html {
-            homepageLink.value("http://www.fnc314.com/project-collections-gradle-settings-plugin/")
+            homepageLink.value("http://www.fnc314.com/${rootProject.name}/")
             footerMessage.value(
                 provider {
                     buildString {
@@ -167,6 +169,7 @@ dokka {
 val dokkaJavadocJar by tasks.registering(Jar::class) {
     group = "dokka"
     description = "A Javadoc JAR containing Dokka Javadoc"
+    dependsOn(tasks.withType<DokkaGeneratePublicationTask>())
     from(tasks.dokkaGeneratePublicationJavadoc.map { it.outputDirectory })
     archiveClassifier = "javadoc"
 }
@@ -174,6 +177,7 @@ val dokkaJavadocJar by tasks.registering(Jar::class) {
 val dokkaHtmlJar by tasks.registering(Jar::class) {
     group = "dokka"
     description = "A HTML Documentation JAR containing Dokka HTML"
+    dependsOn(tasks.withType<DokkaGeneratePublicationTask>())
     from(tasks.dokkaGeneratePublicationHtml.map { it.outputDirectory })
     archiveClassifier = "html-doc"
 }
@@ -188,18 +192,29 @@ val dokkaVersion by tasks.registering(Sync::class) {
     group = "dokka"
     description = "Syncs the output of ${dokkaDocsDirectory.asFile} with versioned-docs/${libs.versions.project.get()}"
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
-    from(dokkaDocsDirectory)
+    from(dokkaDocsDirectory) {
+        exclude("older")
+    }
     into(libs.versions.project.map { versionedDokkaDocsDirectory.dir(it) })
     dependsOn(tasks.dokkaGenerate)
 }
 
 tasks.dokkaGenerate.configure { finalizedBy(dokkaVersion) }
-
+components.joinToString("\n") { c ->
+    "Component -> ${c.name}"
+}.also {
+    logger.error(
+        """
+        COMPONENTS $it
+        ${(components["java"] is DefaultAdhocSoftwareComponent)}
+        """.trimIndent()
+    )
+}
 publishing {
     repositories {
         maven {
             name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/fnc314/project-collections-gradle-settings-plugin")
+            url = uri("https://maven.pkg.github.com/fnc314/${rootProject.name}")
             credentials {
                 username = System.getenv("GITHUB_ACTOR")
                 password = System.getenv("GITHUB_TOKEN")
@@ -207,16 +222,15 @@ publishing {
         }
     }
     publications {
-        register<MavenPublication>("gpr") {
-            from(components["kotlin"])
+        register<MavenPublication>("jpr") {
+            from(components["java"])
             artifact(dokkaJavadocJar)
             artifact(dokkaHtmlJar)
-
             pom {
                 name = "Project Collections Gradle Settings Plugin"
-                version = "${libs.versions.project.get()}"
+                version = libs.versions.project.get()
                 description = "A Gradle Settings Plugin to streamline `include` calls to arbitrarily nested sub-directories"
-                url = "https://fnc314.com/project-collection-gradle-settings-plugin"
+                url = "https://www.fnc314.com/${rootProject.name}"
                 developers {
                     developer {
                         id = "fnc314"
@@ -225,10 +239,35 @@ publishing {
                     }
                 }
                 scm {
-                    url = "https://github.com/fnc314/project-collection-gradle-settings-plugin"
+                    url = "https://github.com/fnc314/${rootProject.name}"
                 }
                 distributionManagement {
-                    downloadUrl = "https://github.com/fnc314/project-collections-gradle-settings-plugin/packages"
+                    downloadUrl = "https://github.com/fnc314/${rootProject.name}/packages"
+                }
+            }
+        }
+        register<MavenPublication>("gpr") {
+            from(components["kotlin"])
+            artifact(dokkaJavadocJar)
+            artifact(dokkaHtmlJar)
+
+            pom {
+                name = "Project Collections Gradle Settings Plugin"
+                version = libs.versions.project.get()
+                description = "A Gradle Settings Plugin to streamline `include` calls to arbitrarily nested sub-directories"
+                url = "https://www.fnc314.com/${rootProject.name}"
+                developers {
+                    developer {
+                        id = "fnc314"
+                        name = "Franco N. Colaizzi"
+                        email = "fnc314@fnc314.com"
+                    }
+                }
+                scm {
+                    url = "https://github.com/fnc314/${rootProject.name}"
+                }
+                distributionManagement {
+                    downloadUrl = "https://github.com/fnc314/${rootProject.name}/packages"
                 }
             }
         }

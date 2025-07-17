@@ -1,1 +1,0 @@
-var packageSearchIndex = [{"l":"com.fnc314.gradle.plugins.settings.projectcollectionsgradlesettingsplugin","url":"com/fnc314/gradle/plugins/settings/projectcollectionsgradlesettingsplugin/package-summary.html"}, {"l":"All packages","url":"index.html"}]
