@@ -127,7 +127,7 @@ val dokkaVersion by tasks.registering(Sync::class) {
 val dokkaCapture by tasks.registering {
     group = "dokka"
     description = "Runs `dokkaHtmlCapture` and `dokkaJavadocCapture`, funnelling results into docs/"
-    dependsOn(dokkaHtmlCapture, /*dokkaJavadocCapture*/)
+    dependsOn(dokkaHtmlCapture, dokkaJavadocCapture)
     finalizedBy(dokkaVersion)
 }
 
@@ -147,6 +147,5 @@ val dokkaHtmlJar by tasks.registering(Jar::class) {
 }
 
 dependencies {
-    dokkaPlugin("org.jetbrains.dokka:javadoc-plugin")
     dokkaPlugin("org.jetbrains.dokka:versioning-plugin")
 }

@@ -1,5 +1,5 @@
 [versions]
-    project = "1.0.6"
+    project = "1.0.7"
     kotlin = "2.2.0"
     gradle-plugin-publish = "1.3.1"
     dokka = "2.0.0"
@@ -17,7 +17,7 @@
 [bundles]
     dokka = [
         "dokka-core", "dokka-plugin-gradle",
-        "dokka-plugin-versioning", "dokka-plugin-javadoc",
+        "dokka-plugin-versioning",
     ]
 
 [plugins]
