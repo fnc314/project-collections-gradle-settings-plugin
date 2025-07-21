@@ -1,1 +1,0 @@
-sourceset_dependencies='{":/functionalTest":[],":/javaFunctionalTest":[],":/javaMain":[],":/javaTest":[],":/main":[],":/test":[]}'

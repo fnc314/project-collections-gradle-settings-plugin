@@ -1,1 +1,0 @@
-var moduleSearchIndex = [{"l":"project-collections-gradle-settings-plugin","url":"index.html"}]
