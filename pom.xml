@@ -6,7 +6,7 @@
 
     <groupId>com.fnc314.gradle.plugins.settings</groupId>
     <artifactId>project-collections-gradle-settings-plugin</artifactId>
-    <version>1.0.0</version>
+    <version>2.0.0</version>
     <packaging>jar</packaging>
 
     <name>project-collections-gradle-settings-plugin</name>
@@ -27,7 +27,7 @@
         <kotlin.version>2.2.0</kotlin.version>
         <dokka.version>2.0.0</dokka.version>
         <gradle.kotlin.dsl>5.2.0</gradle.kotlin.dsl>
-        <gradle.version>8.14.3</gradle.version>
+        <gradle.version>9.0.0</gradle.version>
     </properties>
 
     <distributionManagement>

@@ -6,6 +6,7 @@ import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.api.file.Directory
 import org.gradle.api.provider.Provider
 import org.gradle.api.publish.maven.MavenPublication
+import org.gradle.kotlin.dsl.embeddedKotlinVersion
 import org.gradle.kotlin.dsl.getByType
 
 /**
@@ -53,7 +54,7 @@ val Project.dokkaKDocsDirectory: Directory
 val Project.kotlinVersion: String
     get() = libs.findVersion("kotlin")
         .map { it.requiredVersion.substringBeforeLast(".") }
-        .orElse("2.2")
+        .orElse(embeddedKotlinVersion.substringBeforeLast("."))
 
 /**
  * Retrieves the `build.gradle.kts` default `libs` helper [org.gradle.api.artifacts.VersionCatalog]

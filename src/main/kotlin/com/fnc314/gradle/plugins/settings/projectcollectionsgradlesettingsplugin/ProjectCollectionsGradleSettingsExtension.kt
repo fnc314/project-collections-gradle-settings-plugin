@@ -2,10 +2,8 @@ package com.fnc314.gradle.plugins.settings.projectcollectionsgradlesettingsplugi
 
 import org.gradle.api.provider.MapProperty
 import org.gradle.api.provider.Property
+import org.gradle.api.specs.Spec
 import java.io.File
-
-/** A Convenience for [ProjectCollectionsGradleSettingsExtension.fileCheck] */
-public typealias FileCheck = java.util.function.Function<File, Boolean>?
 
 /**
  * Attached to a [org.gradle.api.initialization.Settings] object to configure the
@@ -25,16 +23,15 @@ public abstract class ProjectCollectionsGradleSettingsExtension {
     internal abstract val projectCollections: MapProperty<String, Int>
 
     /**
-     * An optional [java.util.function.Function] operating on a [File] and returning a [Boolean]
-     *   acting as eligibility criteria for [File.isDirectory] instances to adhere to before passing to
-     *   [org.gradle.api.initialization.Settings.include(java.lang.String...)]
+     * An optional [Spec] operating on a [File] acting as eligibility criteria for [File.isDirectory] instances to
+     *   adhere to before passing to [org.gradle.api.initialization.Settings.include]
      * ```kotlin
      * projectCollections {
-     *     fileCheck.set { file -> false }
+     *     fileSpec.set { file -> false }
      * }
      * ```
      */
-    public abstract val fileCheck: Property<FileCheck>
+    public abstract val fileSpec: Property<Spec<File>>
 
     /**
      * Register a collection of 1-level-deep projects
@@ -72,7 +69,7 @@ public abstract class ProjectCollectionsGradleSettingsExtension {
      *     "components" toDepthOf 1
      *     "design-system" toDepthOf 1
      *     "features" toDepthOf 2
-     *     // means "features/first/project-a", "features/first/project-b", "features/second/project-a", etc...
+     *     // implies "features/first/project-a", "features/first/project-b", "features/second/project-a", etc...
      * }
      * ```
      * @receiver A [String] interpreted as the top-level directory name

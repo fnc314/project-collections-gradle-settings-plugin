@@ -48,10 +48,18 @@
         <div class="navigation-controls--break ui-kit_mobile-only"></div>
         <div class="library-version" id="library-version">
 <dokka-template-command data="{&quot;@class&quot;:&quot;org.jetbrains.dokka.base.templating.ReplaceVersionsCommand&quot;,&quot;location&quot;:&quot;project-collections-gradle-settings-plugin/com.fnc314.gradle.plugins.settings.projectcollectionsgradlesettingsplugin/-project-collections-gradle-settings-extension/to-depth-of.html&quot;}"><div class="dropdown versions-dropdown" data-role="dropdown">
-  <div class="button button_dropdown versions-dropdown-button" role="combobox" data-role="dropdown-toggle" aria-controls="versions-listbox" aria-haspopup="listbox" aria-expanded="false" aria-label="Select version" tabindex="0">1.0.7</div>
+    <div class="button button_dropdown versions-dropdown-button" role="combobox" data-role="dropdown-toggle"
+         aria-controls="versions-listbox" aria-haspopup="listbox" aria-expanded="false" aria-label="Select version"
+         tabindex="0">2.0.0
+    </div>
   <div class="dropdown--list dropdown--list_positioned_left versions-dropdown-data" role="listbox" data-role="dropdown-listbox" aria-label="Versions" id="versions-listbox">
     <div class="dropdown--header" data-remove-style="true" style="display: none"><span>Select version</span><button class="button" data-role="dropdown-toggle" aria-label="Close versions selection"><i class="ui-kit-icon ui-kit-icon_cross"></i></button></div>
-    <div><a href="to-depth-of.html" class="dropdown--option dropdown--option-link" style="display: block; padding: 5px; color: #fff" data-remove-style="true" role="option">1.0.7</a></div>
+      <div><a href="to-depth-of.html" class="dropdown--option dropdown--option-link"
+              style="display: block; padding: 5px; color: #fff" data-remove-style="true" role="option">2.0.0</a></div>
+      <div>
+          <a href="../../../older/1.0.7/project-collections-gradle-settings-plugin/com.fnc314.gradle.plugins.settings.projectcollectionsgradlesettingsplugin/-project-collections-gradle-settings-extension/to-depth-of.html"
+             class="dropdown--option dropdown--option-link" style="display: block; padding: 5px; color: #fff"
+             data-remove-style="true" role="option">1.0.7</a></div>
     <div><a href="../../../not-found-version.html?v=1.0.6" class="dropdown--option dropdown--option-link" style="display: block; padding: 5px; color: #fff" data-remove-style="true" role="option">1.0.6</a></div>
   </div>
   <div class="dropdown--overlay"></div>
@@ -121,7 +129,43 @@
   <div class="cover ">
     <h1 class="cover"><span>to</span><wbr></wbr><span>Depth</span><wbr></wbr><span><span>Of</span></span></h1>
   </div>
-  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">infix </span><span class="token keyword">fun </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">.</span><a href="to-depth-of.html"><span class="token function">toDepthOf</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">depth<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span><span class="clearfix"><span class="floating-right">(<a href="https://github.com/fnc314/project-collections-gradle-settings-plugin/tree/main/src/main/kotlin/com/fnc314/gradle/plugins/settings/projectcollectionsgradlesettingsplugin/ProjectCollectionsGradleSettingsExtension.kt#L81">source</a>)</span></span></div><p class="paragraph">A friendly-syntax approach to including collections of projects</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">projectCollections {<br>    &quot;apps&quot; toDepthOf 1<br>    &quot;components&quot; toDepthOf 1<br>    &quot;design-system&quot; toDepthOf 1<br>    &quot;features&quot; toDepthOf 2<br>    // means &quot;features/first/project-a&quot;, &quot;features/first/project-b&quot;, &quot;features/second/project-a&quot;, etc...<br>}</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><span class="kdoc-tag"><h4 class="">Receiver</h4><p class="paragraph">A <a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a> interpreted as the top-level directory name</p></span><h4 class="">Parameters</h4><div class="table"><div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>depth</span></span></u></div></span></div><div><div class="title"><p class="paragraph">An <a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a> indicating how deep into the top-level directory members we are required to traverse</p></div></div></div></div></div></div></div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted">
+        <div class="content sourceset-dependent-content" data-active="" data-togglable=":/main">
+            <div class="symbol monospace"><span class="token keyword">abstract </span><span
+                    class="token keyword">infix </span><span class="token keyword">fun </span><a
+                    href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span
+                    class="token punctuation">.</span><a href="to-depth-of.html"><span
+                    class="token function">toDepthOf</span></a><span class="token punctuation">(</span><span
+                    class="parameters "><span class="parameter ">depth<span class="token operator">: </span><a
+                    href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a></span></span><span
+                    class="token punctuation">)</span><span class="clearfix"><span class="floating-right">(<a
+                    href="https://github.com/fnc314/project-collections-gradle-settings-plugin/tree/main/src/main/kotlin/com/fnc314/gradle/plugins/settings/projectcollectionsgradlesettingsplugin/ProjectCollectionsGradleSettingsExtension.kt#L78">source</a>)</span></span>
+            </div>
+            <p class="paragraph">A friendly-syntax approach to including collections of projects</p>
+            <div class="sample-container">
+                <pre><code class="block lang-kotlin" theme="idea">projectCollections {<br>    &quot;apps&quot; toDepthOf 1<br>    &quot;components&quot; toDepthOf 1<br>    &quot;design-system&quot; toDepthOf 1<br>    &quot;features&quot; toDepthOf 2<br>    // implies &quot;features/first/project-a&quot;, &quot;features/first/project-b&quot;, &quot;features/second/project-a&quot;, etc...<br>}</code></pre>
+                <span class="top-right-position"><span class="copy-icon"></span><div
+                        class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span>
+            </div>
+            <span class="kdoc-tag"><h4 class="">Receiver</h4><p class="paragraph">A <a
+                    href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a> interpreted as the top-level directory name</p></span>
+            <h4 class="">Parameters</h4>
+            <div class="table">
+                <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+                    <div class="main-subrow keyValue ">
+                        <div class=""><span class="inline-flex"><div><u><span><span>depth</span></span></u></div></span>
+                        </div>
+                        <div>
+                            <div class="title"><p class="paragraph">An <a
+                                    href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a>
+                                indicating how deep into the top-level directory members we are required to traverse</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
     <div class="footer">
         <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>

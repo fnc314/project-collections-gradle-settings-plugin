@@ -40,8 +40,8 @@ dokka {
 
             documentedVisibilities = setOf(VisibilityModifier.Public)
             analysisPlatform = KotlinPlatform.JVM
-            languageVersion = kotlinVersion
-            apiVersion = kotlinVersion
+            languageVersion.set(kotlinVersion)
+            apiVersion.set(kotlinVersion)
             jdkVersion = libs.findVersion("jdk").map { it.requiredVersion.toInt() }.orElse(17)
 
             sourceLink {
@@ -120,8 +120,8 @@ val dokkaVersion by tasks.registering(Sync::class) {
     group = "dokka"
     description = "Syncs content from docs/dokka to docs/versioned-dokka/${rootProject.version.toString()}"
     from(dokkaHtmlCapture)
-    into(dokkaDocsDirectory.dir("versioned-dokka/${rootProject.version.toString()}"))
-    destinationDir = dokkaDocsDirectory.dir("versioned-dokka/${rootProject.version.toString()}").asFile
+    into(dokkaDocsDirectory.dir("versioned-dokka/${rootProject.version}"))
+    destinationDir = dokkaDocsDirectory.dir("versioned-dokka/${rootProject.version}").asFile
 }
 
 val dokkaCapture by tasks.registering {
