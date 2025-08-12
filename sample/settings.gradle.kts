@@ -6,7 +6,7 @@
  * This project uses @Incubating APIs which are subject to change.
  */
 pluginManagement {
-    includeBuild("../.")
+    //includeBuild("../.")
 
     plugins {
         id("com.fnc314.gradle.plugins.settings.project-collections-gradle-settings-plugin") version ("2.0.0")
@@ -25,6 +25,8 @@ projectCollections {
     ).onEach { it toDepthOf 1 }
 
     "features" toDepthOf 3
+
+    fileSpec.set { it.name.first().toString() !in listOf("_", ".", "-") }
 }
 
 rootProject.name = "project-collections-gradle-settings-plugin-sample"
