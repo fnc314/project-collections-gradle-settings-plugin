@@ -11,4 +11,5 @@ plugins {
 }
 
 rootProject.name = "project-collections-gradle-settings-plugin"
+includeBuild("build-logic")
 include(":")

@@ -22,7 +22,7 @@
 
 [plugins]
   project = { id = "com.fnc314.gradle.plugins.settings.project-collections-gradle-settings-plugin", version.ref = "project" }
-  kotlin-jvm = { id = "org.jetbrains.kotlin.jvm" }
+  kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
   gradle-plugin-publish = { id = "com.gradle.plugin-publish" }
   dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
   dokka-javadoc = { id = "org.jetbrains.dokka-javadoc", version.ref = "dokka" }

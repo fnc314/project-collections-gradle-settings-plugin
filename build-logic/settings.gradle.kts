@@ -7,7 +7,7 @@ dependencyResolutionManagement {
 }
 
 plugins {
-  id("org.gradle.toolchains.foojay-resolver-convention")
+  id("org.gradle.toolchains.foojay-resolver-convention") version("1.0.0")
 }
 
-rootProject.name = "project-collections-gradle-settings-plugin-buildSrc"
+rootProject.name = "project-collections-gradle-settings-plugin-build-logic"

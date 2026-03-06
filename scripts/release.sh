@@ -1,6 +1,7 @@
 #! /usr/bin/bash
 
-declare GIT_STATUS="$(git status -s)"
+declare GIT_STATUS
+GIT_STATUS="$(git status -s)"
 
 if [[ $GIT_STATUS != "" ]]; then
     echo "git status is $GIT_STATUS"
@@ -9,7 +10,8 @@ else
     echo "No empty changes"
 fi
 
-declare GIT_BRANCH="$(git branch --show-current)"
+declare GIT_BRANCH
+GIT_BRANCH="$(git branch --show-current)"
 
 if [[ $GIT_BRANCH != "main" ]]; then
     echo "Please move changes for release to 'main'"
@@ -17,7 +19,8 @@ if [[ $GIT_BRANCH != "main" ]]; then
     exit 0
 fi
 
-declare PROJ_VERSION_PROPERTY="$(./gradlew properties | grep "version:")"
+declare PROJ_VERSION_PROPERTY
+PROJ_VERSION_PROPERTY="$(./gradlew properties | grep "version:")"
 declare PROJ_VERSION="${PROJ_VERSION_PROPERTY//version: /}"
 declare -a EXISTING_TAGS=$(git tag -l)
 
@@ -35,7 +38,7 @@ echo "Generating dokka docs"
 ./gradlew dokkaVersion -q -s
 echo "Saving docs and updating existing head commit"
 
-git add --all && git commit -a --amend --no-edit && git push origin $GIT_BRANCH --force
+git add --all && git commit -a --amend --no-edit && git push origin "$GIT_BRANCH" --force
 
 git tag "version/$PROJ_VERSION" -m "Release Version $PROJ_VERSION"
 

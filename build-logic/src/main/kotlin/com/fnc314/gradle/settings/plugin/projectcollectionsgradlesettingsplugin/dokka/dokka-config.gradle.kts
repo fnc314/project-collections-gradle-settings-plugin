@@ -67,11 +67,11 @@ dokka {
 
   pluginsConfiguration {
     html {
-      homepageLink.value("http://www.fnc314.com/${rootProject.name}/")
+      homepageLink.value("https://www.fnc314.com/${rootProject.name}/")
       footerMessage.value(
         provider {
           buildString {
-            append("(C) <a href=\"https://fnc314.com\" target=\"_blank\">fnc314</a>")
+            append("(C) <a href=\"https://www.fnc314.com\" target=\"_blank\">fnc314</a>")
             append(" | ")
             append("<a href=\"${rootProject.name}\" target=\"_blank\">javadoc</a>")
           }
@@ -133,7 +133,7 @@ val dokkaCapture by tasks.registering {
 
 /**
  * @see <a href="https://github.com/Kotlin/dokka/blob/v2.0.0/examples/gradle-v2/library-publishing-example/build.gradle.kts">Dokka Examples</a>
- * */
+ */
 val dokkaJavadocJar by tasks.registering(Jar::class) {
   group = "dokka"
   description = "A Javadoc JAR containing Dokka Javadoc"
