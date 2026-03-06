@@ -51,7 +51,7 @@ publishing {
   publications {
     register<MavenPublication>("gpr") {
       from(components["kotlin"])
-      artifact(tasks.kotlinSourcesJar)
+//      artifact(tasks.kotlinSourcesJar)
       artifact(tasks.javadoc)
       artifact(tasks.dokkaHtmlJar)
       artifact(tasks.dokkaJavadocJar)
