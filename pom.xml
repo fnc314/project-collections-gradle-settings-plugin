@@ -6,7 +6,7 @@
 
     <groupId>com.fnc314.gradle.plugins.settings</groupId>
     <artifactId>project-collections-gradle-settings-plugin</artifactId>
-    <version>2.0.0</version>
+    <version>3.0.0</version>
     <packaging>jar</packaging>
 
     <name>project-collections-gradle-settings-plugin</name>
@@ -24,10 +24,10 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>17</maven.compiler.release>
         <kotlin.compiler.jvmTarget>17</kotlin.compiler.jvmTarget>
-        <kotlin.version>2.2.0</kotlin.version>
-        <dokka.version>2.0.0</dokka.version>
+        <kotlin.version>2.3.10</kotlin.version>
+        <dokka.version>2.1.0</dokka.version>
         <gradle.kotlin.dsl>5.2.0</gradle.kotlin.dsl>
-        <gradle.version>9.0.0</gradle.version>
+        <gradle.version>9.4.0</gradle.version>
     </properties>
 
     <distributionManagement>
@@ -119,8 +119,8 @@
                     <noStdlibLink>false</noStdlibLink>
                     <noJdkLink>false</noJdkLink>
                     <jdkVersion>${maven.compiler.release}</jdkVersion>
-                    <languageVersion>2.2</languageVersion>
-                    <apiVersion>2.2</apiVersion>
+                    <languageVersion>2.3</languageVersion>
+                    <apiVersion>2.3</apiVersion>
                     <includes>
                         <include>dokka.md</include>
                     </includes>

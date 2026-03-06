@@ -1,0 +1,1 @@
+var typeSearchIndex = [{"p":"com.fnc314.gradle.plugins.settings.projectcollectionsgradlesettingsplugin","l":"ProjectCollectionsGradleSettingsExtension","url":"com/fnc314/gradle/plugins/settings/projectcollectionsgradlesettingsplugin/ProjectCollectionsGradleSettingsExtension.html"}, {"l":"All classes","url":"allclasses.html"}]

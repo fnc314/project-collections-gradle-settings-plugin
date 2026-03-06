@@ -14,24 +14,24 @@ import javax.inject.Inject
  * @param objectFactory An instance of the [ObjectFactory]
  */
 internal abstract class ProjectCollectionsGradleSettingsExtensionImpl @Inject constructor(
-    private val objectFactory: ObjectFactory,
+  private val objectFactory: ObjectFactory,
 ) : ProjectCollectionsGradleSettingsExtension() {
-    override val projectCollections: MapProperty<String, Int> = objectFactory.mapProperty(
-        String::class.java, Int::class.java
-    )
+  override val projectCollections: MapProperty<String, Int> = objectFactory.mapProperty(
+    String::class.java, Int::class.java
+  )
 
-    override val fileSpec: Property<Spec<File>> = objectFactory.property<Spec<File>>()
-        .convention { file -> file.name.first().toString() !in listOf("_", ".", "-") }
+  override val fileSpec: Property<Spec<File>> = objectFactory.property<Spec<File>>()
+    .convention { file -> file.name.first().toString() !in listOf("_", ".", "-") }
 
-    override fun registerProjectCollection(topLevelDir: String, depth: Int) {
-        projectCollections.put(topLevelDir, depth)
-    }
+  override fun registerProjectCollection(topLevelDir: String, depth: Int) {
+    projectCollections.put(topLevelDir, depth)
+  }
 
-    override infix fun String.toDepthOf(depth: Int) {
-        projectCollections.put(this, depth)
-    }
+  override infix fun String.toDepthOf(depth: Int) {
+    projectCollections.put(this, depth)
+  }
 
-    override fun registerNestedProjectCollection(topLevelDir: String, depth: Int) {
-        projectCollections.put(topLevelDir, depth)
-    }
+  override fun registerNestedProjectCollection(topLevelDir: String, depth: Int) {
+    projectCollections.put(topLevelDir, depth)
+  }
 }

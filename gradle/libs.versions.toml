@@ -1,30 +1,30 @@
 [versions]
-    project = "2.0.0"
-    kotlin = "2.2.0"
-    gradle-plugin-publish = "1.3.1"
-    dokka = "2.0.0"
-    jdk = "17"
+  project = "3.0.0"
+  kotlin = "2.3.10"
+  gradle-plugin-publish = "2.1.0"
+  dokka = "2.1.0"
+  jdk = "17"
 
 [libraries]
-    kotlin = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlin" }
-    kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
-    publish-gradle-plugin = { group = "com.gradle.plugin-publish", name = "com.gradle.plugin-publish.gradle.plugin", version.ref = "gradle-plugin-publish" }
-    dokka-core = { group = "org.jetbrains.dokka", name = "dokka-core", version.ref = "dokka" }
-    dokka-plugin-gradle = { group = "org.jetbrains.dokka", name = "dokka-gradle-plugin", version.ref = "dokka" }
-    dokka-plugin-versioning = { group = "org.jetbrains.dokka", name = "versioning-plugin", version.ref = "dokka" }
-    dokka-plugin-javadoc = { group = "org.jetbrains.dokka", name = "javadoc-plugin", version.ref = "dokka" }
+  kotlin = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlin" }
+  kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+  publish-gradle-plugin = { group = "com.gradle.plugin-publish", name = "com.gradle.plugin-publish.gradle.plugin", version.ref = "gradle-plugin-publish" }
+  dokka-core = { group = "org.jetbrains.dokka", name = "dokka-core", version.ref = "dokka" }
+  dokka-plugin-gradle = { group = "org.jetbrains.dokka", name = "dokka-gradle-plugin", version.ref = "dokka" }
+  dokka-plugin-versioning = { group = "org.jetbrains.dokka", name = "versioning-plugin", version.ref = "dokka" }
+  dokka-plugin-javadoc = { group = "org.jetbrains.dokka", name = "javadoc-plugin", version.ref = "dokka" }
 
 [bundles]
-    dokka = [
-        "dokka-core", "dokka-plugin-gradle",
-        "dokka-plugin-versioning",
-    ]
+  dokka = [
+    "dokka-core", "dokka-plugin-gradle",
+    "dokka-plugin-versioning",
+  ]
 
 [plugins]
-    project = { id = "com.fnc314.gradle.plugins.settings.project-collections-gradle-settings-plugin", version.ref = "project" }
-    kotlin-jvm = { id = "org.jetbrains.kotlin.jvm" }
-    gradle-plugin-publish = { id = "com.gradle.plugin-publish" }
-    dokka = { id = "org.jetbrains.dokka" }
-    dokka-javadoc = { id = "org.jetbrains.dokka-javadoc" }
-    dokka-config = { id = "com.fnc314.gradle.settings.plugin.projectcollectionsgradlesettingsplugin.dokka.dokka-config" }
-    publishing = { id = "com.fnc314.gradle.settings.plugin.projectcollectionsgradlesettingsplugin.publishing" }
+  project = { id = "com.fnc314.gradle.plugins.settings.project-collections-gradle-settings-plugin", version.ref = "project" }
+  kotlin-jvm = { id = "org.jetbrains.kotlin.jvm" }
+  gradle-plugin-publish = { id = "com.gradle.plugin-publish" }
+  dokka = { id = "org.jetbrains.dokka" }
+  dokka-javadoc = { id = "org.jetbrains.dokka-javadoc" }
+  dokka-config = { id = "com.fnc314.gradle.settings.plugin.projectcollectionsgradlesettingsplugin.dokka.dokka-config" }
+  publishing = { id = "com.fnc314.gradle.settings.plugin.projectcollectionsgradlesettingsplugin.publishing" }

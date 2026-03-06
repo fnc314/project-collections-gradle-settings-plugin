@@ -14,7 +14,7 @@ import org.gradle.kotlin.dsl.getByType
  * @receiver A [Project] instance
  */
 val Project.dokkaDocsDirectory: Directory
-    get() = rootProject.layout.projectDirectory.dir("docs")
+  get() = rootProject.layout.projectDirectory.dir("docs")
 
 /**
  * A [Provider] of a [Directory] into which `dokka` will place artifacts before final publication to
@@ -22,7 +22,7 @@ val Project.dokkaDocsDirectory: Directory
  * @receiver A [Project] instance
  */
 val Project.dokkaDocsIntermediateDirectory: Provider<Directory>
-    get() = rootProject.layout.buildDirectory.dir("dokka")
+  get() = rootProject.layout.buildDirectory.dir("dokka")
 
 /**
  * A [Provider] of a [Directory] into which `dokka` will place artifacts before final publication to
@@ -30,7 +30,7 @@ val Project.dokkaDocsIntermediateDirectory: Provider<Directory>
  * @receiver A [Project] instance
  */
 val Project.dokkaHtmlDocsIntermediateDirectory: Provider<Directory>
-    get() = rootProject.layout.buildDirectory.dir("dokka-html")
+  get() = rootProject.layout.buildDirectory.dir("dokka-html")
 
 /**
  * A [Provider] of a [Directory] into which `dokka` will palce artifacts before the final publication
@@ -38,23 +38,23 @@ val Project.dokkaHtmlDocsIntermediateDirectory: Provider<Directory>
  * @receiver A [Project] instance
  */
 val Project.dokkaJavadocIntermediateDirectory: Provider<Directory>
-    get() = rootProject.layout.buildDirectory.dir("dokka-javadoc")
+  get() = rootProject.layout.buildDirectory.dir("dokka-javadoc")
 
 /**
  * A [Directory] to put the `javadoc`-like output from `dokka`
  * @receiver A [Project] instance
  */
 val Project.dokkaKDocsDirectory: Directory
-    get() = rootProject.layout.projectDirectory.dir("kdocs")
+  get() = rootProject.layout.projectDirectory.dir("kdocs")
 
 /**
  * Reads the `kotlin` version declared in [libs] and mutates it via [String.substringBeforeLast]
  * @receiver A [Project] instance
  */
 val Project.kotlinVersion: String
-    get() = libs.findVersion("kotlin")
-        .map { it.requiredVersion.substringBeforeLast(".") }
-        .orElse(embeddedKotlinVersion.substringBeforeLast("."))
+  get() = libs.findVersion("kotlin")
+    .map { it.requiredVersion.substringBeforeLast(".") }
+    .orElse(embeddedKotlinVersion.substringBeforeLast("."))
 
 /**
  * Retrieves the `build.gradle.kts` default `libs` helper [org.gradle.api.artifacts.VersionCatalog]
@@ -69,41 +69,41 @@ internal val Project.libs: VersionCatalog get() = extensions.getByType<VersionCa
  * @param project The publishing [Project]
  */
 fun MavenPublication.defaultConfigs(project: Project) {
-    artifactId = project.rootProject.name
-    groupId = project.rootProject.group.toString()
-    version = project.rootProject.version.toString()
+  artifactId = project.rootProject.name
+  groupId = project.rootProject.group.toString()
+  version = project.rootProject.version.toString()
 
-    pom {
-        name.set("Project Collections Gradle Settings Plugin")
-        description.set("A Gradle Settings Plugin to streamline `include` calls to arbitrarily nested sub-directories")
-        inceptionYear.set("2025")
-        packaging = "jar"
-        version = project.rootProject.version.toString()
-        url.set("https://fnc314.com/${project.rootProject.name}")
-        developers {
-            developer {
-                id.set("fnc314")
-                name.set("Franco N. Colaizzi")
-                email.set("fnc314@fnc314.com")
-            }
-        }
-        contributors {
-            contributor {
-                name.set("Franco N. Colaizzi")
-                email.set("fnc314@fnc314.com")
-                url.set("https://fnc314.com")
-            }
-        }
-        scm {
-            url.set("https://github.com/fnc314/${project.rootProject.name}")
-        }
-        distributionManagement {
-            downloadUrl.set("https://github.com/fnc314/${project.rootProject.name}/packages")
-            relocation {
-                artifactId.set(project.rootProject.name)
-                groupId.set(project.rootProject.group.toString())
-                version.set(project.rootProject.version.toString())
-            }
-        }
+  pom {
+    name.set("Project Collections Gradle Settings Plugin")
+    description.set("A Gradle Settings Plugin to streamline `include` calls to arbitrarily nested sub-directories")
+    inceptionYear.set("2025")
+    packaging = "jar"
+    version = project.rootProject.version.toString()
+    url.set("https://fnc314.com/${project.rootProject.name}")
+    developers {
+      developer {
+        id.set("fnc314")
+        name.set("Franco N. Colaizzi")
+        email.set("fnc314@fnc314.com")
+      }
     }
+    contributors {
+      contributor {
+        name.set("Franco N. Colaizzi")
+        email.set("fnc314@fnc314.com")
+        url.set("https://fnc314.com")
+      }
+    }
+    scm {
+      url.set("https://github.com/fnc314/${project.rootProject.name}")
+    }
+    distributionManagement {
+      downloadUrl.set("https://github.com/fnc314/${project.rootProject.name}/packages")
+      relocation {
+        artifactId.set(project.rootProject.name)
+        groupId.set(project.rootProject.group.toString())
+        version.set(project.rootProject.version.toString())
+      }
+    }
+  }
 }
