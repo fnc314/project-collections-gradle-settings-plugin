@@ -1,9 +1,9 @@
 @file:[
-Suppress("UnstableApiUsage")
-OptIn(
-  ExperimentalKotlinGradlePluginApi::class,
-  InternalKotlinGradlePluginApi::class,
-)
+  Suppress("UnstableApiUsage")
+  OptIn(
+    ExperimentalKotlinGradlePluginApi::class,
+    InternalKotlinGradlePluginApi::class,
+  )
 ]
 
 import com.fnc314.gradle.settings.plugin.projectcollectionsgradlesettingsplugin.defaultConfigs
