@@ -1,6 +1,6 @@
 [versions]
   project = "3.0.0"
-  kotlin = "2.3.10"
+  kotlin = "2.3.0"
   gradle-plugin-publish = "2.1.0"
   dokka = "2.1.0"
   jdk = "17"

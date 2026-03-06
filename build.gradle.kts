@@ -49,10 +49,9 @@ java {
 
 publishing {
   publications {
-    register<MavenPublication>("gpr") {
+    val gpr by registering(MavenPublication::class) {
       from(components["kotlin"])
-//      artifact(tasks.kotlinSourcesJar)
-      artifact(tasks.javadoc)
+
       artifact(tasks.dokkaHtmlJar)
       artifact(tasks.dokkaJavadocJar)
       defaultConfigs(project = project.rootProject)
@@ -60,30 +59,25 @@ publishing {
   }
 }
 
-testing {
-  suites {
-    // Configure the built-in test suite
-    val test by getting(JvmTestSuite::class) {
-      // Use KotlinTest test framework
-      useKotlinTest(libs.versions.kotlin.get())
-    }
+val test by testing.suites.getting(JvmTestSuite::class) {
+  // Use KotlinTest test framework
+  useKotlinTest(libs.versions.kotlin.get())
+}
 
-    // Create a new test suite
-    val functionalTest by registering(JvmTestSuite::class) {
-      // Use KotlinTest test framework
-      useKotlinTest(libs.versions.kotlin.get())
+// Create a new test suite
+val functionalTest by testing.suites.registering(JvmTestSuite::class) {
+  // Use KotlinTest test framework
+  useKotlinTest(libs.versions.kotlin.get())
 
-      dependencies {
-        // functionalTest test suite depends on the production code in tests
-        implementation(project())
-      }
+  dependencies {
+    // functionalTest test suite depends on the production code in tests
+    implementation(project())
+  }
 
-      targets {
-        all {
-          // This test suite should run after the built-in test suite has run its tests
-          testTask.configure { shouldRunAfter(test) }
-        }
-      }
+  targets {
+    all {
+      // This test suite should run after the built-in test suite has run its tests
+      testTask.configure { shouldRunAfter(test) }
     }
   }
 }
@@ -91,7 +85,7 @@ testing {
 tasks {
   named<Task>("check") {
     // Include functionalTest as part of the check lifecycle
-    dependsOn(testing.suites.named("functionalTest"))
+    dependsOn(functionalTest)
   }
 }
 
