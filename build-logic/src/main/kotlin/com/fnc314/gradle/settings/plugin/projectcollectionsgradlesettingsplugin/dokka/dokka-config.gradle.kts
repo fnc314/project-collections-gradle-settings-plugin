@@ -148,6 +148,13 @@ val dokkaHtmlJar by tasks.registering(Jar::class) {
   archiveClassifier = "html-doc"
 }
 
+tasks {
+  val metadataMavenPublication by named(":generateMetadataFileForPluginMavenPublication");
+  dokkaJavadocJar.map {
+    metadataMavenPublication.dependsOn(it)
+  }
+}
+
 dependencies {
   dokkaPlugin("org.jetbrains.dokka:versioning-plugin")
 }
