@@ -87,6 +87,9 @@ tasks {
     // Include functionalTest as part of the check lifecycle
     dependsOn(functionalTest)
   }
+  named<Task>("generateMetadataFileForPluginMavenPublication") {
+    dependsOn(dokkaJavadocJar)
+  }
 }
 
 gradlePlugin.testSourceSets.add(sourceSets["functionalTest"])
