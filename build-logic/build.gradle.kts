@@ -20,6 +20,11 @@ kotlin {
   }
 }
 
+java {
+  withJavadocJar()
+  withSourcesJar()
+}
+
 dependencies {
   compileOnly(gradleKotlinDsl())
   runtimeOnly(libs.kotlin)

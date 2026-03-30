@@ -150,4 +150,5 @@ val dokkaHtmlJar by tasks.registering(Jar::class) {
 
 dependencies {
   dokkaPlugin("org.jetbrains.dokka:versioning-plugin")
+  // dokkaPlugin("org.jetbrains.dokka:gfm-plugin")
 }

@@ -65,7 +65,7 @@ internal val Project.libs: VersionCatalog get() = extensions.getByType<VersionCa
 
 /**
  * Modifies `this` [MavenPublication] with the provided [project] with conventional values
- * @receiver A [MavenPublication]
+ * @receiver A [MavenPublication] instance
  * @param project The publishing [Project]
  */
 fun MavenPublication.defaultConfigs(project: Project) {
