@@ -52,7 +52,7 @@ projectCollections {
     //   to which the plugin will draft paths for subprojects
     "sub-projects" toDepthOf 3
 
-    fileChecker.set { file: File ->
+    fileSpec.set { file: File ->
         // Provide explicit logical checks against a [File] object
         //   *after* having verified [File.isDirectory()] is `true`
     }
