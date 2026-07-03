@@ -13,10 +13,10 @@ gradlePlugin {
   website = "https://fnc314.com/${rootProject.name}"
   vcsUrl = "https://github.com/fnc314/${rootProject.name}"
   // Define the plugin
-  val projectCollectionsGradleSettingsPlugin by plugins.creating {
+  plugins.create("projectCollectionsGradleSettingsPlugin") {
     id = "com.fnc314.gradle.plugins.settings.${rootProject.name}"
     implementationClass = "com.fnc314.gradle.plugins.settings.projectcollectionsgradlesettingsplugin.ProjectCollectionsGradleSettingsPlugin"
-    tags = listOf("gradle settings", "settings plugin", "gradle settings plugin",)
+    tags = listOf("gradle settings", "settings plugin", "gradle settings plugin")
     description = "A plugin for `org.gradle.api.initialization.Settings` to streamline calls to `org.gradle.api.initialization.Settings.include` for arbitrarily nested sub-projects"
     displayName = "project-collections-gradle-settings-plugin"
   }

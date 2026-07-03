@@ -8,6 +8,7 @@ import org.gradle.api.provider.Provider
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.kotlin.dsl.embeddedKotlinVersion
 import org.gradle.kotlin.dsl.getByType
+import kotlin.jvm.optionals.getOrElse
 
 /**
  * A [Directory] pointing to `/docs`
@@ -33,7 +34,7 @@ val Project.dokkaHtmlDocsIntermediateDirectory: Provider<Directory>
   get() = rootProject.layout.buildDirectory.dir("dokka-html")
 
 /**
- * A [Provider] of a [Directory] into which `dokka` will palce artifacts before the final publication
+ * A [Provider] of a [Directory] into which `dokka` will place artifacts before the final publication
  *   to [dokkaDocsDirectory], uses `build/dokka-javadoc`
  * @receiver A [Project] instance
  */
@@ -54,7 +55,7 @@ val Project.dokkaKDocsDirectory: Directory
 val Project.kotlinVersion: String
   get() = libs.findVersion("kotlin")
     .map { it.requiredVersion.substringBeforeLast(".") }
-    .orElse(embeddedKotlinVersion.substringBeforeLast("."))
+    .getOrElse { embeddedKotlinVersion.substringBeforeLast(".") }
 
 /**
  * Retrieves the `build.gradle.kts` default `libs` helper [org.gradle.api.artifacts.VersionCatalog]

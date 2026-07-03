@@ -100,7 +100,7 @@ dokka {
   }
 }
 
-val dokkaHtmlCapture by tasks.registering(Sync::class) {
+val dokkaHtmlCapture = tasks.register<Sync>("dokkaHtmlCapture") {
   group = "dokka"
   description = "Syncs content from build/dokka into docs/dokka"
   from(tasks.dokkaGeneratePublicationHtml.flatMap { it.outputDirectory })
@@ -108,7 +108,7 @@ val dokkaHtmlCapture by tasks.registering(Sync::class) {
   destinationDir = dokkaDocsDirectory.dir("dokka").asFile
 }
 
-val dokkaJavadocCapture by tasks.registering(Sync::class) {
+val dokkaJavadocCapture = tasks.register<Sync>("dokkaJavadocCapture") {
   group = "dokka"
   description = "Syncs content from build/dokka-javadoc into docs/javadoc"
   from(tasks.dokkaGeneratePublicationJavadoc.flatMap { it.outputDirectory })
@@ -116,7 +116,7 @@ val dokkaJavadocCapture by tasks.registering(Sync::class) {
   destinationDir = dokkaDocsDirectory.dir("javadoc").asFile
 }
 
-val dokkaVersion by tasks.registering(Sync::class) {
+val dokkaVersion = tasks.register<Sync>("dokkaVersion") {
   group = "dokka"
   description = "Syncs content from docs/dokka to docs/versioned-dokka/${rootProject.version}"
   from(dokkaHtmlCapture)
@@ -124,7 +124,7 @@ val dokkaVersion by tasks.registering(Sync::class) {
   destinationDir = dokkaDocsDirectory.dir("versioned-dokka/${rootProject.version}").asFile
 }
 
-val dokkaCapture by tasks.registering {
+val dokkaCapture = tasks.register("dokkaCapture") {
   group = "dokka"
   description = "Runs `dokkaHtmlCapture` and `dokkaJavadocCapture`, funnelling results into docs/"
   dependsOn(dokkaHtmlCapture, dokkaJavadocCapture)
@@ -134,14 +134,14 @@ val dokkaCapture by tasks.registering {
 /**
  * @see <a href="https://github.com/Kotlin/dokka/blob/v2.0.0/examples/gradle-v2/library-publishing-example/build.gradle.kts">Dokka Examples</a>
  */
-val dokkaJavadocJar by tasks.registering(Jar::class) {
+val dokkaJavadocJar = tasks.register<Jar>("dokkaJavadocJar") {
   group = "dokka"
   description = "A Javadoc JAR containing Dokka Javadoc"
   from(tasks.dokkaGeneratePublicationJavadoc.flatMap { it.outputDirectory })
   archiveClassifier = "javadoc"
 }
 
-val dokkaHtmlJar by tasks.registering(Jar::class) {
+val dokkaHtmlJar = tasks.register<Jar>("dokkaHtmlJar") {
   group = "dokka"
   description = "A HTML Documentation JAR containing Dokka HTML"
   from(tasks.dokkaGeneratePublicationHtml.flatMap { it.outputDirectory })

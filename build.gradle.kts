@@ -49,7 +49,7 @@ java {
 
 publishing {
   publications {
-    val gpr by registering(MavenPublication::class) {
+    register<MavenPublication>("gpr") {
       from(components["kotlin"])
 
       artifact(tasks.dokkaHtmlJar)
@@ -59,13 +59,13 @@ publishing {
   }
 }
 
-val test by testing.suites.getting(JvmTestSuite::class) {
+val test = testing.suites.getByName<JvmTestSuite>("test") {
   // Use KotlinTest test framework
   useKotlinTest(libs.versions.kotlin.get())
 }
 
 // Create a new test suite
-val functionalTest by testing.suites.registering(JvmTestSuite::class) {
+val functionalTest = testing.suites.register<JvmTestSuite>("functionalTest") {
   // Use KotlinTest test framework
   useKotlinTest(libs.versions.kotlin.get())
 

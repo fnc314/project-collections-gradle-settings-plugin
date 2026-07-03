@@ -22,7 +22,10 @@ internal abstract class ProjectCollectionsGradleSettingsPlugin: Plugin<Settings>
    * @return `true` if [File] is eligible for [Settings.include]
    */
   private fun File.satisfiesGradleInclusionAndSpec(fileSpec: Spec<File>): Boolean =
-    isDirectory and name.equals("build").not() and fileSpec.isSatisfiedBy(this)
+    isDirectory and
+    name.equals("build").not() and
+    (resolve("build.gradle").exists() || resolve("build.gradle.kts").exists()) and
+    fileSpec.isSatisfiedBy(this)
 
   /**
    * Assumes this [File] is [File.isDirectory] and invokes [File.listFilesOrdered]

@@ -1,0 +1,7 @@
+[tools]
+  java = "temurin-26.0.1+8"
+  gradle = "9.6.1"
+
+[env]
+  JAVA_VERSION = 26
+  JAVA_HOME = "/opt/homebrew/Cellar/openjdk/26.0.1/libexec/openjdk.jdk/Contents/Home"
