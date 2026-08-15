@@ -5,5 +5,5 @@
 
 [env]
   JAVA_VERSION = 26
+  JAVA_HOME = "/Library/Java/JavaVirtualMachines/temurin-26.0.2+10.jdk/Contents/Home"
 #  JAVA_HOME = "/Users/fnc314/.local/share/mise/shims/java"
-

@@ -25,7 +25,7 @@ dokka {
   sourceSetScopeDefault = path
   dokkaSourceSets {
     configureEach {
-      sourceRoots = rootProject.layout.projectDirectory.files("src/${this@configureEach.name}/kotlin")
+      sourceRoots = layout.projectDirectory.files("src/${this@configureEach.name}/kotlin")
       includes.from(
         rootProject.layout.projectDirectory.files(
           "README.md", "dokka.md"
@@ -50,8 +50,8 @@ dokka {
       )
 
       sourceLink {
-        localDirectory = rootProject.layout.projectDirectory.dir("src")
-        remoteUrl = uri("https://github.com/fnc314/${rootProject.name}/tree/main/src")
+        localDirectory = layout.projectDirectory.dir("src")
+        remoteUrl = uri("https://github.com/fnc314/${rootProject.name}/${project.name}/tree/main/src")
         remoteLineSuffix = "#L"
       }
 
@@ -92,7 +92,7 @@ dokka {
 
   dokkaPublications {
     configureEach {
-      moduleName = rootProject.name
+      moduleName = name
       moduleVersion = projectVersion
       suppressInheritedMembers = true
       suppressObviousFunctions = true
