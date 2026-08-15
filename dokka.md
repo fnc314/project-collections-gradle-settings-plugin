@@ -17,7 +17,7 @@ The plugin is published to the [`Gradle` Plugin Portal](https://plugins.gradle.o
 The plugin is applied in `settings.gradle[.kts]` files
 ```gradle
 plugins {
-    id("com.fnc314.gradle.plugins.settings.project-collections-gradle-settings-plugin") version("$latest_version")
+    id("dev.fnc314.gradle.plugins.settings.project-collections-gradle-settings-plugin") version("$latest_version")
 }
 ```
 

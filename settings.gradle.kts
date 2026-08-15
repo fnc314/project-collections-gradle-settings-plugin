@@ -14,4 +14,4 @@ plugins {
 }
 
 rootProject.name = "project-collections-gradle-settings-plugin"
-include(":")
+include(":plugin")
