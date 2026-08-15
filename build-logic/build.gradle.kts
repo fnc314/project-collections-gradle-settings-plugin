@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 plugins {
   `kotlin-dsl`
+  alias(libs.plugins.autonomousapps.dependency.analysis)
 }
 
 kotlin {

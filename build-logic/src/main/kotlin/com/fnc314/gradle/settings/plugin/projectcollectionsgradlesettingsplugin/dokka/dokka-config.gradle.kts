@@ -6,6 +6,7 @@ import com.fnc314.gradle.settings.plugin.projectcollectionsgradlesettingsplugin.
 import com.fnc314.gradle.settings.plugin.projectcollectionsgradlesettingsplugin.libs
 import org.jetbrains.dokka.gradle.engine.parameters.KotlinPlatform
 import org.jetbrains.dokka.gradle.engine.parameters.VisibilityModifier
+import kotlin.jvm.optionals.getOrDefault
 
 plugins {
   kotlin("jvm")
@@ -14,7 +15,7 @@ plugins {
 }
 
 val projectVersion: String =
-  libs.findVersion("project").map { it.requiredVersion }.orElse(rootProject.version.toString())
+  libs.findVersion("project").map { it.requiredVersion }.getOrDefault("${rootProject.version}")
 
 dokka {
   moduleName = rootProject.name
@@ -67,11 +68,11 @@ dokka {
 
   pluginsConfiguration {
     html {
-      homepageLink.value("https://www.fnc314.com/${rootProject.name}/")
+      homepageLink.value("https://www.fnc314.dev/${rootProject.name}/")
       footerMessage.value(
         provider {
           buildString {
-            append("(C) <a href=\"https://www.fnc314.com\" target=\"_blank\">fnc314</a>")
+            append("(C) <a href=\"https://www.fnc314.dev\" target=\"_blank\">fnc314</a>")
             append(" | ")
             append("<a href=\"${rootProject.name}\" target=\"_blank\">javadoc</a>")
           }

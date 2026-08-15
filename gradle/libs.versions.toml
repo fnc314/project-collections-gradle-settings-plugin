@@ -1,9 +1,10 @@
 [versions]
   project = "3.0.2"
-  kotlin = "2.4.0"
+  kotlin = "2.4.10"
   gradle-plugin-publish = "2.1.0"
   dokka = "2.2.0"
-  jdk = "25"
+  jdk = "26"
+  com-autonomousapps-dependency-analysis = "3.16.0"
 
 [libraries]
   kotlin = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlin" }
@@ -30,3 +31,4 @@
   dokka-gfm-markdown = { id = "org.jetbrains.dokka"}
   dokka-config = { id = "com.fnc314.gradle.settings.plugin.projectcollectionsgradlesettingsplugin.dokka.dokka-config" }
   publishing = { id = "com.fnc314.gradle.settings.plugin.projectcollectionsgradlesettingsplugin.publishing" }
+  autonomousapps-dependency-analysis = { id = "com.autonomousapps.dependency-analysis", version.ref = "com-autonomousapps-dependency-analysis" }

@@ -1,0 +1,9 @@
+[tools]
+  java = "26.0.2+10"
+  gradle = "9.7.0"
+  kotlin = { version = "2.4.10", asset_pattern = "kotlin-compiler-*.zip", bin_path = "kotlinc/bin" }
+
+[env]
+  JAVA_VERSION = 26
+#  JAVA_HOME = "/Users/fnc314/.local/share/mise/shims/java"
+

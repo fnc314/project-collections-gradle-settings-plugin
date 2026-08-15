@@ -80,7 +80,7 @@ fun MavenPublication.defaultConfigs(project: Project) {
     inceptionYear.set("2025")
     packaging = "jar"
     version = project.rootProject.version.toString()
-    url.set("https://fnc314.com/${project.rootProject.name}")
+    url.set("https://www.fnc314.dev/${project.rootProject.name}")
     developers {
       developer {
         id.set("fnc314")
@@ -92,7 +92,7 @@ fun MavenPublication.defaultConfigs(project: Project) {
       contributor {
         name.set("Franco N. Colaizzi")
         email.set("fnc314@fnc314.com")
-        url.set("https://fnc314.com")
+        url.set("https://www.fnc314.dev")
       }
     }
     scm {

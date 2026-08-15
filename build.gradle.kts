@@ -22,6 +22,8 @@ plugins {
 
   // Publishing (and Signing)
   alias(libs.plugins.publishing)
+
+  alias(libs.plugins.autonomousapps.dependency.analysis)
 }
 
 version = libs.versions.project.get()

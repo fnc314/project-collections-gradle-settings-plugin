@@ -10,7 +10,7 @@ plugins {
 }
 
 gradlePlugin {
-  website = "https://fnc314.com/${rootProject.name}"
+  website = "https://www.fnc314.dev/${rootProject.name}"
   vcsUrl = "https://github.com/fnc314/${rootProject.name}"
   // Define the plugin
   plugins.create("projectCollectionsGradleSettingsPlugin") {
