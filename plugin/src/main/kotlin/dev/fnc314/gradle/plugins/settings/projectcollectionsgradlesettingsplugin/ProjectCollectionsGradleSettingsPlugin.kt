@@ -24,7 +24,7 @@ internal abstract class ProjectCollectionsGradleSettingsPlugin : Plugin<Settings
   private fun File.satisfiesGradleInclusionAndSpec(fileSpec: Spec<File>): Boolean =
     isDirectory and
     name.equals("build").not() and
-    (resolve("build.gradle").exists() || resolve("build.gradle.kts").exists()) and
+    (resolve("build.gradle").exists() or resolve("build.gradle.kts").exists()) and
     fileSpec.isSatisfiedBy(this)
 
   /**
