@@ -68,8 +68,9 @@ internal val Project.libs: VersionCatalog get() = extensions.getByType<VersionCa
  * Modifies `this` [MavenPublication] with the provided [project] with conventional values
  * @receiver A [MavenPublication] instance
  * @param project The publishing [Project]
+ * @param publicationName The [String] name of the [MavenPublication]
  */
-fun MavenPublication.defaultConfigs(project: Project) {
+fun MavenPublication.defaultConfigs(project: Project, publicationName: String) {
   artifactId = project.rootProject.name
   groupId = project.rootProject.group.toString()
   version = project.rootProject.version.toString()

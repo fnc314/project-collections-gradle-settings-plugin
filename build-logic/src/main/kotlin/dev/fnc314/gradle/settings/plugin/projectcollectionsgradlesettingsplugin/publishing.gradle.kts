@@ -13,6 +13,7 @@ plugins {
 gradlePlugin {
   website = "https://www.fnc314.dev/${rootProject.name}"
   vcsUrl = "https://github.com/fnc314/${rootProject.name}"
+  isAutomatedPublishing = true
   // Define the plugin
   plugins.create("projectCollectionsGradleSettingsPlugin") {
     id = "dev.fnc314.gradle.plugins.settings.${rootProject.name}"

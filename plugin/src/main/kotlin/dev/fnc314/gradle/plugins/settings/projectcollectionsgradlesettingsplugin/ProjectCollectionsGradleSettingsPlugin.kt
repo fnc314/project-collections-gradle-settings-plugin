@@ -12,10 +12,10 @@ import java.nio.file.FileSystems
  * A [Plugin] for [Settings] objects which streamlines the collection of projects included in
  *   strategically named directories
  */
-internal abstract class ProjectCollectionsGradleSettingsPlugin: Plugin<Settings> {
+internal abstract class ProjectCollectionsGradleSettingsPlugin : Plugin<Settings> {
 
   /**
-   * Performs iterative checks against receiving [File] ensuring [isDirectory] and
+   * Performs iterative checks against receiving [File] ensuring [File.isDirectory] and
    *   that the [File.name] *does not* start with `"_"` or `"."`
    * @receiver A [File] instance
    * @param fileSpec A [Spec] accepting a [File] for determining eligibility
@@ -28,7 +28,7 @@ internal abstract class ProjectCollectionsGradleSettingsPlugin: Plugin<Settings>
     fileSpec.isSatisfiedBy(this)
 
   /**
-   * Assumes this [File] is [isDirectory] and invokes [listFilesOrdered]
+   * Assumes this [File] is [File.isDirectory] and invokes [listFilesOrdered]
    *   with the use of [File.satisfiesGradleInclusionAndSpec] filtering
    * @receiver A [File] instance
    * @param fileSpec A [Spec] accepting a [File] for determining eligibility

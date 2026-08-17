@@ -11,7 +11,6 @@ import dev.fnc314.gradle.settings.plugin.projectcollectionsgradlesettingsplugin.
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.InternalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 plugins {
   // Apply the Kotlin JVM plugin to add support for Kotlin.
@@ -36,8 +35,8 @@ kotlin {
   )
   compilerOptions {
     jvmTarget = libs.versions.jdk.map { JvmTarget.fromTarget(it) }
-    apiVersion = KotlinVersion.fromVersion(kotlinVersion)
-    languageVersion = KotlinVersion.fromVersion(kotlinVersion)
+    apiVersion = org.jetbrains.kotlin.gradle.dsl.KotlinVersion.fromVersion(kotlinVersion)
+    languageVersion = org.jetbrains.kotlin.gradle.dsl.KotlinVersion.fromVersion(kotlinVersion)
     verbose = true
     optIn.addAll(
       "kotlin.ExperimentalStdlibApi",
@@ -52,13 +51,27 @@ java {
 
 publishing {
   publications {
-    register<MavenPublication>("gpr") {
+    register<MavenPublication>(name = "gpr") {
       from(components["kotlin"])
 
-      artifact(tasks.dokkaHtmlJar)
-      artifact(tasks.dokkaJavadocJar)
-      defaultConfigs(project = project.rootProject)
+      artifact(tasks.named("dokkaHtmlJar"))
+      artifact(tasks.named("dokkaJavadocJar"))
+      artifact(tasks.named("javadocJar"))
+      defaultConfigs(project = project, publicationName = "gpr")
     }
+
+    register<MavenPublication>(name = "pluginMaven") {
+      artifact(tasks.named("dokkaHtmlJar"))
+      artifact(tasks.named("dokkaJavadocJar"))
+      artifact(tasks.named("javadocJar"))
+      defaultConfigs(project = project, publicationName = "pluginMaven")
+    }
+  }
+}
+
+afterEvaluate {
+  publishing.publications.joinToString(separator = "\n") { it.name }.also {
+    logger.error(it)
   }
 }
 
