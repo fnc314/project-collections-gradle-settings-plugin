@@ -12,7 +12,7 @@ import java.nio.file.FileSystems
  * A [Plugin] for [Settings] objects which streamlines the collection of projects included in
  *   strategically named directories
  */
-internal abstract class ProjectCollectionsGradleSettingsPlugin : Plugin<Settings> {
+public abstract class ProjectCollectionsGradleSettingsPlugin : Plugin<Settings> {
 
   /**
    * Performs iterative checks against receiving [File] ensuring [File.isDirectory] and
@@ -78,6 +78,10 @@ internal abstract class ProjectCollectionsGradleSettingsPlugin : Plugin<Settings
       .replace(oldValue = FileSystems.getDefault().separator, newValue = ":")
   }
 
+  /**
+   * The necessary [Plugin.apply] method override
+   * @param target A [Settings] object instance
+   */
   override fun apply(target: Settings) {
     target.extensions.create(
       ProjectCollectionsGradleSettingsExtension::class.java,

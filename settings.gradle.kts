@@ -13,5 +13,6 @@ plugins {
   id("org.gradle.toolchains.foojay-resolver-convention") version("1.0.0")
 }
 
-rootProject.name = "project-collections-gradle-settings-plugin"
+rootProject.name = "project-collections-gradle-settings-plugin-root"
 include(":plugin")
+project(":plugin").name = "project-collections-gradle-settings-plugin"

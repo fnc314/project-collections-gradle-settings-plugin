@@ -71,17 +71,17 @@ internal val Project.libs: VersionCatalog get() = extensions.getByType<VersionCa
  * @param publicationName The [String] name of the [MavenPublication]
  */
 fun MavenPublication.defaultConfigs(project: Project, publicationName: String) {
-  artifactId = project.rootProject.name
-  groupId = project.rootProject.group.toString()
-  version = project.rootProject.version.toString()
+  artifactId = project.name
+  groupId = project.group.toString()
+  version = project.version.toString()
 
   pom {
     name.set("Project Collections Gradle Settings Plugin")
     description.set("A Gradle Settings Plugin to streamline `include` calls to arbitrarily nested sub-directories")
     inceptionYear.set("2025")
     packaging = "jar"
-    version = project.rootProject.version.toString()
-    url.set("https://www.fnc314.dev/${project.rootProject.name}")
+    version = project.version.toString()
+    url.set("https://www.fnc314.dev/${project.name}")
     developers {
       developer {
         id.set("fnc314")
@@ -97,14 +97,14 @@ fun MavenPublication.defaultConfigs(project: Project, publicationName: String) {
       }
     }
     scm {
-      url.set("https://github.com/fnc314/${project.rootProject.name}")
+      url.set("https://github.com/fnc314/${project.name}")
     }
     distributionManagement {
-      downloadUrl.set("https://github.com/fnc314/${project.rootProject.name}/packages")
+      downloadUrl.set("https://github.com/fnc314/${project.name}/packages")
       relocation {
-        artifactId.set(project.rootProject.name)
-        groupId.set(project.rootProject.group.toString())
-        version.set(project.rootProject.version.toString())
+        artifactId.set(project.name)
+        groupId.set(project.group.toString())
+        version.set(project.version.toString())
       }
     }
   }

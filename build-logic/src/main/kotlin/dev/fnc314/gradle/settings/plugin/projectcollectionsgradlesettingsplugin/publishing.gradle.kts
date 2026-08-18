@@ -11,12 +11,12 @@ plugins {
 }
 
 gradlePlugin {
-  website = "https://www.fnc314.dev/${rootProject.name}"
-  vcsUrl = "https://github.com/fnc314/${rootProject.name}"
+  website = "https://www.fnc314.dev/${project.name}"
+  vcsUrl = "https://github.com/fnc314/${project.name}"
   isAutomatedPublishing = true
   // Define the plugin
   plugins.create("projectCollectionsGradleSettingsPlugin") {
-    id = "dev.fnc314.gradle.plugins.settings.${rootProject.name}"
+    id = "dev.fnc314.gradle.plugins.settings.${project.name}"
     implementationClass = "dev.fnc314.gradle.plugins.settings.projectcollectionsgradlesettingsplugin.ProjectCollectionsGradleSettingsPlugin"
     tags = listOf("gradle settings", "settings plugin", "gradle settings plugin")
     description = "A plugin for `org.gradle.api.initialization.Settings` to streamline calls to `org.gradle.api.initialization.Settings.include` for arbitrarily nested sub-projects"
@@ -28,7 +28,7 @@ publishing {
   repositories {
     maven {
       name = "GitHubPackages"
-      url = uri("https://maven.pkg.github.com/fnc314/${rootProject.name}")
+      url = uri("https://maven.pkg.github.com/fnc314/${project.name}")
       credentials {
         username = providers.environmentVariable("GITHUB_ACTOR").get()
         password = providers.environmentVariable("GITHUB_TOKEN").get()

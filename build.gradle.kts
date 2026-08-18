@@ -12,3 +12,4 @@ plugins {
 }
 
 version = libs.versions.project.get()
+group = "dev.fnc314.gradle.plugins.settings"
