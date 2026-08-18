@@ -18,7 +18,7 @@ val projectVersion: String =
   libs.findVersion("project").map { it.requiredVersion }.getOrDefault("${rootProject.version}")
 
 dokka {
-  moduleName = rootProject.name
+  moduleName = project.name
   moduleVersion = projectVersion
   basePublicationsDirectory = dokkaDocsIntermediateDirectory
   modulePath = path
@@ -72,13 +72,13 @@ dokka {
 
   pluginsConfiguration {
     html {
-      homepageLink.value("https://www.fnc314.dev/${rootProject.name}/")
+      homepageLink.value("https://www.fnc314.dev/${project.name}/")
       footerMessage.value(
         provider {
           buildString {
             append("(C) <a href=\"https://www.fnc314.dev\" target=\"_blank\">fnc314</a>")
             append(" | ")
-            append("<a href=\"${rootProject.name}\" target=\"_blank\">javadoc</a>")
+            append("<a href=\"${project.name}\" target=\"_blank\">javadoc</a>")
           }
         }
       )
@@ -92,7 +92,7 @@ dokka {
 
   dokkaPublications {
     configureEach {
-      moduleName = name
+      moduleName = project.name
       moduleVersion = projectVersion
       suppressInheritedMembers = true
       suppressObviousFunctions = true
@@ -123,10 +123,10 @@ val dokkaJavadocCapture = tasks.register<Sync>("dokkaJavadocCapture") {
 
 val dokkaVersion = tasks.register<Sync>("dokkaVersion") {
   group = "dokka"
-  description = "Syncs content from docs/dokka to docs/versioned-dokka/${rootProject.version}"
+  description = "Syncs content from docs/dokka to docs/versioned-dokka/${project.version}"
   from(dokkaHtmlCapture)
-  into(dokkaDocsDirectory.dir("versioned-dokka/${rootProject.version}"))
-  destinationDir = dokkaDocsDirectory.dir("versioned-dokka/${rootProject.version}").asFile
+  into(dokkaDocsDirectory.dir("versioned-dokka/${project.version}"))
+  destinationDir = dokkaDocsDirectory.dir("versioned-dokka/${project.version}").asFile
 }
 
 val dokkaCapture = tasks.register("dokkaCapture") {
@@ -154,6 +154,8 @@ val dokkaHtmlJar = tasks.register<Jar>("dokkaHtmlJar") {
 }
 
 dependencies {
-  dokkaPlugin("org.jetbrains.dokka:versioning-plugin")
+  dokkaPlugin(
+    dependencyNotation = libs.findLibrary("dokka-plugin-versioning").get().get()
+  )
   // dokkaPlugin("org.jetbrains.dokka:gfm-plugin")
 }

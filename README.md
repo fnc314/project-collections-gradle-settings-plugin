@@ -10,7 +10,7 @@ The plugin is published in the [Gradle Plugin Portal](https://plugins.gradle.org
 ```gradle
 // settings.gradle.kts
 plugins {
-    id("com.fnc314.gradle.plugins.settings.project-collections-gradle-settings-plugin") version("$latest_version")
+    id("dev.fnc314.gradle.plugins.settings.project-collections-gradle-settings-plugin") version("$latest_version")
 }
 ```
 
@@ -21,10 +21,10 @@ Or, with a [Version Catalog](https://docs.gradle.org/current/userguide/version_c
     project-collections-settings-plugin = "latest_version"
 
 [libraries]
-    project-collections-settings-plugin = { group = "com.fnc314.gradle.plugins.settings", name = "project-collections-gradle-settings-plugin", version.ref = "project-collections-settings-plugin" }
+    project-collections-settings-plugin = { group = "dev.fnc314.gradle.plugins.settings", name = "project-collections-gradle-settings-plugin", version.ref = "project-collections-settings-plugin" }
 
 [plugins]
-    project-collections-settings-plugin = { id = "com.fnc314.gradle.pluggins.settings.project-collections-gradle-settings-pluin", version.ref = "project-collections-settings-plugin" }
+    project-collections-settings-plugin = { id = "dev.fnc314.gradle.pluggins.settings.project-collections-gradle-settings-pluin", version.ref = "project-collections-settings-plugin" }
 ```
 
 Used in a build-conventions plugin
@@ -44,7 +44,7 @@ This `org.gradle.api.Plugin` targets `org.gradle.api.initialization.Settings` ob
 import java.io.File
 
 plugins {
-    id("com.fnc314.gradle.plugins.settings.project-collections-gradle-settings-plugin") version("$latest_version")
+    id("dev.fnc314.gradle.plugins.settings.project-collections-gradle-settings-plugin") version("$latest_version")
 }
 
 projectCollections {

@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <!-- NewPage -->
 <html lang="en"><head>
-    <title>T-index </title>
+    <title>R-index </title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="dc.created" content="2020-03-25">
     <link rel="stylesheet" type="text/css" href="../stylesheet.css" title="Style">
@@ -53,7 +53,7 @@ var pathtoroot = "../";
     <ul class="navList">
             <li><a href="index-4.html">PREV&nbsp;LETTER</a></li>
         
-            <li>NEXT&nbsp;LETTER</li>
+            <li><a href="index-6.html">NEXT&nbsp;LETTER</a></li>
         </ul>
 <ul class="navList" id="allclasses_navbar_top" style="display: block;">
     <li><a href="../allclasses.html">All&nbsp;Classes</a></li>
@@ -95,49 +95,82 @@ var pathtoroot = "../";
 <main role="main">
     <div class="contentContainer">
         
-            <a href="index-1.html">C</a>&nbsp;
+            <a href="index-1.html">A</a>&nbsp;
         
-            <a href="index-2.html">G</a>&nbsp;
+            <a href="index-2.html">D</a>&nbsp;
         
-            <a href="index-3.html">P</a>&nbsp;
+            <a href="index-3.html">G</a>&nbsp;
         
-            <a href="index-4.html">R</a>&nbsp;
+            <a href="index-4.html">P</a>&nbsp;
         
-            <a href="index-5.html">T</a>&nbsp;
+            <a href="index-5.html">R</a>&nbsp;
         
-        <h2 class="title">T</h2>
+            <a href="index-6.html">T</a>&nbsp;
+        
+        <h2 class="title">R</h2>
         <dl>
         
             <dt>
                 
                 <span class="memberNameLink">
                 
-                    <a href="../com/fnc314/gradle/plugins/settings/projectcollectionsgradlesettingsplugin/ProjectCollectionsGradleSettingsExtension.html#toDepthOf(java.lang.String,java.lang.Integer)">toDepthOf(java.lang.String,java.lang.Integer)</a>
+                    <a href="../dev/fnc314/gradle/plugins/settings/projectcollectionsgradlesettingsplugin/ProjectCollectionsGradleSettingsExtension.html#registerNestedProjectCollection(java.lang.String,java.lang.Integer)">registerNestedProjectCollection(java.lang.String,java.lang.Integer)</a>
                 
-                </span> - function in com.fnc314.gradle.plugins.settings.projectcollectionsgradlesettingsplugin.<a href=../com/fnc314/gradle/plugins/settings/projectcollectionsgradlesettingsplugin/ProjectCollectionsGradleSettingsExtension.html>ProjectCollectionsGradleSettingsExtension</a>
+                </span> - function in dev.fnc314.gradle.plugins.settings.projectcollectionsgradlesettingsplugin.<a href=../dev/fnc314/gradle/plugins/settings/projectcollectionsgradlesettingsplugin/ProjectCollectionsGradleSettingsExtension.html>ProjectCollectionsGradleSettingsExtension</a>
                 
 
             </dt>
-            <dd>A friendly-syntax approach to including collections of projects<pre><code>projectCollections {
-    &quot;apps&quot; toDepthOf 1
-    &quot;components&quot; toDepthOf 1
-    &quot;design-system&quot; toDepthOf 1
-    &quot;features&quot; toDepthOf 2
-    // means &quot;features/first/project-a&quot;, &quot;features/first/project-b&quot;, &quot;features/second/project-a&quot;, etc...
+            <dd>Register a collection of nested projects<pre><code>projectCollections {
+    registerNestedProjectCollection(topLevelDir = &quot;some-dir&quot;, depth = 3)
+    // implies &quot;some-dir/first/second/desired&quot;, &quot;some-dir/other/layer/target&quot;, etc...
+}</code></pre></dd>
+
+        
+            <dt>
+                
+                <span class="memberNameLink">
+                
+                    <a href="../dev/fnc314/gradle/plugins/settings/projectcollectionsgradlesettingsplugin/ProjectCollectionsGradleSettingsExtension.html#registerProjectCollection(java.lang.String)">registerProjectCollection(java.lang.String)</a>
+                
+                </span> - function in dev.fnc314.gradle.plugins.settings.projectcollectionsgradlesettingsplugin.<a href=../dev/fnc314/gradle/plugins/settings/projectcollectionsgradlesettingsplugin/ProjectCollectionsGradleSettingsExtension.html>ProjectCollectionsGradleSettingsExtension</a>
+                
+
+            </dt>
+            <dd>Register a collection of 1-level-deep projects<pre><code>projectCollections {
+    registerProjectCollection(topLevelDir = &quot;some-dir&quot;)
+    // implies &quot;some-dir/first&quot;, &quot;some-dir/second&quot;, etc...
+}</code></pre></dd>
+
+        
+            <dt>
+                
+                <span class="memberNameLink">
+                
+                    <a href="../dev/fnc314/gradle/plugins/settings/projectcollectionsgradlesettingsplugin/ProjectCollectionsGradleSettingsExtension.html#registerProjectCollection(java.lang.String,java.lang.Integer)">registerProjectCollection(java.lang.String,java.lang.Integer)</a>
+                
+                </span> - function in dev.fnc314.gradle.plugins.settings.projectcollectionsgradlesettingsplugin.<a href=../dev/fnc314/gradle/plugins/settings/projectcollectionsgradlesettingsplugin/ProjectCollectionsGradleSettingsExtension.html>ProjectCollectionsGradleSettingsExtension</a>
+                
+
+            </dt>
+            <dd>Register a collection of nested projects<pre><code>projectCollections {
+    registerProjectCollection(topLevelDir = &quot;some-dir&quot;, depth = 3)
+    // implies &quot;some-dir/first/second/desired&quot;, &quot;some-dir/other/layer/target&quot;, etc...
 }</code></pre></dd>
 
         
         </dl>
         
-            <a href="index-1.html">C</a>&nbsp;
+            <a href="index-1.html">A</a>&nbsp;
         
-            <a href="index-2.html">G</a>&nbsp;
+            <a href="index-2.html">D</a>&nbsp;
         
-            <a href="index-3.html">P</a>&nbsp;
+            <a href="index-3.html">G</a>&nbsp;
         
-            <a href="index-4.html">R</a>&nbsp;
+            <a href="index-4.html">P</a>&nbsp;
         
-            <a href="index-5.html">T</a>&nbsp;
+            <a href="index-5.html">R</a>&nbsp;
+        
+            <a href="index-6.html">T</a>&nbsp;
         
     </div>
 </main><footer role="contentinfo">
@@ -172,7 +205,7 @@ var pathtoroot = "../";
     <ul class="navList">
             <li><a href="index-4.html">PREV&nbsp;LETTER</a></li>
         
-            <li>NEXT&nbsp;LETTER</li>
+            <li><a href="index-6.html">NEXT&nbsp;LETTER</a></li>
         </ul>
 <ul class="navList" id="allclasses_navbar_top" style="display: block;">
     <li><a href="../allclasses.html">All&nbsp;Classes</a></li>

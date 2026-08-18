@@ -10,6 +10,7 @@ import dev.fnc314.gradle.settings.plugin.projectcollectionsgradlesettingsplugin.
 import dev.fnc314.gradle.settings.plugin.projectcollectionsgradlesettingsplugin.kotlinVersion
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.InternalKotlinGradlePluginApi
+import org.jetbrains.kotlin.gradle.dsl.JvmDefaultMode
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
@@ -27,7 +28,7 @@ plugins {
 }
 
 version = libs.versions.project.get()
-group = "dev.fnc314.gradle.plugins.settings.projectcollectionsgradlesettingsplugin"
+group = "dev.fnc314.gradle.plugins.settings"
 
 kotlin {
   explicitApi()
@@ -42,6 +43,7 @@ kotlin {
     optIn.addAll(
       "kotlin.ExperimentalStdlibApi",
     )
+    jvmDefault = JvmDefaultMode.ENABLE
   }
 }
 
@@ -52,13 +54,20 @@ java {
 
 publishing {
   publications {
-    register<MavenPublication>("gpr") {
+    register<MavenPublication>(name = "gpr") {
       from(components["kotlin"])
 
-      artifact(tasks.dokkaHtmlJar)
-      artifact(tasks.dokkaJavadocJar)
-      defaultConfigs(project = project.rootProject)
+      artifact(tasks.named("dokkaHtmlJar"))
+      artifact(tasks.named("dokkaJavadocJar"))
+      defaultConfigs(project = project, publicationName = "gpr")
+      withBuildIdentifier()
     }
+  }
+}
+
+afterEvaluate {
+  publishing.publications.joinToString(separator = "\n") { it.name }.also {
+    logger.error(it)
   }
 }
 
