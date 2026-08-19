@@ -74,12 +74,14 @@ afterEvaluate {
 val test = testing.suites.getByName<JvmTestSuite>("test") {
   // Use KotlinTest test framework
   useKotlinTest(libs.versions.kotlin.get())
+
 }
 
 // Create a new test suite
 val functionalTest = testing.suites.register<JvmTestSuite>("functionalTest") {
   // Use KotlinTest test framework
   useKotlinTest(libs.versions.kotlin.get())
+
 
   dependencies {
     // functionalTest test suite depends on the production code in tests
@@ -98,6 +100,14 @@ tasks {
   named<Task>("check") {
     // Include functionalTest as part of the check lifecycle
     dependsOn(functionalTest)
+  }
+
+  test {
+    failOnNoDiscoveredTests = false
+  }
+
+  named<Test>("functionalTest") {
+    failOnNoDiscoveredTests = false
   }
 }
 

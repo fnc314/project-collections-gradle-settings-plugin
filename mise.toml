@@ -1,6 +1,6 @@
 [tools]
   java = "26.0.2+10"
-  gradle = "9.7.0"
+  gradle = "9.7.1"
   kotlin = {
     asset_pattern = "kotlin-compiler-*.zip",
     bin_path = "kotlinc/bin",

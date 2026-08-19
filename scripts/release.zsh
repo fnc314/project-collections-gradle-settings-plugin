@@ -1,10 +1,10 @@
-#! /usr/bin/bash
+#! /usr/bin/env zsh
 
 declare GIT_STATUS
 GIT_STATUS="$(git status -s)"
 
-if [[ $GIT_STATUS != "" ]]; then
-    echo "git status is $GIT_STATUS"
+if [[ "${GIT_STATUS}" != "" ]]; then
+    echo "git status is ${GIT_STATUS}"
     exit 0
 else
     echo "No empty changes"
@@ -13,21 +13,24 @@ fi
 declare GIT_BRANCH
 GIT_BRANCH="$(git branch --show-current)"
 
-if [[ $GIT_BRANCH != "main" ]]; then
+if [[ "${GIT_BRANCH}" != "main" ]]; then
     echo "Please move changes for release to 'main'"
-    echo "CURRENT BRANCH -> $GIT_BRANCH"
+    echo "CURRENT BRANCH -> ${GIT_BRANCH}"
     exit 0
 fi
 
 declare PROJ_VERSION_PROPERTY
 PROJ_VERSION_PROPERTY="$(./gradlew properties | grep "version:")"
 declare PROJ_VERSION="${PROJ_VERSION_PROPERTY//version: /}"
-declare -a EXISTING_TAGS=$(git tag -l)
+declare -a EXISTING_TAGS
+EXISTING_TAGS+=("$(git tag -l)")
 
-echo "Project Version $PROJ_VERSION"
+echo "Project Version ${PROJ_VERSION}"
+echo "EXISTING TAGS"
+echo "${EXISTING_TAGS[@]}"
 
 for tags in "${EXISTING_TAGS[@]}"; do
-    if [[ $tags =~ $PROJ_VERSION ]]; then
+    if [[ "${tags}" =~ ${PROJ_VERSION} ]]; then
         echo "Tag Exists"
         echo "Exiting"
         exit 0
@@ -38,9 +41,9 @@ echo "Generating dokka docs"
 ./gradlew dokkaVersion -q -s
 echo "Saving docs and updating existing head commit"
 
-git add --all && git commit -a --amend --no-edit && git push origin "$GIT_BRANCH" --force
+git add --all && git commit -a --amend --no-edit && git push origin "${GIT_BRANCH}" --force
 
-git tag "version/$PROJ_VERSION" -m "Release Version $PROJ_VERSION"
+git tag "version/${PROJ_VERSION}" -m "Release Version ${PROJ_VERSION}"
 
 git push origin --tags
 
