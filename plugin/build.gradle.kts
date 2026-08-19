@@ -62,6 +62,15 @@ publishing {
       defaultConfigs(project = project, publicationName = "gpr")
       withBuildIdentifier()
     }
+
+    register<MavenPublication>(name = "pluginMaven") {
+      from(components["kotlin"])
+
+      artifact(tasks.named("dokkaHtmlJar"))
+      artifact(tasks.named("dokkaJavadocJar"))
+      defaultConfigs(project = project, publicationName = "pluginMaven")
+      withBuildIdentifier()
+    }
   }
 }
 
