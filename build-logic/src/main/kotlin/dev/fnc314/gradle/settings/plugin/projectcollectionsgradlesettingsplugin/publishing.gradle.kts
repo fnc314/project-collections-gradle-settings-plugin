@@ -1,9 +1,12 @@
 package dev.fnc314.gradle.settings.plugin.projectcollectionsgradlesettingsplugin
 
+import org.gradle.plugin.compatibility.compatibility
+
 plugins {
   // Apply the Java Gradle plugin development plugin to add support for developing Gradle plugins
   id("com.gradle.plugin-publish")
   `java-gradle-plugin`
+  `maven-publish`
 
   // Apply the `signing` plugin and configure appropriately
   // https://docs.gradle.org/current/userguide/signing_plugin.html
@@ -21,6 +24,11 @@ gradlePlugin {
     tags = listOf("gradle settings", "settings plugin", "gradle settings plugin")
     description = "A plugin for `org.gradle.api.initialization.Settings` to streamline calls to `org.gradle.api.initialization.Settings.include` for arbitrarily nested sub-projects"
     displayName = "project-collections-gradle-settings-plugin"
+    compatibility {
+      features {
+        configurationCache = true
+      }
+    }
   }
 }
 

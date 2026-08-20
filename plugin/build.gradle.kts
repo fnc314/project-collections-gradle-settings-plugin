@@ -56,7 +56,6 @@ publishing {
   publications {
     register<MavenPublication>(name = "gpr") {
       from(components["kotlin"])
-
       artifact(tasks.named("dokkaHtmlJar"))
       artifact(tasks.named("dokkaJavadocJar"))
       defaultConfigs(project = project, publicationName = "gpr")
@@ -64,8 +63,6 @@ publishing {
     }
 
     register<MavenPublication>(name = "pluginMaven") {
-      from(components["kotlin"])
-
       artifact(tasks.named("dokkaHtmlJar"))
       artifact(tasks.named("dokkaJavadocJar"))
       defaultConfigs(project = project, publicationName = "pluginMaven")
