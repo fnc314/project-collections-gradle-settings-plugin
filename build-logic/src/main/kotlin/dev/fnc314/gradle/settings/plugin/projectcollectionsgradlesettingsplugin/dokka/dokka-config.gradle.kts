@@ -51,7 +51,7 @@ dokka {
 
       sourceLink {
         localDirectory = layout.projectDirectory.dir("src")
-        remoteUrl = uri("https://github.com/fnc314/${rootProject.name}/${project.name}/tree/main/src")
+        remoteUrl = uri("https://github.com/fnc314/${project.name}/tree/main/src")
         remoteLineSuffix = "#L"
       }
 
