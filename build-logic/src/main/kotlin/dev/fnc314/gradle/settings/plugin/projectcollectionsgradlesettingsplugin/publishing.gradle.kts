@@ -1,3 +1,5 @@
+@file:Suppress("UnstableApiUsage")
+
 package dev.fnc314.gradle.settings.plugin.projectcollectionsgradlesettingsplugin
 
 import org.gradle.plugin.compatibility.compatibility

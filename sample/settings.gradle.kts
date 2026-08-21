@@ -28,7 +28,6 @@ projectCollections {
 
   fileSpec.set { it.name.first().toString() !in listOf("_", ".", "-") }
 
-  logCollections()
 }
 
 rootProject.name = "project-collections-gradle-settings-plugin-sample"

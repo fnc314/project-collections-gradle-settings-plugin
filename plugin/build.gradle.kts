@@ -64,7 +64,6 @@ publishing {
 
     register<MavenPublication>(name = "pluginMaven") {
       artifact(tasks.named("dokkaHtmlJar"))
-      artifact(tasks.named("dokkaJavadocJar"))
       defaultConfigs(project = project, publicationName = "pluginMaven")
       withBuildIdentifier()
     }
@@ -114,6 +113,10 @@ tasks {
 
   named<Test>("functionalTest") {
     failOnNoDiscoveredTests = false
+  }
+
+  withType<GenerateModuleMetadata> {
+    dependsOn(dokkaJavadocJar)
   }
 }
 
