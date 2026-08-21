@@ -75,6 +75,8 @@ fun MavenPublication.defaultConfigs(project: Project, publicationName: String) {
   groupId = project.group.toString()
   version = project.version.toString()
 
+  project.logger.lifecycle("Publication $publicationName for Project ${project.name}")
+
   pom {
     name.set("Project Collections Gradle Settings Plugin")
     description.set("A Gradle Settings Plugin to streamline `include` calls to arbitrarily nested sub-directories")
@@ -98,14 +100,6 @@ fun MavenPublication.defaultConfigs(project: Project, publicationName: String) {
     }
     scm {
       url.set("https://github.com/fnc314/${project.name}")
-    }
-    distributionManagement {
-      downloadUrl.set("https://github.com/fnc314/${project.name}/packages")
-      relocation {
-        artifactId.set(project.name)
-        groupId.set(project.group.toString())
-        version.set(project.version.toString())
-      }
     }
   }
 }
