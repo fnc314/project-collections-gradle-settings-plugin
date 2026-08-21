@@ -15,6 +15,21 @@ import java.nio.file.FileSystems
 public abstract class ProjectCollectionsGradleSettingsPlugin : Plugin<Settings> {
 
   /**
+   * Returns `true` if `this` [File] is *NOT* the `build` directory
+   * @receiver A [File] instance
+   */
+  private val File.isNotBuildDir: Boolean
+    get() = isDirectory && name.equals("build").not()
+
+  /**
+   * Determines if `this` [File] [File.isNotBuildDir] holds and there is
+   *   either a `build.gradle` or `build.gradle.kts` [File] therein
+   * @receiver A [File] instance
+   */
+  private val File.containsGradleBuildFile: Boolean
+    get() = isDirectory and (resolve("build.gradle").exists() or resolve("build.gradle.kts").exists())
+
+  /**
    * Performs iterative checks against receiving [File] ensuring [File.isDirectory] and
    *   that the [File.name] *does not* start with `"_"` or `"."`
    * @receiver A [File] instance
@@ -22,21 +37,9 @@ public abstract class ProjectCollectionsGradleSettingsPlugin : Plugin<Settings> 
    * @return `true` if [File] is eligible for [Settings.include]
    */
   private fun File.satisfiesGradleInclusionAndSpec(fileSpec: Spec<File>): Boolean =
-    isDirectory and
-    name.equals("build").not() and
-    (resolve("build.gradle").exists() or resolve("build.gradle.kts").exists()) and
+    isNotBuildDir and
+    containsGradleBuildFile and
     fileSpec.isSatisfiedBy(this)
-
-  /**
-   * Assumes this [File] is [File.isDirectory] and invokes [listFilesOrdered]
-   *   with the use of [File.satisfiesGradleInclusionAndSpec] filtering
-   * @receiver A [File] instance
-   * @param fileSpec A [Spec] accepting a [File] for determining eligibility
-   * @returns A [List] of [File]s which are eligible for [Settings.include] invocations
-   * @see satisfiesGradleInclusionAndSpec
-   */
-  private fun File.expandIntoGradleProjects(fileSpec: Spec<File>): List<File> =
-    listFilesOrdered { subFile -> subFile.satisfiesGradleInclusionAndSpec(fileSpec = fileSpec) }
 
   /**
    * Reduces this [File] to a [List] of [File]s which represent a collection of [File]s
@@ -47,21 +50,18 @@ public abstract class ProjectCollectionsGradleSettingsPlugin : Plugin<Settings> 
    * @param fileSpec A [Spec] accepting a [File] for determining eligibility
    * @returns A [List] of [File]s qualifying for [Settings.include] invocations
    * @see satisfiesGradleInclusionAndSpec
-   * @see expandIntoGradleProjects
+   * @see isNotBuildDir
    */
   private fun File.gradleProjectFiles(nesting: Int = 1, fileSpec: Spec<File>): List<File> {
-    val projFiles: MutableList<File> = mutableListOf()
-    var round = 0
-    while (round in 0 ..< nesting) {
-      if (projFiles.isEmpty()) {
-        projFiles.addAll(expandIntoGradleProjects(fileSpec = fileSpec))
-      } else {
-        val flatMappedFiles = projFiles.flatMap { it.expandIntoGradleProjects(fileSpec = fileSpec) }
-        projFiles.addAll(flatMappedFiles)
-      }
-      round++
+    if (nesting <= 0) {
+      return emptyList()
     }
-    return projFiles
+
+    val subDirs = listFilesOrdered { it.isNotBuildDir && fileSpec.isSatisfiedBy(it) }
+    val projects = subDirs.filter { it.satisfiesGradleInclusionAndSpec(fileSpec) }
+    val deeperProjects = subDirs.flatMap { it.gradleProjectFiles(nesting - 1, fileSpec) }
+
+    return (projects + deeperProjects).distinct()
   }
 
   /**
@@ -86,7 +86,7 @@ public abstract class ProjectCollectionsGradleSettingsPlugin : Plugin<Settings> 
     target.extensions.create(
       ProjectCollectionsGradleSettingsExtension::class.java,
       ProjectCollectionsGradleSettingsExtension.EXTENSION_NAME,
-      ProjectCollectionsGradleSettingsExtensionImpl::class.java
+      ProjectCollectionsGradleSettingsExtensionImpl::class.java,
     )
     target.gradle.settingsEvaluated { settings ->
       settings.extensions.getByType<ProjectCollectionsGradleSettingsExtension>().run {

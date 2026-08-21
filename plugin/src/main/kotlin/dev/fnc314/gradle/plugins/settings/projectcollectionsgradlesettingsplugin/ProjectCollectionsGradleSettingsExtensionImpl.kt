@@ -16,7 +16,7 @@ import javax.inject.Inject
 internal abstract class ProjectCollectionsGradleSettingsExtensionImpl @Inject constructor(
   private val objectFactory: ObjectFactory,
 ) : ProjectCollectionsGradleSettingsExtension() {
-  override val projectCollections: MapProperty<String, Int> = objectFactory.mapProperty(
+  internal override val projectCollections: MapProperty<String, Int> = objectFactory.mapProperty(
     String::class.java, Int::class.java
   )
 
