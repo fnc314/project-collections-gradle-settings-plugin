@@ -15,7 +15,7 @@ import java.nio.file.FileSystems
 public abstract class ProjectCollectionsGradleSettingsPlugin : Plugin<Settings> {
 
   /**
-   * Returns `true` if `this` [File] is *NOT* the `build` directory
+   * Returns `true` if `this` [File] passes [File.isDirectory] but *IS NOT* the `build` directory
    * @receiver A [File] instance
    */
   private val File.isNotBuildDir: Boolean
