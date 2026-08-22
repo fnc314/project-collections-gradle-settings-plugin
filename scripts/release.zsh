@@ -49,4 +49,5 @@ git push origin --tags
 
 echo "Publishing to GitHub and Gradle Plugin Portal"
 
-./gradlew publishGprPublicationToGitHubPackagesRepository publishPlugins -q -s
+./gradlew :project-collections-gradle-settings-plugin:publishPlugins -q -s
+./gradlew :project-collections-gradle-settings-plugin:publishGprPublicationToGitHubPackagesRepository -q -s
