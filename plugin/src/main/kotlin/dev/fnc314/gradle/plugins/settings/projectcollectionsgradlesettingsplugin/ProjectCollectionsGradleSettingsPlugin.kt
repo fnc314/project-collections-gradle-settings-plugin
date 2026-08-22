@@ -19,7 +19,7 @@ public abstract class ProjectCollectionsGradleSettingsPlugin : Plugin<Settings> 
    * @receiver A [File] instance
    */
   private val File.isNotBuildDir: Boolean
-    get() = isDirectory && name.equals("build").not()
+    get() = isDirectory and name.equals("build").not()
 
   /**
    * Determines if `this` [File] [File.isNotBuildDir] holds and there is
@@ -57,7 +57,7 @@ public abstract class ProjectCollectionsGradleSettingsPlugin : Plugin<Settings> 
       return emptyList()
     }
 
-    val subDirs = listFilesOrdered { it.isNotBuildDir && fileSpec.isSatisfiedBy(it) }
+    val subDirs = listFilesOrdered { it.isNotBuildDir and fileSpec.isSatisfiedBy(it) }
     val projects = subDirs.filter { it.satisfiesGradleInclusionAndSpec(fileSpec) }
     val deeperProjects = subDirs.flatMap { it.gradleProjectFiles(nesting - 1, fileSpec) }
 
