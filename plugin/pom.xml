@@ -6,7 +6,7 @@
 
     <groupId>dev.fnc314.gradle.plugins.settings</groupId>
     <artifactId>project-collections-gradle-settings-plugin</artifactId>
-    <version>4.0.0</version>
+    <version>4.0.3</version>
     <packaging>jar</packaging>
 
     <name>project-collections-gradle-settings-plugin</name>
