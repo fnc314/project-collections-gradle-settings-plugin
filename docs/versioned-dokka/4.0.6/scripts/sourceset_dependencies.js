@@ -1,0 +1,1 @@
+sourceset_dependencies='{":project-collections-gradle-settings-plugin/main":[]}'
