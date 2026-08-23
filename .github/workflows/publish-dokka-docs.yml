@@ -17,6 +17,9 @@ jobs:
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v6
+        with:
+          gradle-version: wrapper
+          add-job-summary-as-pr-comment: always
 
       - name: Generate Dokka documentation
         run: ./gradlew :project-collections-gradle-settings-plugin:dokkaCapture --init-script=./scripts/gradle/root.init.gradle.kts
