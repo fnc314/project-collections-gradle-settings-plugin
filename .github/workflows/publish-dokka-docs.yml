@@ -20,6 +20,8 @@ jobs:
 
       - name: Generate Dokka documentation
         run: ./gradlew :project-collections-gradle-settings-plugin:dokkaCapture --init-script=./scripts/gradle/root.init.gradle.kts
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Pages
         uses: actions/configure-pages@v6
