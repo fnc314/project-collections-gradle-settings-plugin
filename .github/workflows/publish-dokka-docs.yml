@@ -42,6 +42,9 @@ name: Publish Dokka Docs to GitHub Pages
 
 on:
   workflow_dispatch:
+  pull_request_target:
+    branches:
+      - "main"
   push:
     tags:
       - "version/[0-9]+.[0-9]+.[0-9]+*"
