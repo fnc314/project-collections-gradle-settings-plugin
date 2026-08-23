@@ -38,7 +38,7 @@ for tags in "${EXISTING_TAGS[@]}"; do
 done
 
 echo "Generating dokka docs"
-./gradlew dokkaVersion -q -s
+./gradlew :project-collections-gradle-settings-plugin:dokkaVersion -q -s
 echo "Saving docs and updating existing head commit"
 
 git add --all && git commit -a --amend --no-edit && git push origin "${GIT_BRANCH}" --force

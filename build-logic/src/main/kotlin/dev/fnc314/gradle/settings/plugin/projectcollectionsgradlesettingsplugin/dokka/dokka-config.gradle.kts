@@ -78,7 +78,7 @@ dokka {
           buildString {
             append("(C) <a href=\"https://www.fnc314.dev\" target=\"_blank\">fnc314</a>")
             append(" | ")
-            append("<a href=\"${project.name}\" target=\"_blank\">javadoc</a>")
+            append("<a href=\"https://www.fnc314.dev/${project.name}/javadoc\" target=\"_blank\">javadoc</a>")
           }
         }
       )

@@ -26,29 +26,6 @@ val Project.dokkaDocsIntermediateDirectory: Provider<Directory>
   get() = rootProject.layout.buildDirectory.dir("dokka")
 
 /**
- * A [Provider] of a [Directory] into which `dokka` will place artifacts before final publication to
- *   [dokkaDocsDirectory], uses `build/dokka-html`
- * @receiver A [Project] instance
- */
-val Project.dokkaHtmlDocsIntermediateDirectory: Provider<Directory>
-  get() = rootProject.layout.buildDirectory.dir("dokka-html")
-
-/**
- * A [Provider] of a [Directory] into which `dokka` will place artifacts before the final publication
- *   to [dokkaDocsDirectory], uses `build/dokka-javadoc`
- * @receiver A [Project] instance
- */
-val Project.dokkaJavadocIntermediateDirectory: Provider<Directory>
-  get() = rootProject.layout.buildDirectory.dir("dokka-javadoc")
-
-/**
- * A [Directory] to put the `javadoc`-like output from `dokka`
- * @receiver A [Project] instance
- */
-val Project.dokkaKDocsDirectory: Directory
-  get() = rootProject.layout.projectDirectory.dir("kdocs")
-
-/**
  * Reads the `kotlin` version declared in [libs] and mutates it via [substringBeforeLast]
  * @receiver A [Project] instance
  */
