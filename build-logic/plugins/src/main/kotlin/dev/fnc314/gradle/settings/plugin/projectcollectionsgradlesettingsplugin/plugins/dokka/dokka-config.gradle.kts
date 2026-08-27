@@ -51,7 +51,7 @@ dokka {
 
       sourceLink {
         localDirectory = layout.projectDirectory.dir("src")
-        remoteUrl = uri("https://github.com/fnc314/${project.name}/tree/main/src")
+        remoteUrl = uri("https://github.com/fnc314/${project.path.replace(":", "")}/tree/main/src")
         remoteLineSuffix = "#L"
       }
 
@@ -78,7 +78,11 @@ dokka {
           buildString {
             append("(C) <a href=\"https://www.fnc314.dev\" target=\"_blank\">fnc314</a>")
             append(" | ")
+            append("<a href=\"https://www.fnc314.dev/${project.name}/dokka\" target=\"_blank\">dokka</a>")
+            append(" | ")
             append("<a href=\"https://www.fnc314.dev/${project.name}/javadoc\" target=\"_blank\">javadoc</a>")
+            append(" | ")
+            append(project.version)
           }
         }
       )
