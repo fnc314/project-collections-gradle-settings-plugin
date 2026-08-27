@@ -52,7 +52,7 @@ private fun RepositoryHandler.addDefaultRepos() {
 private val CACHE_DAYS: Int = 7
 
 gradle.beforeSettings {
-  enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+  // enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
   caches {
     markingStrategy = MarkingStrategy.CACHEDIR_TAG
