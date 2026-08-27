@@ -9,13 +9,13 @@ pluginManagement {
   includeBuild("../")
 
   plugins {
-    id("dev.fnc314.gradle.plugins.settings.project-collections-gradle-settings-plugin") version ("4.0.6")
+    id("dev.fnc314.gradle.plugins.settings.project-collections-gradle-settings-plugin") version ("5.0.0")
   }
 
 }
 
 plugins {
-  id("dev.fnc314.gradle.plugins.settings.project-collections-gradle-settings-plugin") version ("4.0.6")
+  id("dev.fnc314.gradle.plugins.settings.project-collections-gradle-settings-plugin") version ("5.0.0")
 }
 
 projectCollections {
@@ -27,7 +27,11 @@ projectCollections {
   "features" toDepthOf 3
 
   fileSpec.set { it.name.first().toString() !in listOf("_", ".", "-") }
-
+  projectNameTransform.set { projectPath ->
+    projectPath.replace(oldValue = ":", newValue = "-")
+      .removePrefix("-")
+      .also { println("$projectPath Replaced With $it") }
+  }
 }
 
 rootProject.name = "project-collections-gradle-settings-plugin-sample"

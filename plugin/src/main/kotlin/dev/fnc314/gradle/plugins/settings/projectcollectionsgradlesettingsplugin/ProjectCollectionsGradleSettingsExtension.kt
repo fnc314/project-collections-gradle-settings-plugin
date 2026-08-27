@@ -34,6 +34,15 @@ public abstract class ProjectCollectionsGradleSettingsExtension {
   public abstract val fileSpec: Property<Spec<File>>
 
   /**
+   * An optional [Property] of [ProjectNameMapper] used to rename the argument passed to
+   *   [org.gradle.api.initialization.Settings.include] to avoid the potential for empty
+   *   [org.gradle.api.Project]s to be created.  This aligns with `Gradle` best practices
+   *   as outlined [here](https://docs.gradle.org/current/userguide/best_practices_structuring_builds.html#avoid_empty_projects)
+   * @see ProjectNameMapper
+   */
+  public abstract val projectNameTransform: Property<ProjectNameMapper>
+
+  /**
    * Register a collection of 1-level-deep projects
    * ```kotlin
    * projectCollections {

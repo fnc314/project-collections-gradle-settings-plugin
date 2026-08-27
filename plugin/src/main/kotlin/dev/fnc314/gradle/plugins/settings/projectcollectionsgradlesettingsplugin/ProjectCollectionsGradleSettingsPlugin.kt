@@ -1,5 +1,6 @@
 package dev.fnc314.gradle.plugins.settings.projectcollectionsgradlesettingsplugin
 
+import dev.fnc314.gradle.plugins.settings.projectcollectionsgradlesettingsplugin.internal.ProjectCollectionsRecord
 import org.gradle.api.Plugin
 import org.gradle.api.initialization.Settings
 import org.gradle.api.specs.Spec
@@ -65,17 +66,24 @@ public abstract class ProjectCollectionsGradleSettingsPlugin : Plugin<Settings> 
   }
 
   /**
-   * Converts this [List] of [File]s to a [List] of [String]s constructed for [Settings.include] calls
+   * Converts the [List] of [File]s to a [List] of [ProjectCollectionsRecord]s
+   *   to streamline custom [Settings.include] calls
    * @receiver A [List] of [File]s
    * @param settingsDir The [File] of this [Settings] object
-   * @returns A [List] of [String]s for [Settings.include]
+   * @param nameMapper The [ProjectCollectionsGradleSettingsExtension.projectNameTransform]
    */
-  private fun List<File>.toGradleSettingsIncludeFormats(
+  private fun List<File>.toProjectCollectionsRecords(
     settingsDir: File,
-  ): List<String> = map {
-    it.absolutePath
+    nameMapper: ProjectNameMapper,
+  ): List<ProjectCollectionsRecord> = map {
+    val projectPath = it.absolutePath
       .substringAfter(delimiter = settingsDir.absolutePath)
       .replace(oldValue = FileSystems.getDefault().separator, newValue = ":")
+    ProjectCollectionsRecord(
+      projectFile = it,
+      projectPath = projectPath,
+      projectName = ":${nameMapper(projectPath).removePrefix(":")}"
+    )
   }
 
   /**
@@ -89,19 +97,23 @@ public abstract class ProjectCollectionsGradleSettingsPlugin : Plugin<Settings> 
       ProjectCollectionsGradleSettingsExtensionImpl::class.java,
     )
     target.gradle.settingsEvaluated { settings ->
-      settings.extensions.getByType<ProjectCollectionsGradleSettingsExtension>().run {
-        projectCollections
-          .map {
-            it.flatMap { (dir, depth) ->
-              settings.settingsDir
-                .resolve(relative = dir)
-                .gradleProjectFiles(nesting = depth, fileSpec = fileSpec.get())
-                .toGradleSettingsIncludeFormats(settingsDir = settings.settingsDir)
+      settings.extensions
+        .getByType<ProjectCollectionsGradleSettingsExtension>()
+        .run {
+          projectCollections
+            .map {
+              it.flatMap { (dir, depth) ->
+                settings.settingsDir
+                  .resolve(relative = dir)
+                  .gradleProjectFiles(nesting = depth, fileSpec = fileSpec.get())
+                  .toProjectCollectionsRecords(settingsDir = settings.settingsDir, nameMapper = projectNameTransform.get())
+              }
+            }
+            .get()
+            .onEach { record ->
+              record.applyTo(settings = settings)
             }
           }
-          .get()
-          .onEach { settings.include(it) }
       }
-    }
   }
 }
