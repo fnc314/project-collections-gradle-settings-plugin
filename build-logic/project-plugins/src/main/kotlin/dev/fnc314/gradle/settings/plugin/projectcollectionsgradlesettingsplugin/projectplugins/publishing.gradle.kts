@@ -1,6 +1,7 @@
 @file:Suppress("UnstableApiUsage")
-package dev.fnc314.gradle.settings.plugin.projectcollectionsgradlesettingsplugin.plugins
+package dev.fnc314.gradle.settings.plugin.projectcollectionsgradlesettingsplugin.projectplugins
 
+import org.gradle.kotlin.dsl.*
 import org.gradle.plugin.compatibility.compatibility
 
 plugins {

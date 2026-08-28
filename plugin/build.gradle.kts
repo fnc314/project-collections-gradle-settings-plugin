@@ -6,8 +6,8 @@
   )
 ]
 
-import dev.fnc314.gradle.settings.plugin.projectcollectionsgradlesettingsplugin.buildlogic.extensions.defaultConfigs
-import dev.fnc314.gradle.settings.plugin.projectcollectionsgradlesettingsplugin.buildlogic.extensions.kotlinVersion
+import dev.fnc314.gradle.settings.plugin.projectcollectionsgradlesettingsplugin.buildlogic.projectextensions.defaultConfigs
+import dev.fnc314.gradle.settings.plugin.projectcollectionsgradlesettingsplugin.buildlogic.projectextensions.kotlinVersion
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.InternalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmDefaultMode

@@ -29,7 +29,7 @@ java {
 dependencies {
   compileOnly(gradleKotlinDsl())
   runtimeOnly(libs.kotlin)
-  implementation(project(":extensions"))
+  implementation(projects.projectExtensions)
   implementation(libs.kotlin.gradle.plugin)
   implementation(libs.publish.gradle.plugin)
   implementation(libs.bundles.dokka)

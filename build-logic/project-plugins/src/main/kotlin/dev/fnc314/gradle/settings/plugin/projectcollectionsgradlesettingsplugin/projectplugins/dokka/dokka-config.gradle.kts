@@ -1,9 +1,12 @@
-package dev.fnc314.gradle.settings.plugin.projectcollectionsgradlesettingsplugin.plugins.dokka
+package dev.fnc314.gradle.settings.plugin.projectcollectionsgradlesettingsplugin.projectplugins.dokka
 
-import dev.fnc314.gradle.settings.plugin.projectcollectionsgradlesettingsplugin.buildlogic.extensions.dokkaDocsDirectory
-import dev.fnc314.gradle.settings.plugin.projectcollectionsgradlesettingsplugin.buildlogic.extensions.dokkaDocsIntermediateDirectory
-import dev.fnc314.gradle.settings.plugin.projectcollectionsgradlesettingsplugin.buildlogic.extensions.kotlinVersion
-import dev.fnc314.gradle.settings.plugin.projectcollectionsgradlesettingsplugin.buildlogic.extensions.libs
+import dev.fnc314.gradle.settings.plugin.projectcollectionsgradlesettingsplugin.buildlogic.projectextensions.dokkaDocsDirectory
+import dev.fnc314.gradle.settings.plugin.projectcollectionsgradlesettingsplugin.buildlogic.projectextensions.dokkaDocsIntermediateDirectory
+import dev.fnc314.gradle.settings.plugin.projectcollectionsgradlesettingsplugin.buildlogic.projectextensions.kotlinVersion
+import dev.fnc314.gradle.settings.plugin.projectcollectionsgradlesettingsplugin.buildlogic.projectextensions.libs
+import org.gradle.api.tasks.Sync
+import org.gradle.api.tasks.bundling.Jar
+import org.gradle.kotlin.dsl.*
 import org.jetbrains.dokka.gradle.engine.parameters.KotlinPlatform
 import org.jetbrains.dokka.gradle.engine.parameters.VisibilityModifier
 import kotlin.jvm.optionals.getOrDefault

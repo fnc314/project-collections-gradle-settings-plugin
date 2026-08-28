@@ -1,4 +1,4 @@
-package dev.fnc314.gradle.settings.plugin.projectcollectionsgradlesettingsplugin.buildlogic.extensions
+package dev.fnc314.gradle.settings.plugin.projectcollectionsgradlesettingsplugin.buildlogic.projectextensions
 
 import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalog
