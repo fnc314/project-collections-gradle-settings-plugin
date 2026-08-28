@@ -9,13 +9,13 @@ pluginManagement {
   includeBuild("../")
 
   plugins {
-    id("dev.fnc314.gradle.plugins.settings.project-collections-gradle-settings-plugin") version ("5.0.0")
+    id("dev.fnc314.gradle.plugins.settings.project-collections-gradle-settings-plugin") version ("5.0.3")
   }
 
 }
 
 plugins {
-  id("dev.fnc314.gradle.plugins.settings.project-collections-gradle-settings-plugin") version ("5.0.0")
+  id("dev.fnc314.gradle.plugins.settings.project-collections-gradle-settings-plugin") version ("5.0.3")
 }
 
 projectCollections {
