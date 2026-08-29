@@ -1,6 +1,6 @@
 [tools]
   gradle = "9.7.1"
-  java = "26.0.2+10"
+  java = "temurin-26.0.2+10"
   kotlin = "2.4.10"
 
 [env]
