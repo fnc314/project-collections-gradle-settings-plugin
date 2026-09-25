@@ -1,12 +1,7 @@
 [tools]
-  java = "temurin-26.0.2+10"
-  gradle = "9.7.1"
-  kotlin = {
-    asset_pattern = "kotlin-compiler-*.zip",
-    bin_path = "kotlinc/bin",
-    version = "2.4.10",
-  }
+  java = "26.0.2+101"
+  gradle = "9.8.0"
 
 [env]
-  JAVA_VERSION = 26
-  JAVA_HOME = "/Library/Java/JavaVirtualMachines/temurin-26.0.2+10.jdk/Contents/Home"
+  JAVA_VERSION = "26"
+  JAVA_HOME = "/Users/fnc314/.local/share/mise/installs/java/26.0.2+101"
