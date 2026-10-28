@@ -7,6 +7,11 @@
  */
 pluginManagement {
   includeBuild("build-logic")
+
+  plugins {
+    id("org.jetbrains.kotlin.jvm") version("2.4.21")
+    id("org.gradle.toolchains.foojay-resolver-convention") version("1.0.0")
+  }
 }
 
 plugins {
