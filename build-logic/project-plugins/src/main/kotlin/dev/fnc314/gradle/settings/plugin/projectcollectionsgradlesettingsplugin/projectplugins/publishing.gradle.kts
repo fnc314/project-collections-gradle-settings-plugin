@@ -1,7 +1,6 @@
 @file:Suppress("UnstableApiUsage")
 package dev.fnc314.gradle.settings.plugin.projectcollectionsgradlesettingsplugin.projectplugins
 
-import org.gradle.kotlin.dsl.*
 import org.gradle.plugin.compatibility.compatibility
 
 plugins {
@@ -23,12 +22,13 @@ gradlePlugin {
   plugins.create("projectCollectionsGradleSettingsPlugin") {
     id = "dev.fnc314.gradle.plugins.settings.${project.name}"
     implementationClass = "dev.fnc314.gradle.plugins.settings.projectcollectionsgradlesettingsplugin.ProjectCollectionsGradleSettingsPlugin"
-    tags = listOf("gradle settings", "settings plugin", "gradle settings plugin")
+    tags = listOf("gradle.settings", "settings.plugin", "gradle.settings.plugin")
     description = "A plugin for `org.gradle.api.initialization.Settings` to streamline calls to `org.gradle.api.initialization.Settings.include` for arbitrarily nested sub-projects"
     displayName = "project-collections-gradle-settings-plugin"
     compatibility {
       features {
         configurationCache = true
+        isolatedProjects = true
       }
     }
   }

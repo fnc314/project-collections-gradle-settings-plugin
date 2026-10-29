@@ -1,16 +1,17 @@
 [versions]
-  project = "5.0.3"
+  project = "5.1.0"
   kotlin = "2.4.21"
-  gradle-plugin-publish = "2.1.0"
+  gradle-plugin-publish = "2.2.1"
   dokka = "2.2.0"
   jdk = "26"
-  com-autonomousapps-dependency-analysis = "3.16.0"
+  com-autonomousapps = "3.20.0"
 
 [libraries]
   kotlin = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlin" }
   kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
   kotlin-gradle-plugin-api = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin-api", version.ref = "kotlin" }
   publish-gradle-plugin = { group = "com.gradle.plugin-publish", name = "com.gradle.plugin-publish.gradle.plugin", version.ref = "gradle-plugin-publish" }
+  com-autonomousapps-dependency-analysis-plugin = { group = "com.autonomousapps", name = "dependency-analysis-gradle-plugin", version.ref = "com-autonomousapps" }
   dokka-core = { group = "org.jetbrains.dokka", name = "dokka-core", version.ref = "dokka" }
   dokka-plugin-gradle = { group = "org.jetbrains.dokka", name = "dokka-gradle-plugin", version.ref = "dokka" }
   dokka-plugin-versioning = { group = "org.jetbrains.dokka", name = "versioning-plugin", version.ref = "dokka" }
@@ -20,7 +21,7 @@
 [bundles]
   dokka = [
     "dokka-core", "dokka-plugin-gradle",
-    "dokka-plugin-versioning"
+    "dokka-plugin-versioning",
   ]
 
 [plugins]
@@ -32,4 +33,5 @@
   dokka-gfm-markdown = { id = "org.jetbrains.dokka"}
   dokka-config = { id = "dev.fnc314.gradle.settings.plugin.projectcollectionsgradlesettingsplugin.projectplugins.dokka.dokka-config" }
   publishing = { id = "dev.fnc314.gradle.settings.plugin.projectcollectionsgradlesettingsplugin.projectplugins.publishing" }
-  autonomousapps-dependency-analysis = { id = "com.autonomousapps.dependency-analysis", version.ref = "com-autonomousapps-dependency-analysis" }
+  autonomousapps-dependency-analysis = { id = "com.autonomousapps.dependency-analysis", version.ref = "com-autonomousapps" }
+  autonomousapps-build-health = { id = "com.autonomousapps.build-health", version.ref = "com-autonomousapps" }

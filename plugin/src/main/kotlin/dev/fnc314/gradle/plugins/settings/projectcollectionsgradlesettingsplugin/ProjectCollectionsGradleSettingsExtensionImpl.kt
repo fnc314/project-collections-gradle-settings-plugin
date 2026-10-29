@@ -23,8 +23,17 @@ internal abstract class ProjectCollectionsGradleSettingsExtensionImpl @Inject co
   override val fileSpec: Property<Spec<File>> = objectFactory.property<Spec<File>>()
     .convention { file -> file.name.first().toString() !in listOf("_", ".", "-") }
 
+  override val flattenMiddleProjects: Property<Boolean> = objectFactory.property<Boolean>()
+    .convention(true)
+
   override val projectNameTransform: Property<ProjectNameMapper> = objectFactory.property<ProjectNameMapper>()
-    .convention { projectPath -> projectPath }
+    .convention { projectPath: String, flatten: Boolean ->
+      if (flatten) {
+        ":${projectPath.removePrefix(":").replace(":", "-")}"
+      } else {
+        projectPath
+      }
+    }
 
   override fun registerProjectCollection(topLevelDir: String, depth: Int) {
     projectCollections.put(topLevelDir, depth)

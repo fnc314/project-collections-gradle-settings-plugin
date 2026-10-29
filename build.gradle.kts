@@ -1,5 +1,5 @@
 plugins {
-  `build-dashboard`
+  //  `build-dashboard`
   // Apply the Kotlin JVM plugin to add support for Kotlin.
   alias(libs.plugins.kotlin.jvm) apply false
 

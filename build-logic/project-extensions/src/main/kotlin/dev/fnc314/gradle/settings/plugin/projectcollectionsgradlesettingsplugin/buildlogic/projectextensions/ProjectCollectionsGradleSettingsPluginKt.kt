@@ -6,16 +6,13 @@ import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.api.file.Directory
 import org.gradle.api.provider.Provider
 import org.gradle.api.publish.maven.MavenPublication
-import org.gradle.kotlin.dsl.embeddedKotlinVersion
-import org.gradle.kotlin.dsl.getByType
-import kotlin.jvm.optionals.getOrElse
 
 /**
  * A [Directory] pointing to `/docs`
  * @receiver A [Project] instance
  */
 val Project.dokkaDocsDirectory: Directory
-  get() = rootProject.layout.projectDirectory.dir("docs")
+  get() = layout.settingsDirectory.dir("docs")
 
 /**
  * A [Provider] of a [Directory] into which `dokka` will place artifacts before final publication to
@@ -23,7 +20,7 @@ val Project.dokkaDocsDirectory: Directory
  * @receiver A [Project] instance
  */
 val Project.dokkaDocsIntermediateDirectory: Provider<Directory>
-  get() = rootProject.layout.buildDirectory.dir("dokka")
+  get() = provider { layout.settingsDirectory.dir("dokka") }
 
 /**
  * Reads the `kotlin` version declared in [libs] and mutates it via [substringBeforeLast]
@@ -32,14 +29,14 @@ val Project.dokkaDocsIntermediateDirectory: Provider<Directory>
 val Project.kotlinVersion: String
   get() = libs.findVersion("kotlin")
     .map { it.requiredVersion.substringBeforeLast(".") }
-    .getOrElse { embeddedKotlinVersion.substringBeforeLast(".") }
+    .get()
 
 /**
  * Retrieves the `build.gradle.kts` default `libs` helper [VersionCatalog]
  * @receiver A [Project] instance
  * @return The [VersionCatalog] named `libs`
  */
-val Project.libs: VersionCatalog get() = extensions.getByType<VersionCatalogsExtension>().named("libs")
+val Project.libs: VersionCatalog get() = extensions.getByType(VersionCatalogsExtension::class.java).named("libs")
 
 /**
  * Modifies `this` [MavenPublication] with the provided [project] with conventional values

@@ -1,3 +1,9 @@
+pluginManagement {
+  plugins {
+    id("org.gradle.toolchains.foojay-resolver-convention") version("1.0.0")
+  }
+}
+
 dependencyResolutionManagement {
   versionCatalogs {
     create("libs") {
@@ -7,7 +13,7 @@ dependencyResolutionManagement {
 }
 
 plugins {
-  id("org.gradle.toolchains.foojay-resolver-convention") version("1.0.0")
+  id("org.gradle.toolchains.foojay-resolver-convention")
 }
 
 rootProject.name = "project-collections-gradle-settings-plugin-build-logic"

@@ -4,8 +4,6 @@ import dev.fnc314.gradle.plugins.settings.projectcollectionsgradlesettingsplugin
 import org.gradle.api.Plugin
 import org.gradle.api.initialization.Settings
 import org.gradle.api.specs.Spec
-import org.gradle.kotlin.dsl.getByType
-import org.gradle.kotlin.dsl.support.listFilesOrdered
 import java.io.File
 import java.nio.file.FileSystems
 
@@ -58,7 +56,7 @@ public abstract class ProjectCollectionsGradleSettingsPlugin : Plugin<Settings> 
       return emptyList()
     }
 
-    val subDirs = listFilesOrdered { it.isNotBuildDir and fileSpec.isSatisfiedBy(it) }
+    val subDirs = listFiles { it.isNotBuildDir and fileSpec.isSatisfiedBy(it) } ?: return emptyList()
     val projects = subDirs.filter { it.satisfiesGradleInclusionAndSpec(fileSpec) }
     val deeperProjects = subDirs.flatMap { it.gradleProjectFiles(nesting - 1, fileSpec) }
 
@@ -70,10 +68,13 @@ public abstract class ProjectCollectionsGradleSettingsPlugin : Plugin<Settings> 
    *   to streamline custom [Settings.include] calls
    * @receiver A [List] of [File]s
    * @param settingsDir The [File] of this [Settings] object
+   * @param flatten The [Boolean] indicating whether intermediary [org.gradle.api.Project]s
+   *   should be created as determined by [nameMapper]
    * @param nameMapper The [ProjectCollectionsGradleSettingsExtension.projectNameTransform]
    */
   private fun List<File>.toProjectCollectionsRecords(
     settingsDir: File,
+    flatten: Boolean,
     nameMapper: ProjectNameMapper,
   ): List<ProjectCollectionsRecord> = map {
     val projectPath = it.absolutePath
@@ -82,7 +83,7 @@ public abstract class ProjectCollectionsGradleSettingsPlugin : Plugin<Settings> 
     ProjectCollectionsRecord(
       projectFile = it,
       projectPath = projectPath,
-      projectName = ":${nameMapper(projectPath).removePrefix(":")}"
+      projectName = ":${nameMapper(projectPath, flatten).removePrefix(":")}"
     )
   }
 
@@ -98,15 +99,23 @@ public abstract class ProjectCollectionsGradleSettingsPlugin : Plugin<Settings> 
     )
     target.gradle.settingsEvaluated { settings ->
       settings.extensions
-        .getByType<ProjectCollectionsGradleSettingsExtension>()
-        .run {
-          projectCollections
+        .configure(
+          ProjectCollectionsGradleSettingsExtension::class.java
+        ) { extension ->
+          extension.projectCollections
             .map {
               it.flatMap { (dir, depth) ->
                 settings.settingsDir
                   .resolve(relative = dir)
-                  .gradleProjectFiles(nesting = depth, fileSpec = fileSpec.get())
-                  .toProjectCollectionsRecords(settingsDir = settings.settingsDir, nameMapper = projectNameTransform.get())
+                  .gradleProjectFiles(
+                    nesting = depth,
+                    fileSpec = extension.fileSpec.get()
+                  )
+                  .toProjectCollectionsRecords(
+                    settingsDir = settings.settingsDir,
+                    flatten = extension.flattenMiddleProjects.get(),
+                    nameMapper = extension.projectNameTransform.get(),
+                  )
               }
             }
             .get()

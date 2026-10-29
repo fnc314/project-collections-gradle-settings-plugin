@@ -27,9 +27,8 @@ java {
 }
 
 dependencies {
-  compileOnly(gradleKotlinDsl())
-  runtimeOnly(libs.kotlin)
-  implementation(libs.kotlin.gradle.plugin)
+  implementation(gradleApi())
+  implementation(libs.kotlin.gradle.plugin.api)
   implementation(libs.publish.gradle.plugin)
   implementation(libs.bundles.dokka)
 }

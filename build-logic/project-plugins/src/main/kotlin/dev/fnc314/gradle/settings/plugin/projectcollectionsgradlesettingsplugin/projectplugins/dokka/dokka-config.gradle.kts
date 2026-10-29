@@ -4,8 +4,6 @@ import dev.fnc314.gradle.settings.plugin.projectcollectionsgradlesettingsplugin.
 import dev.fnc314.gradle.settings.plugin.projectcollectionsgradlesettingsplugin.buildlogic.projectextensions.dokkaDocsIntermediateDirectory
 import dev.fnc314.gradle.settings.plugin.projectcollectionsgradlesettingsplugin.buildlogic.projectextensions.kotlinVersion
 import dev.fnc314.gradle.settings.plugin.projectcollectionsgradlesettingsplugin.buildlogic.projectextensions.libs
-import org.gradle.api.tasks.Sync
-import org.gradle.api.tasks.bundling.Jar
 import org.gradle.kotlin.dsl.*
 import org.jetbrains.dokka.gradle.engine.parameters.KotlinPlatform
 import org.jetbrains.dokka.gradle.engine.parameters.VisibilityModifier
@@ -15,10 +13,11 @@ plugins {
   kotlin("jvm")
   id("org.jetbrains.dokka")
   id("org.jetbrains.dokka-javadoc")
+  id("com.autonomousapps.dependency-analysis")
 }
 
 val projectVersion: String =
-  libs.findVersion("project").map { it.requiredVersion }.getOrDefault("${rootProject.version}")
+  libs.findVersion("project").map { it.requiredVersion }.getOrDefault("${project.version}")
 
 dokka {
   moduleName = project.name
@@ -30,7 +29,7 @@ dokka {
     configureEach {
       sourceRoots = layout.projectDirectory.files("src/${this@configureEach.name}/kotlin")
       includes.from(
-        rootProject.layout.projectDirectory.files(
+        layout.settingsDirectory.files(
           "README.md", "dokka.md"
         )
       )
@@ -104,7 +103,7 @@ dokka {
       suppressInheritedMembers = true
       suppressObviousFunctions = true
       includes.from(
-        rootProject.layout.projectDirectory.files(
+        layout.settingsDirectory.files(
           "README.md", "dokka.md"
         )
       )

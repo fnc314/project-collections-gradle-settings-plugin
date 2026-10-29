@@ -37,10 +37,26 @@ public abstract class ProjectCollectionsGradleSettingsExtension {
    * An optional [Property] of [ProjectNameMapper] used to rename the argument passed to
    *   [org.gradle.api.initialization.Settings.include] to avoid the potential for empty
    *   [org.gradle.api.Project]s to be created.  This aligns with `Gradle` best practices
-   *   as outlined [here](https://docs.gradle.org/current/userguide/best_practices_structuring_builds.html#avoid_empty_projects)
+   *   as outlined [here](https://docs.gradle.org/current/userguide/best_practices_structuring_builds.html#avoid_empty_projects).
+   *
+   * The default implementation reads [flattenMiddleProjects] and flattens the middle
+   *   projects away.
+   *
+   * @see flattenMiddleProjects
    * @see ProjectNameMapper
    */
   public abstract val projectNameTransform: Property<ProjectNameMapper>
+
+  /**
+   * An indicator controlling if middle layer empty projects are created by the
+   *  inclusion of nested directory projects.  This means converting something like
+   *  `some/project/path` from `:some:project:path` to `:some-project-path`, thereby
+   *  stopping the creation of empty {@link org.gradle.api.Project}s `:some` and
+   *  `:some:project`.  The default is `true`.
+   * @see <a href="https://docs.gradle.org/current/userguide/best_practices_structuring_builds.html#avoid_empty_projects">Gradle Best Practices</a>
+   * @see projectNameTransform
+   */
+  public abstract val flattenMiddleProjects: Property<Boolean>
 
   /**
    * Register a collection of 1-level-deep projects

@@ -15,7 +15,7 @@ The objective of this initiative is to optimize build performance, eliminate red
 ### Scope
 - **In Scope:**
   - `build-logic/project-extensions`: Refactor extensions to remove `gradleKotlinDsl()` imports and replace `rootProject` accesses with isolation-safe APIs.
-  - `build-logic/project-plugins`: Implement `ProjectPublishingPlugin.kt` and `DokkaConfigPlugin.kt`, delete `.gradle.kts` script plugins, and remove `gradleKotlinDsl()` dependency.
+  - `build-logic/project-plugins`: Implement `ProjectPublishingPlugin.kt` and `DokkaConfigPluginNew.kt`, delete `.gradle.kts` script plugins, and remove `gradleKotlinDsl()` dependency.
   - `plugin/build.gradle.kts`: Clean up legacy configurations (such as empty `afterEvaluate`), optimize task wirings, and ensure isolated project compliance.
   - `gradle/libs.versions.toml`: Add missing version entries (e.g., `kotlin-test`) and ensure all hardcoded versions are migrated to the catalog.
   - `gradle.properties`: Add missing performance and security properties (`org.gradle.jvmargs` with UTF-8 encoding, wrapper checksum).
@@ -119,7 +119,7 @@ The following violations were identified during investigation of the project fil
 ### Current Implementation
 - `build-logic` consists of two subprojects: `:project-extensions` and `:project-plugins`.
 - `build-logic/project-extensions` depends on `gradleKotlinDsl()`, using `embeddedKotlinVersion` and `org.gradle.kotlin.dsl.getByType`.
-- `build-logic/project-plugins` contains script plugins `publishing.gradle.kts` and `dokka/dokka-config.gradle.kts` alongside stub class files `ProjectPublishingPlugin.kt` and `DokkaConfigPlugin.kt`.
+- `build-logic/project-plugins` contains script plugins `publishing.gradle.kts` and `dokka/dokka-config.gradle.kts` alongside stub class files `ProjectPublishingPlugin.kt` and `DokkaConfigPluginNew.kt`.
 - `dokka-config.gradle.kts` and `project-extensions` access `rootProject.layout` and `rootProject.version`, which breaks Project Isolation.
 - In `plugin/build.gradle.kts`, plugins are applied via catalog aliases, but an empty `afterEvaluate {}` exists and some task wirings use eager evaluation.
 - `gradle/libs.versions.toml` does not include entries for `kotlin-test` framework version used in `plugin/build.gradle.kts`.
@@ -170,7 +170,7 @@ graph TD
      - Apply necessary plugins via `target.pluginManager.apply(...)`.
      - Configure `GradlePluginDevelopmentExtension` and `PublishingExtension`.
      - Use lazy `providers.environmentVariable()` for credentials without `.get()`.
-   - Implement `DokkaConfigPlugin.kt`:
+   - Implement `DokkaConfigPluginNew.kt`:
      - Apply Kotlin JVM and Dokka plugins via `target.pluginManager.apply(...)`.
      - Configure `DokkaExtension` and register all Dokka capture/jar tasks via `target.tasks.register(...)`.
    - Delete `publishing.gradle.kts` and `dokka/dokka-config.gradle.kts`.
@@ -243,7 +243,7 @@ jobs:
 - The lazy provider approach ensures the build doesn't fail during configuration if variables are absent.
 
 ### Risks & Mitigations
-- **Dokka Extension API Differences in Pure Kotlin**: Dokka v2 exposes specific container and configuration types. *Mitigation*: Use strongly-typed imports from `org.jetbrains.dokka.gradle` directly in `DokkaConfigPlugin.kt`.
+- **Dokka Extension API Differences in Pure Kotlin**: Dokka v2 exposes specific container and configuration types. *Mitigation*: Use strongly-typed imports from `org.jetbrains.dokka.gradle` directly in `DokkaConfigPluginNew.kt`.
 - **Project Isolation Compatibility Gaps**: Certain plugins or tasks may attempt to resolve models eagerly. *Mitigation*: Test with `-Dorg.gradle.unsafe.isolated-projects=true` and verify report outputs.
 - **Settings File Version Catalog Limitations**: `pluginManagement { plugins { } }` in settings cannot access the version catalog directly. *Mitigation*: Hardcoded versions in `pluginManagement` are acceptable per Gradle documentation; focus catalogization on `build-logic/settings.gradle.kts` where the catalog is imported via `dependencyResolutionManagement`.
 
@@ -306,7 +306,7 @@ Publishing logic is encapsulated within a compiled Kotlin Gradle plugin class, e
 ###   Step 3: Migrate dokka-config.gradle.kts to DokkaConfigPlugin
 Dokka configuration is encapsulated within a compiled Kotlin Gradle plugin class, eliminating the `dokka-config.gradle.kts` script plugin.
 
-- Implement `DokkaConfigPlugin.kt`:
+- Implement `DokkaConfigPluginNew.kt`:
   - Apply `org.jetbrains.kotlin.jvm`, `org.jetbrains.dokka`, and `org.jetbrains.dokka-javadoc` plugins via `target.pluginManager`.
   - Configure `DokkaExtension` (source sets, documented visibilities, source links, HTML footer/homepage, versioning plugin parameters) using type-safe Gradle and Dokka APIs.
   - Replace all `rootProject` references with `project.layout.settingsDirectory` or project-local paths.
