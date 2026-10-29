@@ -3,7 +3,7 @@
   gradle = "9.8.2"
 
 [env]
-  PROJECT_VERSION = "5.1.0"
+  PROJECT_VERSION = "5.1.1"
   JAVA_VERSION = "27"
   JAVA_HOME = "/Users/fnc314/.local/share/mise/installs/java/27.0.1+0"
   AGENTS_PROJECT_DIR = "./.agents"
