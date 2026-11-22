@@ -1,7 +1,7 @@
 [tools]
-  gradle = "9.8.2"
+  gradle = "latest"
   java = "27.0.1+0"
-  kotlin = "2.4.21"
+  kotlin = "latest"
 
 [env]
   JAVA_VERSION = "27"

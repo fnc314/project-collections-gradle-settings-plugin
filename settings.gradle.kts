@@ -5,6 +5,8 @@
  * For more detailed information on multi-project builds, please refer to https://docs.gradle.org/8.14.3/userguide/multi_project_builds.html in the Gradle documentation.
  * This project uses @Incubating APIs which are subject to change.
  */
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
 pluginManagement {
   includeBuild("build-logic")
 

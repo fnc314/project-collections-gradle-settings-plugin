@@ -14,6 +14,19 @@ plugins {
   signing
 }
 
+signing {
+  val signingKey = providers.environmentVariable("SIGNING_KEY")
+    .orElse(providers.gradleProperty("signingKey"))
+  val signingPassword = providers.environmentVariable("SIGNING_PASSWORD")
+    .orElse(providers.gradleProperty("signingPassword"))
+
+  if (signingKey.isPresent) {
+    useInMemoryPgpKeys(signingKey.get(), signingPassword.orNull)
+  }
+
+  isRequired = signingKey.isPresent
+}
+
 gradlePlugin {
   website = "https://www.fnc314.dev/${project.name}"
   vcsUrl = "https://github.com/fnc314/${project.name}"
@@ -40,8 +53,13 @@ publishing {
       name = "GitHubPackages"
       url = uri("https://maven.pkg.github.com/fnc314/${project.name}")
       credentials {
-        username = providers.environmentVariable("GITHUB_ACTOR").get()
-        password = providers.environmentVariable("GITHUB_TOKEN").get()
+        val actor = providers.environmentVariable("GITHUB_ACTOR")
+          .orElse(providers.environmentVariable("USER"))
+          .orElse("fnc314")
+        val token = providers.environmentVariable("GITHUB_TOKEN").orElse("")
+
+        username = actor.get()
+        password = token.get()
       }
     }
   }

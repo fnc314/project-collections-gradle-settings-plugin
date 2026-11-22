@@ -8,6 +8,7 @@ import org.gradle.api.publish.PublishingExtension
 import org.gradle.kotlin.dsl.configure
 import org.gradle.plugin.compatibility.compatibility
 import org.gradle.plugin.devel.GradlePluginDevelopmentExtension
+import org.gradle.plugins.signing.SigningExtension
 import java.net.URI
 import javax.inject.Inject
 
@@ -17,6 +18,19 @@ abstract class ProjectPublishingPlugin @Inject constructor() : Plugin<Project> {
     target.pluginManager.apply("java-gradle-plugin")
     target.pluginManager.apply("maven-publish")
     target.pluginManager.apply("signing")
+
+    target.configure<SigningExtension> {
+      val signingKey = target.providers.environmentVariable("SIGNING_KEY")
+        .orElse(target.providers.gradleProperty("signingKey"))
+      val signingPassword = target.providers.environmentVariable("SIGNING_PASSWORD")
+        .orElse(target.providers.gradleProperty("signingPassword"))
+
+      if (signingKey.isPresent) {
+        useInMemoryPgpKeys(signingKey.get(), signingPassword.orNull)
+      }
+
+      isRequired = signingKey.isPresent
+    }
 
     target.configure<GradlePluginDevelopmentExtension> {
       website.set("https://www.fnc314.dev/${target.name}")
@@ -43,8 +57,13 @@ abstract class ProjectPublishingPlugin @Inject constructor() : Plugin<Project> {
           name = "GitHubPackages"
           url = URI.create("https://maven.pkg.github.com/fnc314/${target.name}")
           credentials {
-            username = target.providers.environmentVariable("GITHUB_ACTOR").get()
-            password = target.providers.environmentVariable("GITHUB_TOKEN").get()
+            val actor = target.providers.environmentVariable("GITHUB_ACTOR")
+              .orElse(target.providers.environmentVariable("USER"))
+              .orElse("fnc314")
+            val token = target.providers.environmentVariable("GITHUB_TOKEN").orElse("")
+
+            username = actor.get()
+            password = token.get()
           }
         }
       }

@@ -27,7 +27,7 @@ internal abstract class ProjectCollectionsGradleSettingsExtensionImpl @Inject co
     .convention(true)
 
   override val projectNameTransform: Property<ProjectNameMapper> = objectFactory.property<ProjectNameMapper>()
-    .convention { projectPath: String, flatten: Boolean ->
+    .convention { collection: String, projectPath: String, flatten: Boolean ->
       if (flatten) {
         ":${projectPath.removePrefix(":").replace(":", "-")}"
       } else {

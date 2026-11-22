@@ -6,15 +6,19 @@
  * @param repoName A [String] refering to the particular `GitHub` repository
  */
 private fun RepositoryHandler.addGithubPackageUrl(repoName: String) {
-  maven {
-    url = uri("https://maven.pkg.github.com/${System.getenv("GITHUB_ACTOR")}/$repoName")
-    credentials {
-      username = System.getenv("GITHUB_ACTOR")
-      password = System.getenv("GITHUB_TOKEN")
-    }
-    mavenContent {
-      includeGroupAndSubgroups("com.${System.getenv("GITHUB_ACTOR")}")
-      includeGroupAndSubgroups("dev.${System.getenv("GITHUB_ACTOR")}")
+  val actor = System.getenv("GITHUB_ACTOR") ?: System.getenv("USER") ?: "fnc314"
+  val token = System.getenv("GITHUB_TOKEN") ?: ""
+  if (token.isNotEmpty()) {
+    maven {
+      url = uri("https://maven.pkg.github.com/$actor/$repoName")
+      credentials {
+        username = actor
+        password = token
+      }
+      mavenContent {
+        includeGroupAndSubgroups("com.$actor")
+        includeGroupAndSubgroups("dev.$actor")
+      }
     }
   }
 }
@@ -24,10 +28,11 @@ private fun RepositoryHandler.addGithubPackageUrl(repoName: String) {
  * @receiver A [RepositoryHandler] instance
  */
 private fun RepositoryHandler.addMavenLocal() {
+  val actor = System.getenv("GITHUB_ACTOR") ?: System.getenv("USER") ?: "fnc314"
   mavenLocal {
     mavenContent {
-      includeGroupAndSubgroups("com.${System.getenv("GITHUB_ACTOR")}")
-      includeGroupAndSubgroups("dev.${System.getenv("GITHUB_ACTOR")}")
+      includeGroupAndSubgroups("com.$actor")
+      includeGroupAndSubgroups("dev.$actor")
     }
   }
 }

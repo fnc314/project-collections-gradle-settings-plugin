@@ -67,12 +67,14 @@ public abstract class ProjectCollectionsGradleSettingsPlugin : Plugin<Settings> 
    * Converts the [List] of [File]s to a [List] of [ProjectCollectionsRecord]s
    *   to streamline custom [Settings.include] calls
    * @receiver A [List] of [File]s
+   * @param collection The collection name/top-level directory
    * @param settingsDir The [File] of this [Settings] object
    * @param flatten The [Boolean] indicating whether intermediary [org.gradle.api.Project]s
    *   should be created as determined by [nameMapper]
    * @param nameMapper The [ProjectCollectionsGradleSettingsExtension.projectNameTransform]
    */
   private fun List<File>.toProjectCollectionsRecords(
+    collection: String,
     settingsDir: File,
     flatten: Boolean,
     nameMapper: ProjectNameMapper,
@@ -83,7 +85,7 @@ public abstract class ProjectCollectionsGradleSettingsPlugin : Plugin<Settings> 
     ProjectCollectionsRecord(
       projectFile = it,
       projectPath = projectPath,
-      projectName = ":${nameMapper(projectPath, flatten).removePrefix(":")}"
+      projectName = ":${nameMapper(collection, projectPath, flatten).removePrefix(":")}"
     )
   }
 
@@ -112,6 +114,7 @@ public abstract class ProjectCollectionsGradleSettingsPlugin : Plugin<Settings> 
                     fileSpec = extension.fileSpec.get()
                   )
                   .toProjectCollectionsRecords(
+                    collection = dir,
                     settingsDir = settings.settingsDir,
                     flatten = extension.flattenMiddleProjects.get(),
                     nameMapper = extension.projectNameTransform.get(),

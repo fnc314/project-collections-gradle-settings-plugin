@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: Check & Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Setup mise
+        uses: jdx/mise-action@v5
+
+      - name: Setup init script
+        run: |
+          mkdir -p ~/.gradle/init.d
+          cp gradle/init.d/root.init.gradle.kts ~/.gradle/init.d/
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v6
+        with:
+          gradle-version: wrapper
+          add-job-summary-as-pr-comment: always
+
+      - name: Run Check and Tests
+        run: ./gradlew check
