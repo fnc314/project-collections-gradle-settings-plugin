@@ -40,8 +40,13 @@ publishing {
       name = "GitHubPackages"
       url = uri("https://maven.pkg.github.com/fnc314/${project.name}")
       credentials {
-        username = providers.environmentVariable("GITHUB_ACTOR").get()
-        password = providers.environmentVariable("GITHUB_TOKEN").get()
+        val actor = providers.environmentVariable("GITHUB_ACTOR")
+          .orElse(providers.environmentVariable("USER"))
+          .orElse("fnc314")
+        val token = providers.environmentVariable("GITHUB_TOKEN").orElse("")
+
+        username = actor.get()
+        password = token.get()
       }
     }
   }

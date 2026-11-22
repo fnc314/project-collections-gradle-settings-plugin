@@ -62,13 +62,14 @@ fun MavenPublication.defaultConfigs(project: Project, publicationName: String) {
       developer {
         id.set("fnc314")
         name.set("Franco N. Colaizzi")
-        email.set("fnc314@fnc314.com")
+        email.set("fnc314@gmail.com")
+        url.set("https://www.fnc314.dev")
       }
     }
     contributors {
       contributor {
         name.set("Franco N. Colaizzi")
-        email.set("fnc314@fnc314.com")
+        email.set("fnc314@gmail.com")
         url.set("https://www.fnc314.dev")
       }
     }

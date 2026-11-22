@@ -11,23 +11,25 @@ package dev.fnc314.gradle.plugins.settings.projectcollectionsgradlesettingsplugi
 public fun interface ProjectNameMapper {
   /**
    * Handles the mapping of a Gradle project path of the form
-   *   `:some:project:path` including the `Boolean` indicating
-   *   whether middle projects should be flattened or preserved
-   *   (i.e. should `:some` and `:project` be created in creation
-   *   `:path`)
+   *   `:some:project:path` including the collection directory name
+   *   and the `Boolean` indicating whether middle projects should
+   *   be flattened or preserved (i.e. should `:some` and `:project`
+   *   be created in creating `:path`)
    *
    * ```kotlin
-   * projectMapper = { projectPath: String, flatten: Boolean ->
-   *   // do something with `projectPath` and `flatten`
+   * projectMapper = { collection: String, projectPath: String, flatten: Boolean ->
+   *   // do something with `collection`, `projectPath`, and `flatten`
    *   return projectPath
    * }
    * ```
    *
+   * @param collection the collection name/top-level directory
    * @param projectPath the project path
    * @param flatten
    * @return the string
    */
   public operator fun invoke(
+    collection: String,
     projectPath: String,
     flatten: Boolean
   ): String

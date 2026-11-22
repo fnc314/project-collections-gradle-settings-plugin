@@ -43,8 +43,13 @@ abstract class ProjectPublishingPlugin @Inject constructor() : Plugin<Project> {
           name = "GitHubPackages"
           url = URI.create("https://maven.pkg.github.com/fnc314/${target.name}")
           credentials {
-            username = target.providers.environmentVariable("GITHUB_ACTOR").get()
-            password = target.providers.environmentVariable("GITHUB_TOKEN").get()
+            val actor = target.providers.environmentVariable("GITHUB_ACTOR")
+              .orElse(target.providers.environmentVariable("USER"))
+              .orElse("fnc314")
+            val token = target.providers.environmentVariable("GITHUB_TOKEN").orElse("")
+
+            username = actor.get()
+            password = token.get()
           }
         }
       }
