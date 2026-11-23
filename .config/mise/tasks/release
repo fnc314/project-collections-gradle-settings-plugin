@@ -1,12 +1,8 @@
 #!/usr/bin/env bash
-#MISE description="Tags current project version and pushes to origin to trigger GitHub Actions release"
+#MISE description="Updates version, amends head commit, tags, and pushes to origin to trigger release"
+#USAGE arg "[version]" help="Optional new version to bump to (e.g. 5.2.2)"
 
 set -euo pipefail
-
-if [[ -n "$(git status -s)" ]]; then
-  echo "Error: git working directory has uncommitted changes"
-  exit 1
-fi
 
 BRANCH="$(git branch --show-current)"
 if [[ "$BRANCH" != "main" ]]; then
@@ -14,19 +10,54 @@ if [[ "$BRANCH" != "main" ]]; then
   exit 1
 fi
 
-PROJ_VERSION="$(gradle properties -q | grep "^version:" | awk '{print $2}')"
+TARGET_VERSION="${usage_version:-}"
+if [[ -z "$TARGET_VERSION" && $# -gt 0 ]]; then
+  TARGET_VERSION="$1"
+fi
+
+if [[ -n "$TARGET_VERSION" ]]; then
+  echo "Updating project files to version: $TARGET_VERSION"
+
+  # Update gradle/libs.versions.toml
+  sed -i '' -E "s/^[[:space:]]*project[[:space:]]*=[[:space:]]*\".*\"/  project = \"$TARGET_VERSION\"/" gradle/libs.versions.toml
+
+  # Update gradle.properties
+  sed -i '' -E "s/^version[[:space:]]*=[[:space:]]*.*/version = $TARGET_VERSION/" gradle.properties
+
+  # Update build-logic/gradle.properties
+  sed -i '' -E "s/^version[[:space:]]*=[[:space:]]*.*/version = $TARGET_VERSION/" build-logic/gradle.properties
+
+  # Update mise.toml
+  sed -i '' -E "s/^[[:space:]]*PROJECT_VERSION[[:space:]]*=[[:space:]]*\".*\"/  PROJECT_VERSION = \"$TARGET_VERSION\"/" mise.toml
+
+  # Stage and amend the head commit
+  git add gradle/libs.versions.toml gradle.properties build-logic/gradle.properties mise.toml
+  git commit --amend -m "$TARGET_VERSION"
+  echo "Amended HEAD commit with version $TARGET_VERSION."
+
+  # Push amended commit to main
+  echo "Pushing amended commit to origin main..."
+  git push --force-with-lease origin main
+else
+  if [[ -n "$(git status -s)" ]]; then
+    echo "Error: git working directory has uncommitted changes"
+    exit 1
+  fi
+fi
+
+PROJ_VERSION="$(./gradlew properties -q | grep "^version:" | awk '{print $2}')"
 TAG="version/${PROJ_VERSION}"
 
 if git rev-parse "$TAG" >/dev/null 2>&1; then
-  echo "Error: tag $TAG already exists"
-  exit 1
+  echo "Tag $TAG already exists locally. Removing to recreate..."
+  git tag -d "$TAG"
 fi
 
 echo "Creating tag $TAG..."
 git tag -a "$TAG" -m "Release $TAG"
 
-echo "Pushing tag $TAG to origin (triggers GitHub Actions release workflow)..."
-git push origin "$TAG"
+echo "Pushing tag $TAG to origin (force to update if exists)..."
+git push -f origin "$TAG"
 
-echo "Done! GitHub Actions release workflow triggered."
+echo "Done! GitHub Actions release workflow triggered for $TAG."
 echo "Monitor workflow at: https://github.com/fnc314/project-collections-gradle-settings-plugin/actions"

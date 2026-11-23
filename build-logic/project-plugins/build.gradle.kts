@@ -27,23 +27,6 @@ java {
   withSourcesJar()
 }
 
-//gradlePlugin {
-//  plugins {
-//    create("dokka-config") {
-//      id = libs.plugins.dokka.config.get().pluginId
-//      implementationClass = "dev.fnc314.gradle.settings.plugin.projectcollectionsgradlesettingsplugin.projectplugins.dokka.DokkaConfigPluginNew"
-//      description = "Configures Dokka"
-//      displayName = "Dokka Config Plugin"
-//    }
-//    create("project-publishing") {
-//      id = libs.plugins.publishing.get().pluginId
-//      implementationClass = "dev.fnc314.gradle.settings.plugin.projectcollectionsgradlesettingsplugin.projectplugins.ProjectPublishingPlugin"
-//      description = "Configures Publishing"
-//      displayName = "Publishing Config Plugin"
-//    }
-//  }
-//}
-
 dependencies {
   implementation(gradleApi())
   implementation(gradleKotlinDsl())
