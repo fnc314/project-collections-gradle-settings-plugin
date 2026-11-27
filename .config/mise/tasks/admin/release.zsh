@@ -127,8 +127,8 @@ done
 for HTML_FILE in "$DOCS_INDEX" "$INDEX_FILE"; do
   if [[ -f "$HTML_FILE" ]]; then
     sed -i '' -E "s/(project-collections-gradle-settings-plugin &bull; v)[0-9]+\.[0-9]+\.[0-9]+/\1$VERSION/" "$HTML_FILE"
-    sed -i '' -E "s/(version \")[0-9]+\.[0-9]+\.[0-9]+(\"/\1$VERSION\2/" "$HTML_FILE"
-    sed -i '' -E "s/(version = \")[0-9]+\.[0-9]+\.[0-9]+(\"/\1$VERSION\2/" "$HTML_FILE"
+    sed -i '' -E "s/(version \")[0-9]+\.[0-9]+\.[0-9]+(\")/\1$VERSION\2/" "$HTML_FILE"
+    sed -i '' -E "s/(version = \")[0-9]+\.[0-9]+\.[0-9]+(\")/\1$VERSION\2/" "$HTML_FILE"
   fi
 done
 
