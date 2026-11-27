@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light dark" />
   <title>Project Collections Gradle Settings Plugin</title>
   <meta name="description" content="A Gradle Settings plugin to streamline calls to Settings.include based on nested collections of sub-projects." />
 
@@ -11,70 +12,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+  <link rel="stylesheet" href="theme.css" />
 
   <style>
-    :root {
-      /* Material 3 Light Theme: Primary #2f5597 */
-      --md-sys-color-primary: #2f5597;
-      --md-sys-color-on-primary: #ffffff;
-      --md-sys-color-primary-container: #d9e2ff;
-      --md-sys-color-on-primary-container: #001945;
-      --md-sys-color-secondary: #575e71;
-      --md-sys-color-on-secondary: #ffffff;
-      --md-sys-color-secondary-container: #dbe2f9;
-      --md-sys-color-on-secondary-container: #141b2c;
-      --md-sys-color-tertiary: #715573;
-      --md-sys-color-on-tertiary: #ffffff;
-      --md-sys-color-tertiary-container: #fcd7fb;
-      --md-sys-color-on-tertiary-container: #29132d;
-      --md-sys-color-background: #fbf8fd;
-      --md-sys-color-on-background: #1b1b1f;
-      --md-sys-color-surface: #ffffff;
-      --md-sys-color-on-surface: #1b1b1f;
-      --md-sys-color-surface-variant: #e1e2ec;
-      --md-sys-color-on-surface-variant: #44474f;
-      --md-sys-color-outline: #757780;
-      --md-sys-color-outline-variant: #c5c6d0;
-      --md-sys-color-surface-container: #f0edf2;
-      --md-sys-color-surface-container-high: #eae7ec;
-
-      --md-sys-font-heading: 'Inconsolata', monospace;
-      --md-sys-font-body: 'Roboto', system-ui, sans-serif;
-      --md-sys-font-code: 'Inconsolata', monospace;
-
-      --elevation-1: 0 1px 3px 1px rgba(0, 0, 0, 0.15), 0 1px 2px 0 rgba(0, 0, 0, 0.30);
-      --elevation-2: 0 2px 6px 2px rgba(0, 0, 0, 0.15), 0 1px 2px 0 rgba(0, 0, 0, 0.30);
-      --elevation-3: 0 4px 8px 3px rgba(0, 0, 0, 0.15), 0 1px 3px 0 rgba(0, 0, 0, 0.30);
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
-
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --md-sys-color-primary: #afc6ff;
-        --md-sys-color-on-primary: #002d6d;
-        --md-sys-color-primary-container: #104082;
-        --md-sys-color-on-primary-container: #d9e2ff;
-        --md-sys-color-secondary: #bfc6dc;
-        --md-sys-color-on-secondary: #293041;
-        --md-sys-color-secondary-container: #404659;
-        --md-sys-color-on-secondary-container: #dbe2f9;
-        --md-sys-color-background: #121316;
-        --md-sys-color-on-background: #e3e2e6;
-        --md-sys-color-surface: #1a1b1f;
-        --md-sys-color-on-surface: #e3e2e6;
-        --md-sys-color-surface-variant: #44474f;
-        --md-sys-color-on-surface-variant: #c5c6d0;
-        --md-sys-color-outline: #8f9099;
-        --md-sys-color-outline-variant: #44474f;
-        --md-sys-color-surface-container: #1e1f23;
-        --md-sys-color-surface-container-high: #292a2d;
-
-        --elevation-1: 0 1px 3px 1px rgba(0, 0, 0, 0.4), 0 1px 2px 0 rgba(0, 0, 0, 0.5);
-        --elevation-2: 0 2px 6px 2px rgba(0, 0, 0, 0.4), 0 1px 2px 0 rgba(0, 0, 0, 0.5);
-        --elevation-3: 0 4px 8px 3px rgba(0, 0, 0, 0.4), 0 1px 3px 0 rgba(0, 0, 0, 0.5);
-      }
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: var(--md-sys-font-body);
@@ -84,12 +29,39 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      -webkit-font-smoothing: antialiased;
     }
 
+    /* Skip Link for WCAG Keyboard Accessibility */
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 1rem;
+      background: var(--md-sys-color-primary);
+      color: var(--md-sys-color-on-primary);
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      font-weight: 600;
+      z-index: 1000;
+      text-decoration: none;
+      transition: top 0.2s ease;
+    }
+
+    .skip-link:focus {
+      top: 1rem;
+      outline: var(--focus-ring);
+    }
+
+    :focus-visible {
+      outline: var(--focus-ring);
+      outline-offset: 3px;
+    }
+
+    /* Header / App Bar */
     header.app-bar {
       background-color: var(--md-sys-color-surface);
       border-bottom: 1px solid var(--md-sys-color-outline-variant);
-      padding: 0.85rem 2rem;
+      padding: 0.85rem 1.75rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -108,6 +80,7 @@
       font-family: var(--md-sys-font-heading);
       font-size: 1.25rem;
       font-weight: 700;
+      letter-spacing: -0.3px;
     }
 
     .brand .material-symbols-outlined {
@@ -116,7 +89,7 @@
 
     nav.nav-links {
       display: flex;
-      gap: 1rem;
+      gap: 0.75rem;
       align-items: center;
     }
 
@@ -125,7 +98,7 @@
       text-decoration: none;
       font-weight: 500;
       font-size: 0.95rem;
-      padding: 0.4rem 0.8rem;
+      padding: 0.45rem 0.8rem;
       border-radius: 8px;
       transition: all 0.2s ease;
     }
@@ -133,6 +106,41 @@
     nav.nav-links a:hover {
       background-color: var(--md-sys-color-surface-container);
       color: var(--md-sys-color-primary);
+    }
+
+    .theme-toggle-group {
+      display: inline-flex;
+      background-color: var(--md-sys-color-surface-container);
+      border: 1px solid var(--md-sys-color-outline-variant);
+      border-radius: 9999px;
+      padding: 2px;
+      margin-left: 0.5rem;
+    }
+
+    .theme-btn {
+      background: transparent;
+      border: none;
+      color: var(--md-sys-color-on-surface-variant);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px;
+      border-radius: 9999px;
+      transition: all 0.2s ease;
+    }
+
+    .theme-btn .material-symbols-outlined {
+      font-size: 1.15rem;
+    }
+
+    .theme-btn:hover {
+      color: var(--md-sys-color-primary);
+    }
+
+    .theme-btn[aria-pressed="true"] {
+      background-color: var(--md-sys-color-primary);
+      color: var(--md-sys-color-on-primary);
     }
 
     .btn-portal {
@@ -148,18 +156,20 @@
       color: var(--md-sys-color-on-primary-container) !important;
     }
 
+    /* Main Container */
     main.container {
-      max-width: 1100px;
+      max-width: 1120px;
       margin: 2.5rem auto;
       padding: 0 1.5rem;
       flex: 1;
       width: 100%;
     }
 
+    /* Hero Section */
     .hero-card {
       background: linear-gradient(135deg, var(--md-sys-color-surface) 0%, var(--md-sys-color-surface-container) 100%);
       border-radius: 20px;
-      padding: 2.5rem 2rem;
+      padding: 3rem 2rem;
       box-shadow: var(--elevation-2);
       border: 1px solid var(--md-sys-color-outline-variant);
       margin-bottom: 2.5rem;
@@ -171,16 +181,16 @@
       background-color: var(--md-sys-color-primary-container);
       color: var(--md-sys-color-on-primary-container);
       font-family: var(--md-sys-font-heading);
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       font-weight: 600;
-      padding: 0.35rem 0.9rem;
+      padding: 0.4rem 1rem;
       border-radius: 9999px;
       margin-bottom: 1.25rem;
     }
 
     .hero-card h1 {
       font-family: var(--md-sys-font-heading);
-      font-size: 2.4rem;
+      font-size: 2.5rem;
       font-weight: 700;
       color: var(--md-sys-color-on-surface);
       margin-bottom: 1rem;
@@ -188,7 +198,7 @@
     }
 
     .hero-card p.subtitle {
-      font-size: 1.15rem;
+      font-size: 1.2rem;
       color: var(--md-sys-color-on-surface-variant);
       max-width: 760px;
       margin: 0 auto 1.75rem auto;
@@ -211,12 +221,14 @@
       gap: 0.5rem;
       font-size: 0.95rem;
       transition: all 0.2s ease;
+      cursor: pointer;
     }
 
     .btn-primary {
       background-color: var(--md-sys-color-primary);
       color: var(--md-sys-color-on-primary);
       box-shadow: var(--elevation-1);
+      border: none;
     }
 
     .btn-primary:hover {
@@ -234,9 +246,10 @@
       background-color: var(--md-sys-color-surface-container);
     }
 
+    /* Grid Section */
     .feature-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
       gap: 1.5rem;
       margin-bottom: 3rem;
     }
@@ -279,6 +292,7 @@
       font-size: 0.95rem;
     }
 
+    /* Code & Architecture Sections */
     .code-section {
       background-color: var(--md-sys-color-surface);
       border-radius: 16px;
@@ -295,11 +309,17 @@
       display: flex;
       align-items: center;
       gap: 0.5rem;
+      color: var(--md-sys-color-on-surface);
+    }
+
+    .code-section p {
+      color: var(--md-sys-color-on-surface-variant);
+      margin-bottom: 0.75rem;
     }
 
     pre {
-      background-color: var(--md-sys-color-surface-container);
-      color: var(--md-sys-color-on-surface);
+      background-color: var(--code-bg);
+      color: var(--code-text);
       font-family: var(--md-sys-font-code);
       padding: 1.25rem;
       border-radius: 12px;
@@ -307,12 +327,14 @@
       font-size: 0.95rem;
       border: 1px solid var(--md-sys-color-outline-variant);
       margin: 1rem 0 1.5rem 0;
+      line-height: 1.5;
     }
 
     code {
       font-family: var(--md-sys-font-code);
     }
 
+    /* Footer */
     footer {
       background-color: var(--md-sys-color-surface);
       border-top: 1px solid var(--md-sys-color-outline-variant);
@@ -326,53 +348,88 @@
     footer a {
       color: var(--md-sys-color-primary);
       text-decoration: none;
+      font-weight: 500;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      header.app-bar {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+      }
+
+      nav.nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
     }
   </style>
 </head>
 
 <body>
-  <header class="app-bar">
-    <a href="#" class="brand">
-      <span class="material-symbols-outlined">account_tree</span>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header class="app-bar" role="banner">
+    <a href="#" class="brand" aria-label="Project Collections Gradle Settings Plugin Home">
+      <span class="material-symbols-outlined" aria-hidden="true">account_tree</span>
       project-collections
     </a>
-    <nav class="nav-links">
+
+    <nav class="nav-links" aria-label="Main Navigation">
       <a href="#about">About</a>
       <a href="#setup">Setup</a>
       <a href="#usage">Usage</a>
       <a href="./dokka/index.html">Dokka API</a>
       <a href="./javadoc/index.html">Javadoc</a>
-      <a href="https://github.com/fnc314/project-collections-gradle-settings-plugin" target="_blank">GitHub</a>
-      <a href="https://plugins.gradle.org/plugin/dev.fnc314.gradle.plugins.settings.project-collections-gradle-settings-plugin" target="_blank" class="btn-portal">
-        <span class="material-symbols-outlined" style="font-size: 1.1rem;">bolt</span>
+      <a href="https://github.com/fnc314/project-collections-gradle-settings-plugin" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="https://plugins.gradle.org/plugin/dev.fnc314.gradle.plugins.settings.project-collections-gradle-settings-plugin" target="_blank" rel="noopener noreferrer" class="btn-portal">
+        <span class="material-symbols-outlined" style="font-size: 1.1rem;" aria-hidden="true">bolt</span>
         Plugin Portal
       </a>
+
+      <div class="theme-toggle-group" role="group" aria-label="Theme mode switcher">
+        <button type="button" class="theme-btn" data-theme-val="light" aria-label="Light mode" aria-pressed="false">
+          <span class="material-symbols-outlined" aria-hidden="true">light_mode</span>
+        </button>
+        <button type="button" class="theme-btn" data-theme-val="system" aria-label="System mode" aria-pressed="true">
+          <span class="material-symbols-outlined" aria-hidden="true">desktop_windows</span>
+        </button>
+        <button type="button" class="theme-btn" data-theme-val="dark" aria-label="Dark mode" aria-pressed="false">
+          <span class="material-symbols-outlined" aria-hidden="true">dark_mode</span>
+        </button>
+      </div>
     </nav>
   </header>
 
-  <main class="container">
+  <main class="container" id="main-content">
     <section class="hero-card">
       <div class="hero-badge">project-collections-gradle-settings-plugin &bull; v5.3.0</div>
       <h1>Nested Project Collections</h1>
       <p class="subtitle">
-        An <code>org.gradle.api.initialization.Settings</code> plugin to streamline calls to <code>include(...)</code>
-        based on nested collections of subprojects.
+        A Gradle <code>Settings</code> convention plugin streamlining calls to <code>Settings.include(...)</code>
+        based on nested collections of subprojects with automatic container flattening.
       </p>
       <div class="hero-actions">
         <a href="#setup" class="btn btn-primary">
-          <span class="material-symbols-outlined">download</span>
+          <span class="material-symbols-outlined" aria-hidden="true">download</span>
           Get Started
         </a>
         <a href="./dokka/index.html" class="btn btn-secondary">
-          <span class="material-symbols-outlined">menu_book</span>
+          <span class="material-symbols-outlined" aria-hidden="true">menu_book</span>
           API Documentation
         </a>
       </div>
     </section>
 
-    <section class="feature-grid" id="about">
+    <section class="feature-grid" id="about" aria-labelledby="about-heading">
+      <h2 id="about-heading" class="visually-hidden" style="position: absolute; width: 1px; height: 1px; overflow: hidden;">Features</h2>
+
       <div class="card">
-        <div class="card-icon">
+        <div class="card-icon" aria-hidden="true">
           <span class="material-symbols-outlined">folder_open</span>
         </div>
         <h2>Recursive Collection</h2>
@@ -382,29 +439,59 @@
       </div>
 
       <div class="card">
-        <div class="card-icon">
-          <span class="material-symbols-outlined">filter_alt</span>
+        <div class="card-icon" aria-hidden="true">
+          <span class="material-symbols-outlined">layers_clear</span>
         </div>
-        <h2>Filtering &amp; Specs</h2>
+        <h2>Avoid Empty Projects</h2>
         <p>
-          Apply custom file specifications to selectively filter subproject directories based on build files, naming conventions, or custom predicates.
+          Adheres to Gradle best practices by flattening intermediate project paths (e.g. <code>:features:auth:login</code> to <code>:features-auth-login</code>), eliminating empty container projects.
         </p>
       </div>
 
       <div class="card">
-        <div class="card-icon">
+        <div class="card-icon" aria-hidden="true">
+          <span class="material-symbols-outlined">filter_alt</span>
+        </div>
+        <h2>Filtering &amp; Specs</h2>
+        <p>
+          Apply custom <code>fileSpec</code> predicates to selectively filter subproject directories based on file names, directory contents, or custom criteria.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="card-icon" aria-hidden="true">
           <span class="material-symbols-outlined">speed</span>
         </div>
-        <h2>Configuration Cache Friendly</h2>
+        <h2>Configuration Cache Safe</h2>
         <p>
-          Engineered and tested for full compatibility with Gradle Configuration Cache and Project Isolation features.
+          Fully integrated with Gradle 8.x/9.x Configuration Cache and Project Isolation models using lazily resolved properties.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="card-icon" aria-hidden="true">
+          <span class="material-symbols-outlined">verified</span>
+        </div>
+        <h2>Lowest JDK Baseline</h2>
+        <p>
+          Compiled targeting Java 17 bytecode (class version 61.0), guaranteeing broad compatibility with Gradle runners on JDK 17, 21, 25, or 26+.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="card-icon" aria-hidden="true">
+          <span class="material-symbols-outlined">swap_horiz</span>
+        </div>
+        <h2>Custom Transformations</h2>
+        <p>
+          Supply custom <code>ProjectNameMapper</code> lambdas to establish bespoke project naming rules across enterprise repositories.
         </p>
       </div>
     </section>
 
     <section class="code-section" id="setup">
       <h2>
-        <span class="material-symbols-outlined">terminal</span>
+        <span class="material-symbols-outlined" aria-hidden="true">terminal</span>
         Setup &amp; Application
       </h2>
       <p>Apply the plugin directly in your <code>settings.gradle.kts</code>:</p>
@@ -420,26 +507,70 @@ project-collections = { id = "dev.fnc314.gradle.plugins.settings.project-collect
 
     <section class="code-section" id="usage">
       <h2>
-        <span class="material-symbols-outlined">code</span>
+        <span class="material-symbols-outlined" aria-hidden="true">code</span>
         DSL Configuration
       </h2>
       <pre><code>// settings.gradle.kts
 projectCollections {
-    // Select top-level directories and declare the arbitrary depth
-    "sub-projects" toDepthOf 3
+    // Traverse 'components' and 'design-system' 1 level deep
+    listOf(
+        "components",
+        "design-system",
+    ).onEach { it toDepthOf 1 }
 
+    // Traverse 'features' 3 levels deep
+    "features" toDepthOf 3
+
+    // Optional fileSpec filtering
     fileSpec.set { file: File ->
-        // Provide explicit logical checks against a File object
-        // after having verified File.isDirectory() is true
-        file.name != "scratch"
+        !file.name.startsWith("_") && !file.name.startsWith(".")
     }
+
+    // Flattens intermediate container projects (default: true)
+    flattenMiddleProjects.set(true)
 }</code></pre>
     </section>
   </main>
 
-  <footer>
-    <p>&copy; 2026 Franco N. Colaizzi &bull; <a href="https://www.fnc314.dev/" target="_blank">fnc314.dev</a> &bull; Licensed under MIT</p>
+  <footer role="contentinfo">
+    <p>&copy; 2026 Franco N. Colaizzi &bull; <a href="https://www.fnc314.dev/" target="_blank" rel="noopener noreferrer">fnc314.dev</a> &bull; Licensed under MIT</p>
   </footer>
+
+  <script>
+    (function () {
+      const storageKey = 'theme-preference';
+      const root = document.documentElement;
+      const buttons = document.querySelectorAll('.theme-btn');
+
+      function getPreferredTheme() {
+        const stored = localStorage.getItem(storageKey);
+        return stored || 'system';
+      }
+
+      function setTheme(theme) {
+        if (theme === 'system') {
+          root.removeAttribute('data-theme');
+          localStorage.removeItem(storageKey);
+        } else {
+          root.setAttribute('data-theme', theme);
+          localStorage.setItem(storageKey, theme);
+        }
+
+        buttons.forEach(btn => {
+          const isSelected = btn.getAttribute('data-theme-val') === theme;
+          btn.setAttribute('aria-pressed', isSelected ? 'true' : 'false');
+        });
+      }
+
+      buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          setTheme(btn.getAttribute('data-theme-val'));
+        });
+      });
+
+      setTheme(getPreferredTheme());
+    })();
+  </script>
 </body>
 
 </html>

@@ -1,0 +1,63 @@
+:root {
+  color-scheme: light dark;
+
+  /* Material Design 3 Tone-Based Palette (Primary #2f5597, WCAG 2.0 AA+ Compliant) */
+  --md-sys-color-primary: light-dark(#2f5597, #afc6ff);
+  --md-sys-color-on-primary: light-dark(#ffffff, #002d6d);
+  --md-sys-color-primary-container: light-dark(#d9e2ff, #104082);
+  --md-sys-color-on-primary-container: light-dark(#001945, #d9e2ff);
+
+  --md-sys-color-secondary: light-dark(#464d60, #c4cbd9);
+  --md-sys-color-on-secondary: light-dark(#ffffff, #161c28);
+  --md-sys-color-secondary-container: light-dark(#dbe2f9, #3f4657);
+  --md-sys-color-on-secondary-container: light-dark(#141b2c, #dbe2f9);
+
+  --md-sys-color-tertiary: light-dark(#5c425e, #dfbfe0);
+  --md-sys-color-on-tertiary: light-dark(#ffffff, #2e1630);
+  --md-sys-color-tertiary-container: light-dark(#fcd7fb, #4b324d);
+  --md-sys-color-on-tertiary-container: light-dark(#29132d, #fcd7fb);
+
+  --md-sys-color-background: light-dark(#fbf8fd, #111318);
+  --md-sys-color-on-background: light-dark(#1b1b1f, #e2e2e6);
+
+  --md-sys-color-surface: light-dark(#ffffff, #191b22);
+  --md-sys-color-on-surface: light-dark(#1b1b1f, #e2e2e6);
+
+  --md-sys-color-surface-variant: light-dark(#e1e2ec, #434752);
+  --md-sys-color-on-surface-variant: light-dark(#434750, #c3c6d1);
+
+  --md-sys-color-outline: light-dark(#747781, #8d919c);
+  --md-sys-color-outline-variant: light-dark(#c4c6d0, #434752);
+
+  --md-sys-color-surface-container-low: light-dark(#f6f3f8, #15181f);
+  --md-sys-color-surface-container: light-dark(#f0edf2, #1d2028);
+  --md-sys-color-surface-container-high: light-dark(#eae7ec, #282a33);
+
+  --code-bg: light-dark(#f0edf3, #151820);
+  --code-text: light-dark(#1a1c22, #e6edf3);
+
+  /* Elevation Shadows */
+  --elevation-shadow-ambient: light-dark(rgba(0, 0, 0, 0.10), rgba(0, 0, 0, 0.35));
+  --elevation-shadow-key: light-dark(rgba(0, 0, 0, 0.16), rgba(0, 0, 0, 0.45));
+
+  --elevation-1: 0 1px 3px 0 var(--elevation-shadow-ambient), 0 1px 2px -1px var(--elevation-shadow-key);
+  --elevation-2: 0 4px 6px -1px var(--elevation-shadow-ambient), 0 2px 4px -2px var(--elevation-shadow-key);
+  --elevation-3: 0 10px 15px -3px var(--elevation-shadow-ambient), 0 4px 6px -4px var(--elevation-shadow-key);
+
+  /* Typography */
+  --md-sys-font-heading: 'Inconsolata', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --md-sys-font-body: 'Roboto', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --md-sys-font-code: 'Inconsolata', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  /* Focus Indicator for WCAG 2.0 AA+ */
+  --focus-ring: 3px solid var(--md-sys-color-primary);
+}
+
+/* User Explicit Preference Overrides */
+html[data-theme="light"] {
+  color-scheme: light;
+}
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+}

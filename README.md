@@ -1,106 +1,132 @@
-# Module project-collections-gradle-settings-plugin
-# Package com.fnc314.gradle.settings.plugin
+# Project Collections Gradle Settings Plugin
 
-A `org.gradle.api.initialization.Settings` `org.gradle.api.Plugin` to streamline calls to `org.gradle.api.initialization.Settings.include` based on nested collections of sub-projects
+A Gradle convention `Settings` plugin to streamline calls to `Settings.include` for arbitrarily nested multi-project architectures.
+
+[![CI](https://github.com/fnc314/project-collections-gradle-settings-plugin/actions/workflows/ci.yml/badge.svg)](https://github.com/fnc314/project-collections-gradle-settings-plugin/actions/workflows/ci.yml)
+[![Version](https://img.shields.io/badge/version-5.3.0-blue.svg)](https://github.com/fnc314/project-collections-gradle-settings-plugin/releases)
+[![Gradle Plugin Portal](https://img.shields.io/badge/plugin--portal-dev.fnc314.project--collections-brightgreen.svg)](https://plugins.gradle.org/plugin/dev.fnc314.gradle.plugins.settings.project-collections-gradle-settings-plugin)
+
+## Overview
+
+As enterprise Gradle multi-project repositories grow, managing hundreds of manual `include(...)` statements across nested directories (`features`, `components`, `design-system`, `services`) quickly degrades into verbose, error-prone boilerplate.
+
+The `project-collections-gradle-settings-plugin` automatically discovers and registers nested subprojects based on declarative depth traversal rules, while adhering strictly to **Gradle Best Practices** (such as avoiding empty intermediate container projects and remaining fully compatible with the Gradle Configuration Cache and Project Isolation).
+
+### Key Capabilities
+
+1. **Declarative Collection Inclusions**: Define top-level directory roots and specify traversal depth using concise Kotlin DSL:
+   ```kotlin
+   "features" toDepthOf 3
+   "components" toDepthOf 1
+   ```
+2. **Empty Middle Project Flattening**: By default, converts deep paths like `features/auth/login` to `:features-auth-login` instead of `:features:auth:login`, eliminating unnecessary intermediate empty `Project` instances as recommended by [Gradle Structuring Best Practices](https://docs.gradle.org/current/userguide/best_practices_structuring_builds.html#avoid_empty_projects).
+3. **Filtering & File Predicates (`fileSpec`)**: Filter directories dynamically with an optional `Spec<File>` predicate (e.g., skip `scratch` or hidden directories).
+4. **Custom Name Transformation**: Supply a custom `ProjectNameMapper` to implement domain-specific naming conventions across your monorepo.
+5. **Lowest JDK Compatibility Target**: Compiled targeting Java 17 bytecode, ensuring compatibility with any modern Gradle JVM running Java 17, 21, 25, or 26+.
+6. **Configuration Cache & Project Isolation Friendly**: Backed by configuration-cache-safe Gradle properties (`MapProperty<String, Int>`, `Property<Boolean>`).
+
+---
 
 ## Setup
 
-The plugin is published in the [Gradle Plugin Portal](https://plugins.gradle.org/plugin/com.fnc314.gradle.plugins.settings.project-collections-gradle-settings-plugin).
+Apply the plugin directly in your `settings.gradle.kts`:
 
-```gradle
+```kotlin
 // settings.gradle.kts
 plugins {
-    id("dev.fnc314.gradle.plugins.settings.project-collections-gradle-settings-plugin") version("$latest_version")
+    id("dev.fnc314.gradle.plugins.settings.project-collections-gradle-settings-plugin") version "5.3.0"
 }
 ```
 
-Or, with a [Version Catalog](https://docs.gradle.org/current/userguide/version_catalogs.html)
+Or declare it within your version catalog:
 
 ```toml
-[versions]
-    project-collections-settings-plugin = "latest_version"
-
-[libraries]
-    project-collections-settings-plugin = { group = "dev.fnc314.gradle.plugins.settings", name = "project-collections-gradle-settings-plugin", version.ref = "project-collections-settings-plugin" }
-
+# gradle/libs.versions.toml
 [plugins]
-    project-collections-settings-plugin = { id = "dev.fnc314.gradle.pluggins.settings.project-collections-gradle-settings-pluin", version.ref = "project-collections-settings-plugin" }
+project-collections = { id = "dev.fnc314.gradle.plugins.settings.project-collections-gradle-settings-plugin", version = "5.3.0" }
 ```
 
-Used in a build-conventions plugin
+And apply via alias in `settings.gradle.kts`:
 
-```gradle
-dependencies {
-    runtimeOnly(libs.project.collections.settings.plugin)
+```kotlin
+// settings.gradle.kts
+plugins {
+    alias(libs.plugins.project.collections)
 }
 ```
 
-### Usage
+---
 
-This `org.gradle.api.Plugin` targets `org.gradle.api.initialization.Settings` objects.  The goal is to streamline [the `Settings` script](https://docs.gradle.org/current/userguide/settings_file_basics.html#sec:settings_file_script) regarding the `org.gradle.api.initialization.Settings.include` invocations.
+## Usage
 
-```gradle
+Configure the `projectCollections` extension in `settings.gradle.kts`:
+
+```kotlin
 // settings.gradle.kts
 import java.io.File
 
 plugins {
-    id("dev.fnc314.gradle.plugins.settings.project-collections-gradle-settings-plugin") version("$latest_version")
+    id("dev.fnc314.gradle.plugins.settings.project-collections-gradle-settings-plugin") version "5.3.0"
 }
 
 projectCollections {
-    // select top-level directories and declare the arbitrary depth
-    //   to which the plugin will draft paths for subprojects
-    "sub-projects" toDepthOf 3
+    // Traverse 'components' and 'design-system' 1 level deep
+    listOf(
+        "components",
+        "design-system",
+    ).onEach { it toDepthOf 1 }
 
+    // Traverse 'features' 3 levels deep
+    "features" toDepthOf 3
+
+    // Optional: filter out directories starting with '_' or '.'
     fileSpec.set { file: File ->
-        // Provide explicit logical checks against a [File] object
-        //   *after* having verified [File.isDirectory()] is `true`
+        !file.name.startsWith("_") && !file.name.startsWith(".")
     }
+
+    // Default is true: flattens ':features:auth:login' to ':features-auth-login'
+    flattenMiddleProjects.set(true)
 }
+
+rootProject.name = "my-monorepo"
 ```
 
-Assuming a project structure similar to the following:
+### Directory Traversal Example
 
-```
-root-directory
-    - settings.gradle.kts
-    - build.gradle.kts
-    - gradle/
-        - ...
-    - sub-projects/
-        - first-level-1/
-            - second-level-1/
-                - third-level-1/
-                    - build.gradle.kts
-                - third-level-2/
-                    - build.gradle.kts
-            - second-level-2/
-                - third-level-1
-                    - build.gradle.kts
-        - first-level-2/
-            - second-level-1/
-                - build.gradle.kts
-                - third-level-1/
-                    - build.gradle.kts
+Given the following project hierarchy:
 
+```text
+my-monorepo/
+├── settings.gradle.kts
+├── build.gradle.kts
+├── components/
+│   ├── button/
+│   │   └── build.gradle.kts
+│   └── card/
+│       └── build.gradle.kts
+└── features/
+    └── checkout/
+        └── payment/
+            └── build.gradle.kts
 ```
 
-Then the set of `org.gradle.api.initialization.Settings.include`-d `org.gradle.api.Project`s will be
+With `flattenMiddleProjects.set(true)` (default), Gradle automatically includes:
+* `:components-button` (pointing to `components/button`)
+* `:components-card` (pointing to `components/card`)
+* `:features-checkout-payment` (pointing to `features/checkout/payment`)
 
-```gradle
-include(":sub-projects:first-level-1:second-level-1:third-level-1")
+No empty intermediate projects (`:features` or `:features:checkout`) are created.
 
-include(":sub-projects:first-level-1:second-level-1:third-level-2")
+---
 
-include(":sub-projects:first-level-1:second-level-2:third-level-1")
+## Documentation
 
-include(":sub-projects:first-level-2:second-level-1")
+* **Official Landing Page**: [https://project-collections-gradle-settings-plugin.fnc314.dev](https://project-collections-gradle-settings-plugin.fnc314.dev)
+* **API Documentation (Dokka)**: [API Reference](https://project-collections-gradle-settings-plugin.fnc314.dev/dokka/index.html)
+* **Javadoc Reference**: [Javadoc](https://project-collections-gradle-settings-plugin.fnc314.dev/javadoc/index.html)
 
-include(":sub-projects:first-level-2:second-level-1:third-level-1")
-```
+---
 
-### Purpose
+## License
 
-This `org.gradle.api.Plugin` helps when repositories grow to a large set of nested, related `org.gradle.api.Project`s.  The common `features` bucket is what actually inspired the work here.
-
-The `org.gradle.api.Plugin` is applied [on this sample `Kotlin Multiplatform Compose` sample repo](https://github.com/fnc314/fnc314-kmp/blob/sample/com-fnc314-gradle-plugins-settings/settings.gradle.kts#L43-L50).
+[MIT License](LICENSE) &copy; 2026 Franco N. Colaizzi

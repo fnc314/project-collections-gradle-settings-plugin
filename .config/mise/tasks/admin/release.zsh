@@ -23,6 +23,8 @@ DOKKA_FILE="dokka.md"
 DOCS_INDEX="docs/index.html"
 INDEX_FILE="index.html"
 DOCUMENTATION_FILES=("$README_FILE" "$DOKKA_FILE")
+THEME_CSS="theme.css"
+DOCS_THEME_CSS="docs/theme.css"
 SAMPLE_SETTINGS_FILES=(
   "sample/settings.gradle.kts"
 )
@@ -87,7 +89,7 @@ if git rev-parse "$TAG_NAME" >/dev/null 2>&1; then
 fi
 
 # Ensure working tree is clean outside of version descriptor files
-UNCOMMITTED=$(git status --porcelain | grep -v "$TOML_FILE" | grep -v "$PROPERTIES_FILE" | grep -v "$BUILD_LOGIC_PROPERTIES" | grep -v "$MISE_FILE" | grep -v "$README_FILE" | grep -v "$DOKKA_FILE" | grep -v "$DOCS_INDEX" | grep -v "$INDEX_FILE" | grep -v "sample/settings.gradle.kts" || true)
+UNCOMMITTED=$(git status --porcelain | grep -v "$TOML_FILE" | grep -v "$PROPERTIES_FILE" | grep -v "$BUILD_LOGIC_PROPERTIES" | grep -v "$MISE_FILE" | grep -v "$README_FILE" | grep -v "$DOKKA_FILE" | grep -v "$DOCS_INDEX" | grep -v "$INDEX_FILE" | grep -v "$THEME_CSS" | grep -v "$DOCS_THEME_CSS" | grep -v "sample/settings.gradle.kts" || true)
 if [[ -n "$UNCOMMITTED" ]]; then
   echo "⚠️ Warning: Working tree has uncommitted changes outside of version metadata files:" >&2
   git status -s >&2
