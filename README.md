@@ -3,7 +3,7 @@
 A Gradle convention `Settings` plugin to streamline calls to `Settings.include` for arbitrarily nested multi-project architectures.
 
 [![CI](https://github.com/fnc314/project-collections-gradle-settings-plugin/actions/workflows/ci.yml/badge.svg)](https://github.com/fnc314/project-collections-gradle-settings-plugin/actions/workflows/ci.yml)
-[![Version](https://img.shields.io/badge/version-5.3.0-blue.svg)](https://github.com/fnc314/project-collections-gradle-settings-plugin/releases)
+[![Version](https://img.shields.io/badge/version-5.4.0-blue.svg)](https://github.com/fnc314/project-collections-gradle-settings-plugin/releases)
 [![Gradle Plugin Portal](https://img.shields.io/badge/plugin--portal-dev.fnc314.project--collections-brightgreen.svg)](https://plugins.gradle.org/plugin/dev.fnc314.gradle.plugins.settings.project-collections-gradle-settings-plugin)
 
 ## Overview
@@ -34,7 +34,7 @@ Apply the plugin directly in your `settings.gradle.kts`:
 ```kotlin
 // settings.gradle.kts
 plugins {
-    id("dev.fnc314.gradle.plugins.settings.project-collections-gradle-settings-plugin") version "5.3.0"
+    id("dev.fnc314.gradle.plugins.settings.project-collections-gradle-settings-plugin") version "5.4.0"
 }
 ```
 
@@ -43,7 +43,7 @@ Or declare it within your version catalog:
 ```toml
 # gradle/libs.versions.toml
 [plugins]
-project-collections = { id = "dev.fnc314.gradle.plugins.settings.project-collections-gradle-settings-plugin", version = "5.3.0" }
+project-collections = { id = "dev.fnc314.gradle.plugins.settings.project-collections-gradle-settings-plugin", version = "5.4.0" }
 ```
 
 And apply via alias in `settings.gradle.kts`:
@@ -66,7 +66,7 @@ Configure the `projectCollections` extension in `settings.gradle.kts`:
 import java.io.File
 
 plugins {
-    id("dev.fnc314.gradle.plugins.settings.project-collections-gradle-settings-plugin") version "5.3.0"
+    id("dev.fnc314.gradle.plugins.settings.project-collections-gradle-settings-plugin") version "5.4.0"
 }
 
 projectCollections {
