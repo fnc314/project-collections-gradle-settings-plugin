@@ -41,9 +41,7 @@ abstract class DokkaConfigPluginNew @Inject constructor() : Plugin<Project> {
         configureEach {
           sourceRoots.setFrom(target.layout.projectDirectory.files("src/${this@configureEach.name}/kotlin"))
           includes.from(
-            target.layout.settingsDirectory.files(
-              "README.md", "dokka.md"
-            )
+            target.layout.settingsDirectory.files("dokka.md").filter { it.exists() }
           )
 
           suppress.set(this@configureEach.name != "main")
@@ -115,9 +113,7 @@ abstract class DokkaConfigPluginNew @Inject constructor() : Plugin<Project> {
           suppressInheritedMembers.set(true)
           suppressObviousFunctions.set(true)
           includes.from(
-            target.layout.settingsDirectory.files(
-              "README.md", "dokka.md"
-            )
+            target.layout.settingsDirectory.files("dokka.md").filter { it.exists() }
           )
         }
       }

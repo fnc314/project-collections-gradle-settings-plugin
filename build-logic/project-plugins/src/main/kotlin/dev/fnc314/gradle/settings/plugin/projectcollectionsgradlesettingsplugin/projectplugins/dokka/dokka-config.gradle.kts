@@ -29,9 +29,7 @@ dokka {
     configureEach {
       sourceRoots = layout.projectDirectory.files("src/${this@configureEach.name}/kotlin")
       includes.from(
-        layout.settingsDirectory.files(
-          "README.md", "dokka.md"
-        )
+        layout.settingsDirectory.files("dokka.md").filter { it.exists() }
       )
 
       suppress = this@configureEach.name != "main"
@@ -103,9 +101,7 @@ dokka {
       suppressInheritedMembers = true
       suppressObviousFunctions = true
       includes.from(
-        layout.settingsDirectory.files(
-          "README.md", "dokka.md"
-        )
+        layout.settingsDirectory.files("dokka.md").filter { it.exists() }
       )
     }
   }
