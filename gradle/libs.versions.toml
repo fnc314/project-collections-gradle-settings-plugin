@@ -3,7 +3,7 @@
   kotlin = "2.4.21"
   gradle-plugin-publish = "2.2.1"
   dokka = "2.3.0"
-  jdk = "26"
+  jdk = "17"
   com-autonomousapps = "3.20.4"
 
 [libraries]
